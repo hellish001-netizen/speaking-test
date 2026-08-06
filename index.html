@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Speaking Test</title>
+<title>Speaking Practice</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&display=swap" rel="stylesheet">
@@ -132,8 +132,8 @@
 </head>
 <body>
 
-<h1 data-i18n="appTitle">Speaking Test</h1>
-<div class="sub" data-i18n="appSub">A natural conversation practice. Choose your grade, then reply out loud when it's your turn.</div>
+<h1 data-i18n="appTitle">Speaking Practice</h1>
+<div class="sub" data-i18n="appSub">Practice your English at your own pace — listening and speaking.</div>
 
 <div id="welcomeScreen">
   <div class="card">
@@ -143,18 +143,63 @@
   </div>
 </div>
 
-<div id="gradeScreen" class="hidden">
+<div id="mainMenuScreen" class="hidden">
   <div class="card">
     <button id="langToggleBtn" class="secondary" style="margin-bottom:16px;">🌐 Bahasa Indonesia</button>
+    <div class="progress" data-i18n="chooseActivity">Choose an activity</div>
+    <button id="goListeningBtn" data-i18n="listeningBtn">🎧 Listening</button>
+    <button id="goSpeakingBtn" data-i18n="speakingBtn">🗣 Speaking</button>
+    <div class="hint" id="currentStudentLabel" style="margin-top:14px;"></div>
+    <button id="downloadReportBtn" class="secondary" style="margin-top:8px;" data-i18n="downloadReport">⬇ Download Results (Excel)</button>
+    <button id="changeStudentBtn" class="secondary" style="margin-top:8px;" data-i18n="changeStudent">🔄 Change Student</button>
+  </div>
+</div>
+
+<div id="listeningMenuScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="listeningHeader">Listening</div>
+    <button id="listeningVerbBtn" data-i18n="verbBtn">Verb</button>
+    <button id="listeningNounBtn" data-i18n="nounBtn">Noun</button>
+    <button id="listeningMenuBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="listeningWordListScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="listeningWordListHeader">Verb</div>
+    <div id="listeningWordButtons"></div>
+    <button id="listeningWordListBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="listeningTestScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="listeningTestHeader">Verb</div>
+    <div class="status idle" id="listeningPrompt" data-i18n="listenPrompt">Listen carefully, then tap Play line.</div>
+    <button id="listeningPlayBtn" data-i18n="playLine">▶ Play line</button>
+    <button id="listeningRecBtn" class="rec hidden" data-i18n="tapAndSpeak">🎤 Tap and speak</button>
+    <div class="transcript" id="listeningTranscript"></div>
+
+    <div id="listeningResultArea" class="hidden">
+      <div class="score" id="listeningScoreBadge"></div>
+      <div class="status idle" id="listeningResultNote"></div>
+      <button id="listeningTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+      <button id="listeningContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
+    </div>
+
+    <button id="listeningTestBackBtn" class="secondary hidden" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="gradeScreen" class="hidden">
+  <div class="card">
     <div class="progress" data-i18n="chooseGrade">Choose your grade</div>
     <button id="grade7Btn" data-i18n="grade7">Grade 7</button>
     <button id="grade8Btn" data-i18n="grade8">Grade 8</button>
     <button id="grade9Btn" data-i18n="grade9">Grade 9</button>
     <button id="challengeBtn" class="secondary" style="margin-top:16px;" data-i18n="challenge">🚀 Level Up Challenge</button>
     <button id="indoModeBtn" class="secondary" style="margin-top:8px;" data-i18n="indoModeBtn">🇮🇩→🇬🇧 Indonesian Prompts</button>
-    <div class="hint" id="currentStudentLabel" style="margin-top:14px;"></div>
-    <button id="downloadReportBtn" class="secondary" style="margin-top:8px;" data-i18n="downloadReport">⬇ Download Results (Excel)</button>
-    <button id="changeStudentBtn" class="secondary" style="margin-top:8px;" data-i18n="changeStudent">🔄 Change Student</button>
+    <button id="gradeScreenBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -266,8 +311,8 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 // ---- Bilingual menu/instruction text (test content itself stays English) ----
 const i18n = {
   en: {
-    appTitle: "Speaking Test",
-    appSub: "A natural conversation practice. Choose your grade, then reply out loud when it's your turn.",
+    appTitle: "Speaking Practice",
+    appSub: "Practice your English at your own pace — listening and speaking.",
     chooseGrade: "Choose your grade",
     grade7: "Grade 7", grade8: "Grade 8", grade9: "Grade 9",
     challenge: "🚀 Level Up Challenge",
@@ -314,11 +359,21 @@ const i18n = {
     g7Gratitude: "Expressing Gratitude and Apology",
     g7Information: "Asking for Information",
     g7Direction: "Asking for Direction",
+    chooseActivity: "Choose an activity",
+    listeningBtn: "🎧 Listening",
+    speakingBtn: "🗣 Speaking",
+    listeningHeader: "Listening",
+    verbBtn: "Verb",
+    nounBtn: "Noun",
+    listenPrompt: "Listen carefully, then tap Play line.",
+    tryAgainBtn: "🔁 Try Again",
+    wordWasLabel: (w) => `The word was: "${w}"`,
+    matchLabel: (p) => `Match: ${p}%`,
     lineProgress: (n, total, lvl) => `Line ${n} of ${total}${lvl ? ' · Level ' + lvl : ''}`
   },
   id: {
-    appTitle: "Tes Berbicara",
-    appSub: "Latihan percakapan alami. Pilih kelasmu, lalu jawab dengan suara saat giliranmu.",
+    appTitle: "Latihan Berbicara",
+    appSub: "Berlatih Bahasa Inggris dengan santai — menyimak dan berbicara.",
     chooseGrade: "Pilih kelasmu",
     grade7: "Kelas 7", grade8: "Kelas 8", grade9: "Kelas 9",
     challenge: "🚀 Tantangan Naik Level",
@@ -365,6 +420,16 @@ const i18n = {
     g7Gratitude: "Ungkapan Terima Kasih dan Maaf",
     g7Information: "Menanyakan Informasi",
     g7Direction: "Menanyakan Arah",
+    chooseActivity: "Pilih aktivitas",
+    listeningBtn: "🎧 Menyimak",
+    speakingBtn: "🗣 Berbicara",
+    listeningHeader: "Menyimak",
+    verbBtn: "Kata Kerja",
+    nounBtn: "Kata Benda",
+    listenPrompt: "Dengarkan baik-baik, lalu ketuk Putar kalimat.",
+    tryAgainBtn: "🔁 Coba Lagi",
+    wordWasLabel: (w) => `Katanya adalah: "${w}"`,
+    matchLabel: (p) => `Kecocokan: ${p}%`,
     lineProgress: (n, total, lvl) => `Baris ${n} dari ${total}${lvl ? ' · Tingkat ' + lvl : ''}`
   }
 };
@@ -374,6 +439,10 @@ let studentName = '';
 let sessionLog = [];
 
 const welcomeScreen = document.getElementById('welcomeScreen');
+const mainMenuScreen = document.getElementById('mainMenuScreen');
+const listeningMenuScreen = document.getElementById('listeningMenuScreen');
+const listeningWordListScreen = document.getElementById('listeningWordListScreen');
+const listeningTestScreen = document.getElementById('listeningTestScreen');
 
 function refreshStudentLabel(){
   const label = document.getElementById('currentStudentLabel');
@@ -385,14 +454,221 @@ document.getElementById('nameContinueBtn').addEventListener('click', () => {
   if (!val) return;
   studentName = val;
   welcomeScreen.classList.add('hidden');
-  document.getElementById('gradeScreen').classList.remove('hidden');
+  mainMenuScreen.classList.remove('hidden');
   refreshStudentLabel();
 });
 
 document.getElementById('changeStudentBtn').addEventListener('click', () => {
   document.getElementById('studentNameInput').value = '';
-  document.getElementById('gradeScreen').classList.add('hidden');
+  mainMenuScreen.classList.add('hidden');
   welcomeScreen.classList.remove('hidden');
+});
+
+document.getElementById('goSpeakingBtn').addEventListener('click', () => {
+  mainMenuScreen.classList.add('hidden');
+  document.getElementById('gradeScreen').classList.remove('hidden');
+});
+document.getElementById('gradeScreenBackBtn').addEventListener('click', () => {
+  document.getElementById('gradeScreen').classList.add('hidden');
+  mainMenuScreen.classList.remove('hidden');
+});
+
+document.getElementById('goListeningBtn').addEventListener('click', () => {
+  mainMenuScreen.classList.add('hidden');
+  listeningMenuScreen.classList.remove('hidden');
+});
+document.getElementById('listeningMenuBackBtn').addEventListener('click', () => {
+  listeningMenuScreen.classList.add('hidden');
+  mainMenuScreen.classList.remove('hidden');
+});
+
+// ---- Listening section: hear a word, repeat it, judged by how closely it matches ----
+const listeningWords = {
+  verb: ["run", "eat"],
+  noun: ["book", "dog"]
+};
+
+let currentListeningCategory = null;
+let currentListeningWord = null;
+
+function categoryLabel(cat){
+  return cat === 'verb' ? i18n[uiLang].verbBtn : i18n[uiLang].nounBtn;
+}
+
+function openListeningCategory(cat){
+  currentListeningCategory = cat;
+  hideAllMenus();
+  listeningWordListScreen.classList.remove('hidden');
+  document.getElementById('listeningWordListHeader').textContent = categoryLabel(cat);
+  const container = document.getElementById('listeningWordButtons');
+  container.innerHTML = '';
+  listeningWords[cat].forEach(word => {
+    const btn = document.createElement('button');
+    btn.textContent = word;
+    btn.addEventListener('click', () => openListeningWord(word));
+    container.appendChild(btn);
+  });
+}
+
+document.getElementById('listeningVerbBtn').addEventListener('click', () => openListeningCategory('verb'));
+document.getElementById('listeningNounBtn').addEventListener('click', () => openListeningCategory('noun'));
+document.getElementById('listeningWordListBackBtn').addEventListener('click', () => {
+  listeningWordListScreen.classList.add('hidden');
+  listeningMenuScreen.classList.remove('hidden');
+});
+
+function resetListeningTestScreen(){
+  document.getElementById('listeningTestHeader').textContent = categoryLabel(currentListeningCategory);
+  const promptEl = document.getElementById('listeningPrompt');
+  promptEl.className = 'status idle';
+  promptEl.textContent = i18n[uiLang].listenPrompt;
+  document.getElementById('listeningTranscript').textContent = '';
+  document.getElementById('listeningPlayBtn').classList.remove('hidden');
+  document.getElementById('listeningRecBtn').classList.add('hidden');
+  document.getElementById('listeningResultArea').classList.add('hidden');
+  document.getElementById('listeningTestBackBtn').classList.remove('hidden');
+}
+
+function openListeningWord(word){
+  currentListeningWord = word;
+  hideAllMenus();
+  listeningTestScreen.classList.remove('hidden');
+  resetListeningTestScreen();
+}
+
+document.getElementById('listeningTestBackBtn').addEventListener('click', () => {
+  listeningTestScreen.classList.add('hidden');
+  listeningWordListScreen.classList.remove('hidden');
+});
+
+document.getElementById('listeningPlayBtn').addEventListener('click', () => {
+  if (!('speechSynthesis' in window)) return;
+  const utter = new SpeechSynthesisUtterance(currentListeningWord);
+  utter.lang = 'en-US';
+  const promptEl = document.getElementById('listeningPrompt');
+  utter.onstart = () => { promptEl.className = 'status idle'; promptEl.textContent = i18n[uiLang].playing; };
+  utter.onend = () => {
+    document.getElementById('listeningRecBtn').classList.remove('hidden');
+    promptEl.textContent = i18n[uiLang].getReady;
+  };
+  speechSynthesis.speak(utter);
+});
+
+// simple Levenshtein distance for word-similarity scoring
+function levenshteinDistance(a, b){
+  const m = a.length, n = b.length;
+  const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      dp[i][j] = (a[i - 1] === b[j - 1])
+        ? dp[i - 1][j - 1]
+        : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+    }
+  }
+  return dp[m][n];
+}
+
+function wordMatchPercent(said, target){
+  const saidWords = normalizeWordsSimple(said);
+  const t = target.toLowerCase();
+  if (saidWords.length === 0) return 0;
+  let best = 0;
+  saidWords.forEach(w => {
+    const dist = levenshteinDistance(w, t);
+    const maxLen = Math.max(w.length, t.length) || 1;
+    const sim = Math.round((1 - dist / maxLen) * 100);
+    if (sim > best) best = sim;
+  });
+  return Math.max(0, best);
+}
+
+let listeningRecognizer = null;
+let listeningRecognizing = false;
+
+if (SpeechRecognition) {
+  listeningRecognizer = new SpeechRecognition();
+  listeningRecognizer.lang = 'en-US';
+  listeningRecognizer.interimResults = true;
+  listeningRecognizer.maxAlternatives = 1;
+
+  listeningRecognizer.onstart = () => {
+    listeningRecognizing = true;
+    const promptEl = document.getElementById('listeningPrompt');
+    promptEl.className = 'status idle';
+    promptEl.textContent = i18n[uiLang].listening;
+    document.getElementById('listeningTranscript').textContent = '';
+  };
+
+  listeningRecognizer.onresult = (event) => {
+    let text = '';
+    for (let i = 0; i < event.results.length; i++) text += event.results[i][0].transcript;
+    document.getElementById('listeningTranscript').textContent = text;
+  };
+
+  listeningRecognizer.onerror = (event) => {
+    const promptEl = document.getElementById('listeningPrompt');
+    promptEl.className = 'status err';
+    promptEl.textContent = 'Recognition error: ' + event.error;
+  };
+
+  listeningRecognizer.onend = () => {
+    listeningRecognizing = false;
+    const said = document.getElementById('listeningTranscript').textContent.trim();
+    if (!said) {
+      const promptEl = document.getElementById('listeningPrompt');
+      promptEl.className = 'status err';
+      promptEl.textContent = i18n[uiLang].didntCatch;
+      return;
+    }
+    showListeningResult(said);
+  };
+
+  document.getElementById('listeningRecBtn').addEventListener('click', () => {
+    if (!listeningRecognizing) { try { listeningRecognizer.start(); } catch (e) {} }
+  });
+} else {
+  document.getElementById('listeningRecBtn').addEventListener('click', () => {
+    const promptEl = document.getElementById('listeningPrompt');
+    promptEl.className = 'status err';
+    promptEl.textContent = 'This browser does not support speech recognition. Try Chrome.';
+  });
+}
+
+function showListeningResult(said){
+  const percent = wordMatchPercent(said, currentListeningWord);
+  const passed = percent >= 80;
+
+  logAttempt(
+    `Listening — ${categoryLabel(currentListeningCategory)}`,
+    currentListeningWord,
+    said,
+    `${percent}% match — ${passed ? 'Pass' : 'Practice more'}`,
+    ''
+  );
+
+  document.getElementById('listeningPlayBtn').classList.add('hidden');
+  document.getElementById('listeningRecBtn').classList.add('hidden');
+  document.getElementById('listeningTestBackBtn').classList.add('hidden');
+
+  const badge = document.getElementById('listeningScoreBadge');
+  badge.style.color = passed ? 'var(--go)' : 'var(--warn)';
+  badge.textContent = i18n[uiLang].matchLabel(percent);
+
+  const note = document.getElementById('listeningResultNote');
+  note.className = 'status ' + (passed ? 'ok' : 'err');
+  note.textContent = i18n[uiLang].wordWasLabel(currentListeningWord);
+
+  document.getElementById('listeningResultArea').classList.remove('hidden');
+}
+
+document.getElementById('listeningTryAgainBtn').addEventListener('click', () => {
+  resetListeningTestScreen();
+});
+document.getElementById('listeningContinueBtn').addEventListener('click', () => {
+  listeningTestScreen.classList.add('hidden');
+  listeningMenuScreen.classList.remove('hidden');
 });
 
 function logAttempt(mode, prompt, response, result, note){
@@ -416,7 +692,7 @@ document.getElementById('downloadReportBtn').addEventListener('click', () => {
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Results");
   const safeName = (studentName || 'student').replace(/[^a-z0-9]/gi, '_');
-  XLSX.writeFile(wb, `${safeName}-speaking-test-results.xlsx`);
+  XLSX.writeFile(wb, `${safeName}-practice-results.xlsx`);
 });
 
 function applyLanguage(lang){
@@ -559,6 +835,10 @@ const modeLabels = {
 };
 
 function hideAllMenus(){
+  mainMenuScreen.classList.add('hidden');
+  listeningMenuScreen.classList.add('hidden');
+  listeningWordListScreen.classList.add('hidden');
+  listeningTestScreen.classList.add('hidden');
   gradeScreen.classList.add('hidden');
   grade7MenuScreen.classList.add('hidden');
   grade9MenuScreen.classList.add('hidden');
