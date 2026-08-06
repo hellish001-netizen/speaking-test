@@ -305,55 +305,55 @@ document.getElementById('langToggleBtn').addEventListener('click', () => {
 // ---- Test content: natural self-introduction conversations, by grade ----
 const dialoguesByGrade = {
   7: [
-    { a: "Hi! I don't think we've met yet. What's your name?" },
-    { a: "Nice to meet you! How old are you?" },
-    { a: "Where do you live?" },
-    { a: "This is my friend, Sarah. Can you introduce yourself to her?" }
+    { a: "Hi! I don't think we've met yet. What's your name?", keywords: ["name", "i'm", "im", "call", "called"] },
+    { a: "Nice to meet you! How old are you?", keywords: ["old", "year", "years", "age", "i'm", "im"] },
+    { a: "Where do you live?", keywords: ["live", "from", "in", "at", "city", "town", "village", "house"] },
+    { a: "This is my friend, Sarah. Can you introduce yourself to her?", keywords: ["name", "i'm", "im", "hi", "hello", "nice", "meet"] }
   ],
   8: [
-    { a: "Hi! Can you tell me a little bit about yourself?" },
-    { a: "What do you like to do in your free time?" },
-    { a: "Do you have any brothers or sisters?" },
-    { a: "I'd like you to meet my friend, Budi. Can you introduce him to me?" }
+    { a: "Hi! Can you tell me a little bit about yourself?", keywords: ["i'm", "im", "name", "from", "live", "student", "grade", "school", "year"] },
+    { a: "What do you like to do in your free time?", keywords: ["like", "love", "play", "read", "watch", "listen", "draw", "hobby", "time"] },
+    { a: "Do you have any brothers or sisters?", keywords: ["brother", "sister", "sibling", "yes", "no", "have", "only"] },
+    { a: "I'd like you to meet my friend, Budi. Can you introduce him to me?", keywords: ["this", "name", "he", "his", "friend", "is"] }
   ],
   9: [
-    { a: "Hi! It's nice to meet you. Tell me a bit about yourself." },
-    { a: "What are your hobbies, and why do you enjoy them?" },
-    { a: "Can you tell me about your best friend? What are they like?" },
-    { a: "What do you want to do after you graduate?" }
+    { a: "Hi! It's nice to meet you. Tell me a bit about yourself.", keywords: ["i'm", "im", "name", "from", "live", "student", "like"] },
+    { a: "What are your hobbies, and why do you enjoy them?", keywords: ["like", "love", "hobby", "because", "fun", "enjoy", "play"] },
+    { a: "Can you tell me about your best friend? What are they like?", keywords: ["friend", "he", "she", "name", "kind", "funny", "nice"] },
+    { a: "What do you want to do after you graduate?", keywords: ["want", "will", "become", "study", "work", "future", "college", "university"] }
   ],
   challenge: [
-    { level: "A1", a: "Hi! What's your name, and how old are you?" },
-    { level: "A1", a: "Where do you live, and who do you live with?" },
-    { level: "A2", a: "What do you like to do in your free time, and why?" },
-    { level: "A2", a: "Do you have any brothers or sisters? Tell me a little about them." },
-    { level: "B1", a: "Can you tell me about your best friend — what are they like, and why are you close?" },
-    { level: "B1", a: "What do you want to do in the future, and why does that interest you?" }
+    { level: "A1", a: "Hi! What's your name, and how old are you?", keywords: ["name", "old", "year", "i'm", "im"] },
+    { level: "A1", a: "Where do you live, and who do you live with?", keywords: ["live", "with", "family", "parents", "mother", "father", "city"] },
+    { level: "A2", a: "What do you like to do in your free time, and why?", keywords: ["like", "love", "play", "because", "hobby", "time"] },
+    { level: "A2", a: "Do you have any brothers or sisters? Tell me a little about them.", keywords: ["brother", "sister", "sibling", "have", "name"] },
+    { level: "B1", a: "Can you tell me about your best friend — what are they like, and why are you close?", keywords: ["friend", "because", "kind", "funny", "close", "like"] },
+    { level: "B1", a: "What do you want to do in the future, and why does that interest you?", keywords: ["want", "future", "because", "become", "work", "study"] }
   ],
   report: [
-    { a: "Let's talk about something you know well. Can you tell me about your favorite animal?" },
-    { a: "What does it look like, and where does it usually live?" },
-    { a: "Why do you find this animal interesting?" }
+    { a: "Let's talk about something you know well. Can you tell me about your favorite animal?", keywords: ["animal", "favorite", "like", "is"] },
+    { a: "What does it look like, and where does it usually live?", keywords: ["look", "color", "big", "small", "live", "lives", "in"] },
+    { a: "Why do you find this animal interesting?", keywords: ["because", "interesting", "like", "funny", "cute", "smart"] }
   ],
   narrative: [
-    { a: "Do you know an interesting story or folktale? Can you tell me about it?" },
-    { a: "What happened in the story?" },
-    { a: "How did the story end?" }
+    { a: "Do you know an interesting story or folktale? Can you tell me about it?", keywords: ["story", "once", "there", "was", "folktale"] },
+    { a: "What happened in the story?", keywords: ["happened", "then", "after", "went", "said"] },
+    { a: "How did the story end?", keywords: ["end", "ending", "finally", "happy", "after"] }
   ],
   procedure: [
-    { a: "Can you tell me how to make your favorite food or drink?" },
-    { a: "What ingredients or things do you need first?" },
-    { a: "What do you do step by step to finish it?" }
+    { a: "Can you tell me how to make your favorite food or drink?", keywords: ["make", "cook", "food", "drink", "favorite"] },
+    { a: "What ingredients or things do you need first?", keywords: ["need", "ingredient", "first", "water", "sugar", "egg", "rice"] },
+    { a: "What do you do step by step to finish it?", keywords: ["then", "after", "mix", "put", "cook", "boil", "finish"] }
   ],
   personal: [
-    { a: "Can you tell me about a memorable day you had recently?" },
-    { a: "What happened, and how did you feel?" },
-    { a: "Why was that day special to you?" }
+    { a: "Can you tell me about a memorable day you had recently?", keywords: ["day", "remember", "happened", "went", "was"] },
+    { a: "What happened, and how did you feel?", keywords: ["happened", "felt", "feel", "happy", "sad", "excited"] },
+    { a: "Why was that day special to you?", keywords: ["because", "special", "remember", "love", "important"] }
   ],
   descriptive: [
-    { a: "Can you describe your favorite place?" },
-    { a: "What does it look like there?" },
-    { a: "Why do you like that place?" }
+    { a: "Can you describe your favorite place?", keywords: ["place", "favorite", "like", "home", "school", "beach", "park"] },
+    { a: "What does it look like there?", keywords: ["look", "big", "small", "color", "beautiful", "quiet"] },
+    { a: "Why do you like that place?", keywords: ["because", "like", "love", "calm", "fun", "happy"] }
   ]
 };
 
@@ -368,11 +368,11 @@ const readingScreen = document.getElementById('readingScreen');
 const indoScreen = document.getElementById('indoScreen');
 
 const indoDialogues = [
-  { id: "Siapa namamu?", en: "What's your name?" },
-  { id: "Berapa umurmu?", en: "How old are you?" },
-  { id: "Kamu tinggal di mana?", en: "Where do you live?" },
-  { id: "Apa hobimu?", en: "What is your hobby?" },
-  { id: "Kamu punya saudara? Ceritakan sedikit tentang mereka.", en: "Do you have any siblings? Tell me a little about them." }
+  { id: "Siapa namamu?", en: "What's your name?", keywords: ["name", "i'm", "im"] },
+  { id: "Berapa umurmu?", en: "How old are you?", keywords: ["old", "year", "years", "i'm", "im"] },
+  { id: "Kamu tinggal di mana?", en: "Where do you live?", keywords: ["live", "from", "city", "town", "in"] },
+  { id: "Apa hobimu?", en: "What is your hobby?", keywords: ["like", "love", "hobby", "play"] },
+  { id: "Kamu punya saudara? Ceritakan sedikit tentang mereka.", en: "Do you have any siblings? Tell me a little about them.", keywords: ["brother", "sister", "sibling", "have", "yes", "no"] }
 ];
 
 const reportReadingPassage = "Today\u2019s topic for the animal is orangutans. The name orangutan means \u201cman of the forest.\u201d It\u2019s the largest arboreal mammal. Pongo pygmaeus is their scientific name.";
@@ -537,49 +537,81 @@ if (SpeechRecognition) {
   }
 }
 
-async function judgeIndoResponse(said, confidence){
+// ---- Local rule-based judging (no API): checks for a real, on-topic, sincere-sounding attempt ----
+const FEEDBACK_BY_QUALITY = {
+  none: [
+    "That didn't sound like a real answer — try again with a full sentence.",
+    "Let's try that again with a clear, real answer.",
+    "Try answering with real words about the question."
+  ],
+  minimal: [
+    "Good start! Try adding a bit more detail next time.",
+    "That's a start — can you say a full sentence?",
+    "Nice try! A little more detail would make it even better."
+  ],
+  adequate: [
+    "Nice, clear answer!",
+    "Good job — that made sense!",
+    "Well done, that was a solid answer."
+  ],
+  strong: [
+    "Great job — that was a full, natural answer!",
+    "Excellent! That was detailed and clear.",
+    "Awesome answer — well explained!"
+  ]
+};
+
+function pickFeedback(quality){
+  const options = FEEDBACK_BY_QUALITY[quality] || FEEDBACK_BY_QUALITY.none;
+  return options[Math.floor(Math.random() * options.length)];
+}
+
+function normalizeWordsSimple(text){
+  return text.toLowerCase().replace(/[^a-z0-9'\s]/g, ' ').split(/\s+/).filter(Boolean);
+}
+
+function localJudge(said, keywords){
+  const words = normalizeWordsSimple(said);
+  const wordCount = words.length;
+
+  if (wordCount === 0) {
+    return { quality: 'none', feedback: pickFeedback('none') };
+  }
+
+  // reject repetitive nonsense (e.g. "bla bla bla", "blu blu blu blu")
+  const uniqueCount = new Set(words).size;
+  const uniqueRatio = uniqueCount / wordCount;
+  if (wordCount >= 3 && uniqueRatio < 0.5) {
+    return { quality: 'none', feedback: pickFeedback('none') };
+  }
+
+  // topic-relevance: does the answer touch any expected keyword for this question?
+  const said_lower = words.join(' ');
+  const hasKeywordList = Array.isArray(keywords) && keywords.length > 0;
+  const keywordHits = hasKeywordList ? keywords.filter(k => said_lower.includes(k.toLowerCase())).length : 0;
+
+  if (hasKeywordList && keywordHits === 0) {
+    return { quality: 'none', feedback: pickFeedback('none') };
+  }
+
+  let quality;
+  if (wordCount < 3) quality = 'minimal';
+  else if (wordCount <= 7) quality = 'adequate';
+  else quality = 'strong';
+
+  return { quality: quality, feedback: pickFeedback(quality) };
+}
+
+function judgeIndoResponse(said, confidence){
   const item = indoDialogues[indoCurrent];
   const statusEl = document.getElementById('indoStatus');
-  statusEl.textContent = 'Checking your response…';
-  try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 200,
-        messages: [{
-          role: "user",
-          content: `You are helping a junior high school student in Indonesia practice responding in English.
-The student was asked the following question in Indonesian: "${item.id}" (this means, in English: "${item.en}")
-The student's spoken English reply, transcribed by speech recognition: "${said}"
+  const result = localJudge(said, item.keywords);
 
-Rate the reply's "quality" as one of:
-- "none": no real attempt — silence, gibberish, or a reply not in English at all.
-- "minimal": a real but very short/bare English reply that barely engages with the question.
-- "adequate": a real, on-topic English reply in a short complete sentence — grammar can be imperfect.
-- "strong": a real, on-topic English reply with some natural elaboration.
+  indoResults.push({ prompt: item.id, said: said, confidence: confidence, quality: result.quality, feedback: result.feedback });
+  const passed = (result.quality === 'adequate' || result.quality === 'strong');
+  statusEl.className = 'status ' + (passed ? 'ok' : 'err');
+  statusEl.textContent = result.feedback;
 
-Judge only the actual words transcribed — ignore any mention of confidence scores.
-Respond ONLY in this exact JSON format, nothing else:
-{"quality": "none" or "minimal" or "adequate" or "strong", "feedback": "one short encouraging sentence in simple English for the student"}`
-        }]
-      })
-    });
-    const data = await response.json();
-    const raw = data.content.map(c => c.text || '').join('').trim();
-    const clean = raw.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(clean);
-
-    indoResults.push({ prompt: item.id, said: said, confidence: confidence, quality: parsed.quality, feedback: parsed.feedback });
-    const passed = (parsed.quality === 'adequate' || parsed.quality === 'strong');
-    statusEl.className = 'status ' + (passed ? 'ok' : 'err');
-    statusEl.textContent = parsed.feedback;
-  } catch (err) {
-    indoResults.push({ prompt: item.id, said: said, confidence: confidence, quality: null, feedback: 'Not checked — connection issue.' });
-    statusEl.className = 'status err';
-    statusEl.textContent = 'Could not check the response right now. Tap Next to continue anyway.';
-  }
   const nextBtn = document.getElementById('indoNextBtn');
   nextBtn.classList.remove('hidden');
   nextBtn.textContent = (indoCurrent === indoDialogues.length - 1) ? i18n[uiLang].seeResults : i18n[uiLang].next;
@@ -1004,58 +1036,24 @@ if (SpeechRecognition) {
   });
 }
 
-// ---- Step 3: judge with Claude ----
-async function judgeResponse(said, confidence){
+// ---- Step 3: judge locally (no API) ----
+function judgeResponse(said, confidence){
   const d = dialogues[current];
-  try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 200,
-        messages: [{
-          role: "user",
-          content: `You are a friendly conversation partner helping a junior high school student in Indonesia (${modeLabels[selectedGrade]}) practice a natural spoken English conversation.
-Line said to the student (by "A")${d.level ? `, targeting CEFR level ${d.level}` : ''}: "${d.a}"
-Student's spoken reply, transcribed by speech recognition: "${said}"
+  const result = localJudge(said, d.keywords);
 
-Rate the reply's "quality" as one of:
-- "none": no real attempt — silence, gibberish, nonsense syllables, or totally unrelated words.
-- "minimal": a real but very short/bare reply that barely engages with the question.
-- "adequate": a real, on-topic reply in a short complete sentence — grammar can be imperfect, this is speaking practice, not a grammar test.
-- "strong": a real, on-topic reply with some natural elaboration.
+  results.push({
+    line: d.a,
+    level: d.level || null,
+    said: said,
+    confidence: confidence,
+    quality: result.quality,
+    feedback: result.feedback
+  });
 
-Judge only the actual words transcribed — ignore any mention of confidence scores.
-Respond ONLY in this exact JSON format, nothing else:
-{"quality": "none" or "minimal" or "adequate" or "strong", "feedback": "one short encouraging sentence in simple English for the student"}`
-        }]
-      })
-    });
-    const data = await response.json();
-    const raw = data.content.map(c => c.text || '').join('').trim();
-    const clean = raw.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(clean);
-
-    results.push({
-      line: d.a,
-      level: d.level || null,
-      said: said,
-      confidence: confidence,
-      quality: parsed.quality,
-      feedback: parsed.feedback
-    });
-
-    const passed = (parsed.quality === 'adequate' || parsed.quality === 'strong');
-    setStatus(passed ? 'Good response!' : 'Let\'s look at that one.', passed ? 'ok' : 'err');
-    nextBtn.classList.remove('hidden');
-    nextBtn.textContent = (current === dialogues.length - 1) ? i18n[uiLang].seeResults : i18n[uiLang].next;
-  } catch (err) {
-    setStatus('Could not check the response right now (' + err.message + '). Tap Next to continue anyway.', 'err');
-    results.push({ line: d.a, level: d.level || null, said: said, confidence: confidence, quality: null, feedback: 'Not checked — connection issue.' });
-    nextBtn.classList.remove('hidden');
-    nextBtn.textContent = (current === dialogues.length - 1) ? i18n[uiLang].seeResults : i18n[uiLang].next;
-  }
+  const passed = (result.quality === 'adequate' || result.quality === 'strong');
+  setStatus(passed ? 'Good response!' : 'Let\'s look at that one.', passed ? 'ok' : 'err');
+  nextBtn.classList.remove('hidden');
+  nextBtn.textContent = (current === dialogues.length - 1) ? i18n[uiLang].seeResults : i18n[uiLang].next;
 }
 
 nextBtn.addEventListener('click', () => {
