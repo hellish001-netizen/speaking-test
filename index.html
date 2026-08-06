@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Speaking Test</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   :root{
     --ink:#1b2430;
@@ -94,7 +95,15 @@
 <h1 data-i18n="appTitle">Speaking Test</h1>
 <div class="sub" data-i18n="appSub">A natural conversation practice. Choose your grade, then reply out loud when it's your turn.</div>
 
-<div id="gradeScreen">
+<div id="welcomeScreen">
+  <div class="card">
+    <div class="progress" data-i18n="enterName">Enter your name to begin</div>
+    <input id="studentNameInput" type="text" placeholder="Your name" style="width:100%;padding:14px;font-size:1rem;border-radius:10px;border:1.5px solid var(--line);margin-bottom:8px;box-sizing:border-box;">
+    <button id="nameContinueBtn" data-i18n="continueBtn">Continue</button>
+  </div>
+</div>
+
+<div id="gradeScreen" class="hidden">
   <div class="card">
     <button id="langToggleBtn" class="secondary" style="margin-bottom:16px;">🌐 Bahasa Indonesia</button>
     <div class="progress" data-i18n="chooseGrade">Choose your grade</div>
@@ -103,6 +112,9 @@
     <button id="grade9Btn" data-i18n="grade9">Grade 9</button>
     <button id="challengeBtn" class="secondary" style="margin-top:16px;" data-i18n="challenge">🚀 Level Up Challenge</button>
     <button id="indoModeBtn" class="secondary" style="margin-top:8px;" data-i18n="indoModeBtn">🇮🇩→🇬🇧 Indonesian Prompts</button>
+    <div class="hint" id="currentStudentLabel" style="margin-top:14px;"></div>
+    <button id="downloadReportBtn" class="secondary" style="margin-top:8px;" data-i18n="downloadReport">⬇ Download Results (Excel)</button>
+    <button id="changeStudentBtn" class="secondary" style="margin-top:8px;" data-i18n="changeStudent">🔄 Change Student</button>
   </div>
 </div>
 
@@ -239,6 +251,11 @@ const i18n = {
     indoModeBtn: "🇮🇩→🇬🇧 Indonesian Prompts",
     indoStart: "Start",
     indoReady: "Get ready — answer in English…",
+    enterName: "Enter your name to begin",
+    continueBtn: "Continue",
+    downloadReport: "⬇ Download Results (Excel)",
+    changeStudent: "🔄 Change Student",
+    studentLabel: (name) => `Student: ${name}`,
     lineProgress: (n, total, lvl) => `Line ${n} of ${total}${lvl ? ' · Level ' + lvl : ''}`
   },
   id: {
@@ -279,11 +296,64 @@ const i18n = {
     indoModeBtn: "🇮🇩→🇬🇧 Indonesian Prompts",
     indoStart: "Mulai",
     indoReady: "Bersiap — jawab dalam Bahasa Inggris…",
+    enterName: "Masukkan namamu untuk mulai",
+    continueBtn: "Lanjutkan",
+    downloadReport: "⬇ Unduh Hasil (Excel)",
+    changeStudent: "🔄 Ganti Siswa",
+    studentLabel: (name) => `Siswa: ${name}`,
     lineProgress: (n, total, lvl) => `Baris ${n} dari ${total}${lvl ? ' · Tingkat ' + lvl : ''}`
   }
 };
 
 let uiLang = 'en';
+let studentName = '';
+let sessionLog = [];
+
+const welcomeScreen = document.getElementById('welcomeScreen');
+
+function refreshStudentLabel(){
+  const label = document.getElementById('currentStudentLabel');
+  if (studentName) label.textContent = i18n[uiLang].studentLabel(studentName);
+}
+
+document.getElementById('nameContinueBtn').addEventListener('click', () => {
+  const val = document.getElementById('studentNameInput').value.trim();
+  if (!val) return;
+  studentName = val;
+  welcomeScreen.classList.add('hidden');
+  document.getElementById('gradeScreen').classList.remove('hidden');
+  refreshStudentLabel();
+});
+
+document.getElementById('changeStudentBtn').addEventListener('click', () => {
+  document.getElementById('studentNameInput').value = '';
+  document.getElementById('gradeScreen').classList.add('hidden');
+  welcomeScreen.classList.remove('hidden');
+});
+
+function logAttempt(mode, prompt, response, result, note){
+  sessionLog.push({
+    Student: studentName || '(unknown)',
+    Mode: mode,
+    Prompt: prompt,
+    Response: response,
+    Result: result,
+    Notes: note || '',
+    Time: new Date().toLocaleString()
+  });
+}
+
+document.getElementById('downloadReportBtn').addEventListener('click', () => {
+  if (sessionLog.length === 0) {
+    alert(uiLang === 'id' ? 'Belum ada hasil untuk diunduh.' : 'No results to download yet.');
+    return;
+  }
+  const ws = XLSX.utils.json_to_sheet(sessionLog);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Results");
+  const safeName = (studentName || 'student').replace(/[^a-z0-9]/gi, '_');
+  XLSX.writeFile(wb, `${safeName}-speaking-test-results.xlsx`);
+});
 
 function applyLanguage(lang){
   uiLang = lang;
@@ -292,6 +362,7 @@ function applyLanguage(lang){
     if (i18n[lang][key]) el.textContent = i18n[lang][key];
   });
   document.getElementById('langToggleBtn').textContent = lang === 'en' ? '🌐 Bahasa Indonesia' : '🌐 English';
+  refreshStudentLabel();
   // refresh any screen text currently built dynamically
   if (typeof dialogues !== 'undefined' && dialogues.length && !testScreen.classList.contains('hidden')) {
     renderLine();
@@ -608,6 +679,7 @@ function judgeIndoResponse(said, confidence){
   const result = localJudge(said, item.keywords);
 
   indoResults.push({ prompt: item.id, said: said, confidence: confidence, quality: result.quality, feedback: result.feedback });
+  logAttempt('Indonesian Prompts', item.id, said, result.quality, result.feedback);
   const passed = (result.quality === 'adequate' || result.quality === 'strong');
   statusEl.className = 'status ' + (passed ? 'ok' : 'err');
   statusEl.textContent = result.feedback;
@@ -780,6 +852,7 @@ function scoreReadingAttempt(said, elapsedMs, confidence){
   else if (overall >= 76) category = 'yellow';
   else category = 'red';
 
+  logAttempt('Reading', 'Orangutan passage', said, `${category.toUpperCase()} — ${overall}%`, missingWords.length ? `Speed: ${speedLabel}. Words to practice: ${missingWords.join(', ')}` : `Speed: ${speedLabel}. All words recognized.`);
   showReadingResult(overall, category, missingWords, speedLabel);
 }
 
@@ -1049,6 +1122,7 @@ function judgeResponse(said, confidence){
     quality: result.quality,
     feedback: result.feedback
   });
+  logAttempt(modeLabels[selectedGrade] || selectedGrade, d.a, said, result.quality, result.feedback);
 
   const passed = (result.quality === 'adequate' || result.quality === 'strong');
   setStatus(passed ? 'Good response!' : 'Let\'s look at that one.', passed ? 'ok' : 'err');
