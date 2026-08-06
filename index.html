@@ -570,31 +570,37 @@ function levenshteinDistance(a, b){
   return dp[m][n];
 }
 
-function wordMatchPercent(said, target){
-  const saidWords = normalizeWordsSimple(said);
+function wordMatchPercent(candidateWords, target){
   const t = target.toLowerCase();
-  if (saidWords.length === 0) return 0;
+  if (candidateWords.length === 0) return 0;
   let best = 0;
-  saidWords.forEach(w => {
+  candidateWords.forEach(w => {
     const dist = levenshteinDistance(w, t);
+    // Short words (3-4 letters) get punished too harshly by a raw percentage —
+    // one letter off on "dog" is 33% wrong by strict math, but still a real, close attempt.
+    // Add a small forgiveness cushion that shrinks as words get longer.
+    const cushion = t.length <= 3 ? 1 : (t.length <= 5 ? 0.6 : 0);
     const maxLen = Math.max(w.length, t.length) || 1;
-    const sim = Math.round((1 - dist / maxLen) * 100);
+    const adjustedDist = Math.max(0, dist - cushion);
+    const sim = Math.round((1 - adjustedDist / maxLen) * 100);
     if (sim > best) best = sim;
   });
-  return Math.max(0, best);
+  return Math.max(0, Math.min(100, best));
 }
 
 let listeningRecognizer = null;
 let listeningRecognizing = false;
+let listeningCandidates = [];
 
 if (SpeechRecognition) {
   listeningRecognizer = new SpeechRecognition();
   listeningRecognizer.lang = 'en-US';
   listeningRecognizer.interimResults = true;
-  listeningRecognizer.maxAlternatives = 1;
+  listeningRecognizer.maxAlternatives = 5;
 
   listeningRecognizer.onstart = () => {
     listeningRecognizing = true;
+    listeningCandidates = [];
     const promptEl = document.getElementById('listeningPrompt');
     promptEl.className = 'status idle';
     promptEl.textContent = i18n[uiLang].listening;
@@ -602,9 +608,15 @@ if (SpeechRecognition) {
   };
 
   listeningRecognizer.onresult = (event) => {
-    let text = '';
-    for (let i = 0; i < event.results.length; i++) text += event.results[i][0].transcript;
-    document.getElementById('listeningTranscript').textContent = text;
+    // show the top guess live, but remember every alternative for scoring —
+    // the right answer is often the 2nd or 3rd guess, not just the 1st
+    document.getElementById('listeningTranscript').textContent = event.results[0][0].transcript;
+    if (event.results[0].isFinal) {
+      listeningCandidates = [];
+      for (let alt = 0; alt < event.results[0].length; alt++) {
+        listeningCandidates.push(...normalizeWordsSimple(event.results[0][alt].transcript));
+      }
+    }
   };
 
   listeningRecognizer.onerror = (event) => {
@@ -616,13 +628,13 @@ if (SpeechRecognition) {
   listeningRecognizer.onend = () => {
     listeningRecognizing = false;
     const said = document.getElementById('listeningTranscript').textContent.trim();
-    if (!said) {
+    if (!said && listeningCandidates.length === 0) {
       const promptEl = document.getElementById('listeningPrompt');
       promptEl.className = 'status err';
       promptEl.textContent = i18n[uiLang].didntCatch;
       return;
     }
-    showListeningResult(said);
+    showListeningResult(said, listeningCandidates.length ? listeningCandidates : normalizeWordsSimple(said));
   };
 
   document.getElementById('listeningRecBtn').addEventListener('click', () => {
@@ -636,9 +648,9 @@ if (SpeechRecognition) {
   });
 }
 
-function showListeningResult(said){
-  const percent = wordMatchPercent(said, currentListeningWord);
-  const passed = percent >= 80;
+function showListeningResult(said, candidateWords){
+  const percent = wordMatchPercent(candidateWords, currentListeningWord);
+  const passed = percent >= 70;
 
   logAttempt(
     `Listening — ${categoryLabel(currentListeningCategory)}`,
