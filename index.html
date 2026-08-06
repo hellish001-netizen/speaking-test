@@ -158,6 +158,18 @@
   </div>
 </div>
 
+<div id="grade7MenuScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="grade7Header">Grade 7</div>
+    <button id="g7GreetingsBtn" data-i18n="g7Greetings">Greetings and Parting</button>
+    <button id="g7IntroductionBtn" data-i18n="g7Introduction">Introduction</button>
+    <button id="g7GratitudeBtn" data-i18n="g7Gratitude">Expressing Gratitude and Apology</button>
+    <button id="g7InformationBtn" data-i18n="g7Information">Asking for Information</button>
+    <button id="g7DirectionBtn" data-i18n="g7Direction">Asking for Direction</button>
+    <button id="grade7BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
 <div id="indoScreen" class="hidden">
   <div class="card">
     <div class="progress" id="indoProgress">Line 1 of 5</div>
@@ -296,6 +308,12 @@ const i18n = {
     downloadReport: "⬇ Download Results (Excel)",
     changeStudent: "🔄 Change Student",
     studentLabel: (name) => `Student: ${name}`,
+    grade7Header: "Grade 7",
+    g7Greetings: "Greetings and Parting",
+    g7Introduction: "Introduction",
+    g7Gratitude: "Expressing Gratitude and Apology",
+    g7Information: "Asking for Information",
+    g7Direction: "Asking for Direction",
     lineProgress: (n, total, lvl) => `Line ${n} of ${total}${lvl ? ' · Level ' + lvl : ''}`
   },
   id: {
@@ -341,6 +359,12 @@ const i18n = {
     downloadReport: "⬇ Unduh Hasil (Excel)",
     changeStudent: "🔄 Ganti Siswa",
     studentLabel: (name) => `Siswa: ${name}`,
+    grade7Header: "Kelas 7",
+    g7Greetings: "Salam dan Perpisahan",
+    g7Introduction: "Perkenalan",
+    g7Gratitude: "Ungkapan Terima Kasih dan Maaf",
+    g7Information: "Menanyakan Informasi",
+    g7Direction: "Menanyakan Arah",
     lineProgress: (n, total, lvl) => `Baris ${n} dari ${total}${lvl ? ' · Tingkat ' + lvl : ''}`
   }
 };
@@ -415,11 +439,40 @@ document.getElementById('langToggleBtn').addEventListener('click', () => {
 
 // ---- Test content: natural self-introduction conversations, by grade ----
 const dialoguesByGrade = {
-  7: [
-    { a: "Hi! I don't think we've met yet. What's your name?", keywords: ["name", "i'm", "im", "call", "called"] },
-    { a: "Nice to meet you! How old are you?", keywords: ["old", "year", "years", "age", "i'm", "im"] },
-    { a: "Where do you live?", keywords: ["live", "from", "in", "at", "city", "town", "village", "house"] },
-    { a: "This is my friend, Sarah. Can you introduce yourself to her?", keywords: ["name", "i'm", "im", "hi", "hello", "nice", "meet"] }
+  g7greetings: [
+    { a: "Hi! How are you today?", keywords: ["fine", "good", "great", "i'm", "im", "well", "ok", "okay"] },
+    { a: "It's nice to see you again!", keywords: ["nice", "you", "too", "glad", "happy", "see"] },
+    { a: "I have to go now.", keywords: ["ok", "okay", "sure", "alright", "bye"] },
+    { a: "See you tomorrow!", keywords: ["bye", "see", "you", "tomorrow", "goodbye"] },
+    { a: "Goodbye, take care!", keywords: ["bye", "goodbye", "thanks", "you", "care"] }
+  ],
+  g7introduction: [
+    { a: "Hi, what's your name?", keywords: ["name", "i'm", "im", "call"] },
+    { a: "Nice to meet you! How old are you?", keywords: ["old", "year", "years", "i'm", "im"] },
+    { a: "Where are you from?", keywords: ["from", "i'm", "im", "live"] },
+    { a: "What grade are you in?", keywords: ["grade", "i'm", "im", "seven", "7"] },
+    { a: "It was nice talking to you!", keywords: ["nice", "too", "you", "talking", "meet"] }
+  ],
+  g7gratitude: [
+    { a: "Thank you so much for your help!", keywords: ["welcome", "no", "problem", "sure", "glad"] },
+    { a: "I'm sorry I'm late.", keywords: ["ok", "okay", "alright", "fine", "no", "problem"] },
+    { a: "I really appreciate it.", keywords: ["welcome", "sure", "glad", "anytime"] },
+    { a: "I'm sorry for the mistake.", keywords: ["ok", "okay", "fine", "alright", "no", "worries"] },
+    { a: "Thanks again for everything.", keywords: ["welcome", "no", "problem", "anytime", "sure"] }
+  ],
+  g7information: [
+    { a: "Excuse me, what time is it?", keywords: ["it's", "its", "clock", "time", "am", "pm"] },
+    { a: "Do you know where the library is?", keywords: ["library", "is", "near", "next", "straight", "left", "right"] },
+    { a: "How much does this cost?", keywords: ["cost", "price", "rupiah", "dollar", "is"] },
+    { a: "What time does the class start?", keywords: ["start", "class", "clock", "time", "am", "pm"] },
+    { a: "Can you tell me your phone number?", keywords: ["number", "phone", "is", "my"] }
+  ],
+  g7direction: [
+    { a: "Excuse me, how do I get to the market?", keywords: ["go", "straight", "left", "right", "turn", "market"] },
+    { a: "Is it far from here?", keywords: ["far", "near", "close", "minute", "walk"] },
+    { a: "Which way should I turn?", keywords: ["left", "right", "straight", "turn"] },
+    { a: "Can you show me on the map?", keywords: ["map", "here", "there", "is"] },
+    { a: "Thank you for your help!", keywords: ["welcome", "no", "problem", "sure"] }
   ],
   8: [
     { a: "Hi! Can you tell me a little bit about yourself?", keywords: ["i'm", "im", "name", "from", "live", "student", "grade", "school", "year"] },
@@ -472,6 +525,7 @@ let dialogues = [];
 let selectedGrade = null;
 
 const gradeScreen = document.getElementById('gradeScreen');
+const grade7MenuScreen = document.getElementById('grade7MenuScreen');
 const grade9MenuScreen = document.getElementById('grade9MenuScreen');
 const englishClassMenuScreen = document.getElementById('englishClassMenuScreen');
 const reportMenuScreen = document.getElementById('reportMenuScreen');
@@ -489,7 +543,11 @@ const indoDialogues = [
 const reportReadingPassage = "Today\u2019s topic for the animal is orangutans. The name orangutan means \u201cman of the forest.\u201d It\u2019s the largest arboreal mammal. Pongo pygmaeus is their scientific name.";
 
 const modeLabels = {
-  7: 'Grade 7',
+  g7greetings: 'Grade 7 — Greetings and Parting',
+  g7introduction: 'Grade 7 — Introduction',
+  g7gratitude: 'Grade 7 — Expressing Gratitude and Apology',
+  g7information: 'Grade 7 — Asking for Information',
+  g7direction: 'Grade 7 — Asking for Direction',
   8: 'Grade 8',
   9: 'Grade 9 — Introduction',
   challenge: 'Level Up Challenge',
@@ -502,6 +560,7 @@ const modeLabels = {
 
 function hideAllMenus(){
   gradeScreen.classList.add('hidden');
+  grade7MenuScreen.classList.add('hidden');
   grade9MenuScreen.classList.add('hidden');
   englishClassMenuScreen.classList.add('hidden');
   reportMenuScreen.classList.add('hidden');
@@ -519,7 +578,19 @@ function startGrade(grade){
   renderLine();
 }
 
-document.getElementById('grade7Btn').addEventListener('click', () => startGrade(7));
+document.getElementById('grade7Btn').addEventListener('click', () => {
+  gradeScreen.classList.add('hidden');
+  grade7MenuScreen.classList.remove('hidden');
+});
+document.getElementById('grade7BackBtn').addEventListener('click', () => {
+  grade7MenuScreen.classList.add('hidden');
+  gradeScreen.classList.remove('hidden');
+});
+document.getElementById('g7GreetingsBtn').addEventListener('click', () => startGrade('g7greetings'));
+document.getElementById('g7IntroductionBtn').addEventListener('click', () => startGrade('g7introduction'));
+document.getElementById('g7GratitudeBtn').addEventListener('click', () => startGrade('g7gratitude'));
+document.getElementById('g7InformationBtn').addEventListener('click', () => startGrade('g7information'));
+document.getElementById('g7DirectionBtn').addEventListener('click', () => startGrade('g7direction'));
 document.getElementById('grade8Btn').addEventListener('click', () => startGrade(8));
 document.getElementById('challengeBtn').addEventListener('click', () => startGrade('challenge'));
 
