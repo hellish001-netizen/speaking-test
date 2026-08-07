@@ -172,6 +172,28 @@
   </div>
 </div>
 
+<div id="verbMenuScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="verbBtn">Verb</div>
+    <div class="status idle" id="verbGeneralDefinition" style="margin-bottom:12px;"></div>
+    <button id="verbActionBtn">Action Verb</button>
+    <button id="verbStativeBtn">Stative Verb</button>
+    <button id="verbTransitiveBtn">Transitive Verb</button>
+    <button id="verbIntransitiveBtn">Intransitive Verb</button>
+    <button id="verbAuxiliaryBtn">Auxiliary Verb</button>
+    <button id="verbMenuBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="verbCategoryScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="verbCategoryHeader">Action Verb</div>
+    <div class="status idle" id="verbCategoryDefinition" style="margin-bottom:12px;"></div>
+    <div id="verbCategoryButtons"></div>
+    <button id="verbCategoryBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
 <div id="listeningTestScreen" class="hidden">
   <div class="card">
     <div class="progress" id="listeningTestHeader">Verb</div>
@@ -443,6 +465,8 @@ const mainMenuScreen = document.getElementById('mainMenuScreen');
 const listeningMenuScreen = document.getElementById('listeningMenuScreen');
 const listeningWordListScreen = document.getElementById('listeningWordListScreen');
 const listeningTestScreen = document.getElementById('listeningTestScreen');
+const verbMenuScreen = document.getElementById('verbMenuScreen');
+const verbCategoryScreen = document.getElementById('verbCategoryScreen');
 
 function refreshStudentLabel(){
   const label = document.getElementById('currentStudentLabel');
@@ -482,14 +506,102 @@ document.getElementById('listeningMenuBackBtn').addEventListener('click', () => 
   mainMenuScreen.classList.remove('hidden');
 });
 
-// ---- Listening section: hear a word, repeat it, judged by how closely it matches ----
+// ---- Listening section: hear a word or phrase, repeat it, judged by how closely it matches ----
 const listeningWords = {
-  verb: ["run", "eat"],
   noun: ["book", "dog"]
 };
 
-let currentListeningCategory = null;
-let currentListeningWord = null;
+const verbGeneralDefinitionId = "Kata kerja (verb) adalah kata yang menunjukkan suatu tindakan, kejadian, atau keadaan yang dilakukan atau dialami oleh subjek dalam sebuah kalimat.";
+
+const verbCategories = {
+  action: {
+    label: "Action Verb",
+    definitionId: "Kata kerja aksi adalah kata kerja yang menunjukkan suatu tindakan atau kegiatan yang dilakukan oleh subjek, baik secara fisik maupun mental. Contoh: run, eat, write, think.",
+    items: [
+      { en: "I eat", id: "Aku makan" },
+      { en: "I run", id: "Aku berlari" },
+      { en: "I read", id: "Aku membaca" },
+      { en: "I write", id: "Aku menulis" },
+      { en: "I sleep", id: "Aku tidur" },
+      { en: "I walk", id: "Aku berjalan" },
+      { en: "I swim", id: "Aku berenang" },
+      { en: "I sing", id: "Aku bernyanyi" },
+      { en: "I jump", id: "Aku melompat" },
+      { en: "I study", id: "Aku belajar" }
+    ]
+  },
+  stative: {
+    label: "Stative Verb",
+    definitionId: "Kata kerja statif adalah kata kerja yang menunjukkan keadaan, perasaan, pikiran, atau kepemilikan, bukan suatu tindakan fisik. Kata kerja ini biasanya tidak dipakai dalam bentuk -ing. Contoh: know, like, want, believe.",
+    items: [
+      { en: "I know", id: "Aku tahu" },
+      { en: "I like it", id: "Aku menyukainya" },
+      { en: "I love you", id: "Aku mencintaimu" },
+      { en: "I believe you", id: "Aku percaya padamu" },
+      { en: "I want water", id: "Aku ingin air" },
+      { en: "I need help", id: "Aku butuh bantuan" },
+      { en: "I have a book", id: "Aku punya buku" },
+      { en: "I understand", id: "Aku mengerti" },
+      { en: "I remember you", id: "Aku ingat kamu" },
+      { en: "I feel happy", id: "Aku merasa senang" }
+    ]
+  },
+  transitive: {
+    label: "Transitive Verb",
+    definitionId: "Kata kerja transitif adalah kata kerja yang membutuhkan objek langsung setelahnya supaya maknanya lengkap. Contoh: I eat rice (membutuhkan objek \u201crice\u201d).",
+    items: [
+      { en: "I eat rice", id: "Aku makan nasi" },
+      { en: "I read a book", id: "Aku membaca buku" },
+      { en: "I buy a shirt", id: "Aku membeli baju" },
+      { en: "I drink water", id: "Aku minum air" },
+      { en: "I open the door", id: "Aku membuka pintu" },
+      { en: "I close the window", id: "Aku menutup jendela" },
+      { en: "I clean my room", id: "Aku membersihkan kamarku" },
+      { en: "I bring my bag", id: "Aku membawa tasku" },
+      { en: "I watch a movie", id: "Aku menonton film" },
+      { en: "I wash the dishes", id: "Aku mencuci piring" }
+    ]
+  },
+  intransitive: {
+    label: "Intransitive Verb",
+    definitionId: "Kata kerja intransitif adalah kata kerja yang tidak membutuhkan objek setelahnya karena maknanya sudah lengkap dengan sendirinya. Contoh: I sleep (tidak butuh objek).",
+    items: [
+      { en: "I sleep", id: "Aku tidur" },
+      { en: "I cry", id: "Aku menangis" },
+      { en: "I laugh", id: "Aku tertawa" },
+      { en: "I arrive", id: "Aku tiba" },
+      { en: "I smile", id: "Aku tersenyum" },
+      { en: "I sit down", id: "Aku duduk" },
+      { en: "I stand up", id: "Aku berdiri" },
+      { en: "I wake up", id: "Aku bangun" },
+      { en: "I fall down", id: "Aku terjatuh" },
+      { en: "I go home", id: "Aku pulang" }
+    ]
+  },
+  auxiliary: {
+    label: "Auxiliary Verb",
+    definitionId: "Kata kerja bantu adalah kata kerja yang digunakan bersama kata kerja utama untuk membentuk kalimat tanya, kalimat negatif, atau menunjukkan waktu. Contoh: am, is, are, do, can, will.",
+    items: [
+      { en: "I am happy", id: "Aku senang" },
+      { en: "I am a student", id: "Aku seorang murid" },
+      { en: "I can swim", id: "Aku bisa berenang" },
+      { en: "I will go", id: "Aku akan pergi" },
+      { en: "I do like it", id: "Aku memang menyukainya" },
+      { en: "I have finished", id: "Aku telah selesai" },
+      { en: "I must go now", id: "Aku harus pergi sekarang" },
+      { en: "I should study", id: "Aku harus belajar" },
+      { en: "I might come", id: "Aku mungkin datang" },
+      { en: "I would like tea", id: "Aku ingin teh" }
+    ]
+  }
+};
+
+let currentListeningCategory = null;   // 'noun' word-list path
+let currentListeningMode = 'word';     // 'word' (Noun) | 'phrase' (Verb)
+let currentListeningTargetEn = null;
+let currentListeningTargetId = null;   // Indonesian meaning, phrase mode only
+let currentVerbCategoryKey = null;
+let listeningTestBackTarget = null;    // which screen "Back" returns to, from the test screen
 
 function categoryLabel(cat){
   return cat === 'verb' ? i18n[uiLang].verbBtn : i18n[uiLang].nounBtn;
@@ -510,15 +622,51 @@ function openListeningCategory(cat){
   });
 }
 
-document.getElementById('listeningVerbBtn').addEventListener('click', () => openListeningCategory('verb'));
 document.getElementById('listeningNounBtn').addEventListener('click', () => openListeningCategory('noun'));
 document.getElementById('listeningWordListBackBtn').addEventListener('click', () => {
   listeningWordListScreen.classList.add('hidden');
   listeningMenuScreen.classList.remove('hidden');
 });
 
+// ---- Verb: general menu with definition, then 5 categories, each with its own definition ----
+document.getElementById('listeningVerbBtn').addEventListener('click', () => {
+  hideAllMenus();
+  verbMenuScreen.classList.remove('hidden');
+  document.getElementById('verbGeneralDefinition').textContent = verbGeneralDefinitionId;
+});
+document.getElementById('verbMenuBackBtn').addEventListener('click', () => {
+  verbMenuScreen.classList.add('hidden');
+  listeningMenuScreen.classList.remove('hidden');
+});
+
+function openVerbCategory(catKey){
+  currentVerbCategoryKey = catKey;
+  const cat = verbCategories[catKey];
+  hideAllMenus();
+  verbCategoryScreen.classList.remove('hidden');
+  document.getElementById('verbCategoryHeader').textContent = cat.label;
+  document.getElementById('verbCategoryDefinition').textContent = cat.definitionId;
+  const container = document.getElementById('verbCategoryButtons');
+  container.innerHTML = '';
+  cat.items.forEach(item => {
+    const btn = document.createElement('button');
+    btn.textContent = item.en;
+    btn.addEventListener('click', () => openVerbItem(item));
+    container.appendChild(btn);
+  });
+}
+
+document.getElementById('verbActionBtn').addEventListener('click', () => openVerbCategory('action'));
+document.getElementById('verbStativeBtn').addEventListener('click', () => openVerbCategory('stative'));
+document.getElementById('verbTransitiveBtn').addEventListener('click', () => openVerbCategory('transitive'));
+document.getElementById('verbIntransitiveBtn').addEventListener('click', () => openVerbCategory('intransitive'));
+document.getElementById('verbAuxiliaryBtn').addEventListener('click', () => openVerbCategory('auxiliary'));
+document.getElementById('verbCategoryBackBtn').addEventListener('click', () => {
+  verbCategoryScreen.classList.add('hidden');
+  verbMenuScreen.classList.remove('hidden');
+});
+
 function resetListeningTestScreen(){
-  document.getElementById('listeningTestHeader').textContent = categoryLabel(currentListeningCategory);
   const promptEl = document.getElementById('listeningPrompt');
   promptEl.className = 'status idle';
   promptEl.textContent = i18n[uiLang].listenPrompt;
@@ -530,20 +678,35 @@ function resetListeningTestScreen(){
 }
 
 function openListeningWord(word){
-  currentListeningWord = word;
+  currentListeningMode = 'word';
+  currentListeningTargetEn = word;
+  currentListeningTargetId = null;
+  listeningTestBackTarget = listeningWordListScreen;
   hideAllMenus();
   listeningTestScreen.classList.remove('hidden');
+  document.getElementById('listeningTestHeader').textContent = categoryLabel(currentListeningCategory);
+  resetListeningTestScreen();
+}
+
+function openVerbItem(item){
+  currentListeningMode = 'phrase';
+  currentListeningTargetEn = item.en;
+  currentListeningTargetId = item.id;
+  listeningTestBackTarget = verbCategoryScreen;
+  hideAllMenus();
+  listeningTestScreen.classList.remove('hidden');
+  document.getElementById('listeningTestHeader').textContent = verbCategories[currentVerbCategoryKey].label;
   resetListeningTestScreen();
 }
 
 document.getElementById('listeningTestBackBtn').addEventListener('click', () => {
   listeningTestScreen.classList.add('hidden');
-  listeningWordListScreen.classList.remove('hidden');
+  (listeningTestBackTarget || listeningMenuScreen).classList.remove('hidden');
 });
 
 document.getElementById('listeningPlayBtn').addEventListener('click', () => {
   if (!('speechSynthesis' in window)) return;
-  const utter = new SpeechSynthesisUtterance(currentListeningWord);
+  const utter = new SpeechSynthesisUtterance(currentListeningTargetEn);
   utter.lang = 'en-US';
   const promptEl = document.getElementById('listeningPrompt');
   utter.onstart = () => { promptEl.className = 'status idle'; promptEl.textContent = i18n[uiLang].playing; };
@@ -588,9 +751,25 @@ function wordMatchPercent(candidateWords, target){
   return Math.max(0, Math.min(100, best));
 }
 
+// Phrase-level match: how many of the target's words were actually said, anywhere
+// in any of the recognizer's candidate guesses (reuses the same word-alignment logic as Reading).
+function phraseMatchPercent(candidatePhrases, target){
+  const targetTokens = tokenize(target).map(t => t.norm);
+  if (targetTokens.length === 0 || candidatePhrases.length === 0) return 0;
+  let best = 0;
+  candidatePhrases.forEach(phrase => {
+    const saidTokens = tokenize(phrase).map(t => t.norm);
+    const matched = matchExpectedWords(targetTokens, saidTokens);
+    const matchedCount = matched.filter(Boolean).length;
+    const percent = Math.round((matchedCount / targetTokens.length) * 100);
+    if (percent > best) best = percent;
+  });
+  return best;
+}
+
 let listeningRecognizer = null;
 let listeningRecognizing = false;
-let listeningCandidates = [];
+let listeningCandidatePhrases = [];
 
 if (SpeechRecognition) {
   listeningRecognizer = new SpeechRecognition();
@@ -600,7 +779,7 @@ if (SpeechRecognition) {
 
   listeningRecognizer.onstart = () => {
     listeningRecognizing = true;
-    listeningCandidates = [];
+    listeningCandidatePhrases = [];
     const promptEl = document.getElementById('listeningPrompt');
     promptEl.className = 'status idle';
     promptEl.textContent = i18n[uiLang].listening;
@@ -612,9 +791,9 @@ if (SpeechRecognition) {
     // the right answer is often the 2nd or 3rd guess, not just the 1st
     document.getElementById('listeningTranscript').textContent = event.results[0][0].transcript;
     if (event.results[0].isFinal) {
-      listeningCandidates = [];
+      listeningCandidatePhrases = [];
       for (let alt = 0; alt < event.results[0].length; alt++) {
-        listeningCandidates.push(...normalizeWordsSimple(event.results[0][alt].transcript));
+        listeningCandidatePhrases.push(event.results[0][alt].transcript);
       }
     }
   };
@@ -628,13 +807,13 @@ if (SpeechRecognition) {
   listeningRecognizer.onend = () => {
     listeningRecognizing = false;
     const said = document.getElementById('listeningTranscript').textContent.trim();
-    if (!said && listeningCandidates.length === 0) {
+    if (!said && listeningCandidatePhrases.length === 0) {
       const promptEl = document.getElementById('listeningPrompt');
       promptEl.className = 'status err';
       promptEl.textContent = i18n[uiLang].didntCatch;
       return;
     }
-    showListeningResult(said, listeningCandidates.length ? listeningCandidates : normalizeWordsSimple(said));
+    showListeningResult(said, listeningCandidatePhrases.length ? listeningCandidatePhrases : [said]);
   };
 
   document.getElementById('listeningRecBtn').addEventListener('click', () => {
@@ -648,13 +827,24 @@ if (SpeechRecognition) {
   });
 }
 
-function showListeningResult(said, candidateWords){
-  const percent = wordMatchPercent(candidateWords, currentListeningWord);
+function showListeningResult(said, candidatePhrases){
+  let percent;
+  if (currentListeningMode === 'phrase') {
+    percent = phraseMatchPercent(candidatePhrases, currentListeningTargetEn);
+  } else {
+    const candidateWords = [];
+    candidatePhrases.forEach(p => candidateWords.push(...normalizeWordsSimple(p)));
+    percent = wordMatchPercent(candidateWords, currentListeningTargetEn);
+  }
   const passed = percent >= 70;
 
+  const modeLabelText = currentListeningMode === 'phrase'
+    ? `Listening — Verb: ${verbCategories[currentVerbCategoryKey].label}`
+    : `Listening — ${categoryLabel(currentListeningCategory)}`;
+
   logAttempt(
-    `Listening — ${categoryLabel(currentListeningCategory)}`,
-    currentListeningWord,
+    modeLabelText,
+    currentListeningTargetEn,
     said,
     `${percent}% match — ${passed ? 'Pass' : 'Practice more'}`,
     ''
@@ -670,7 +860,9 @@ function showListeningResult(said, candidateWords){
 
   const note = document.getElementById('listeningResultNote');
   note.className = 'status ' + (passed ? 'ok' : 'err');
-  note.textContent = i18n[uiLang].wordWasLabel(currentListeningWord);
+  note.textContent = currentListeningTargetId
+    ? `${i18n[uiLang].wordWasLabel(currentListeningTargetEn)} — ${currentListeningTargetId}`
+    : i18n[uiLang].wordWasLabel(currentListeningTargetEn);
 
   document.getElementById('listeningResultArea').classList.remove('hidden');
 }
@@ -850,6 +1042,8 @@ function hideAllMenus(){
   mainMenuScreen.classList.add('hidden');
   listeningMenuScreen.classList.add('hidden');
   listeningWordListScreen.classList.add('hidden');
+  verbMenuScreen.classList.add('hidden');
+  verbCategoryScreen.classList.add('hidden');
   listeningTestScreen.classList.add('hidden');
   gradeScreen.classList.add('hidden');
   grade7MenuScreen.classList.add('hidden');
