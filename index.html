@@ -527,7 +527,17 @@ const verbCategories = {
       { en: "I swim", id: "Aku berenang" },
       { en: "I sing", id: "Aku bernyanyi" },
       { en: "I jump", id: "Aku melompat" },
-      { en: "I study", id: "Aku belajar" }
+      { en: "I study", id: "Aku belajar" },
+      { en: "I drink", id: "Aku minum" },
+      { en: "I cook", id: "Aku memasak" },
+      { en: "I clean", id: "Aku membersihkan" },
+      { en: "I drive", id: "Aku mengemudi" },
+      { en: "I dance", id: "Aku menari" },
+      { en: "I play", id: "Aku bermain" },
+      { en: "I work", id: "Aku bekerja" },
+      { en: "I draw", id: "Aku menggambar" },
+      { en: "I cut", id: "Aku memotong" },
+      { en: "I climb", id: "Aku memanjat" }
     ]
   },
   stative: {
@@ -639,6 +649,18 @@ document.getElementById('verbMenuBackBtn').addEventListener('click', () => {
   listeningMenuScreen.classList.remove('hidden');
 });
 
+// Fisher-Yates shuffle, then take the first n — used to rotate a random 10-of-20
+// subset for Action Verb specifically, so the visible set changes each visit
+// (not just the order), defeating both positional AND set memorization.
+function pickRandomSubset(arr, n){
+  const copy = arr.slice();
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy.slice(0, n);
+}
+
 function openVerbCategory(catKey){
   currentVerbCategoryKey = catKey;
   const cat = verbCategories[catKey];
@@ -648,7 +670,10 @@ function openVerbCategory(catKey){
   document.getElementById('verbCategoryDefinition').textContent = cat.definitionId;
   const container = document.getElementById('verbCategoryButtons');
   container.innerHTML = '';
-  cat.items.forEach(item => {
+  // Action Verb only: rotate a random 10-of-20 subset each time this screen opens.
+  // Every other category keeps its full, fixed list in the same order.
+  const itemsToShow = (catKey === 'action') ? pickRandomSubset(cat.items, 10) : cat.items;
+  itemsToShow.forEach(item => {
     const btn = document.createElement('button');
     btn.textContent = item.en;
     btn.addEventListener('click', () => openVerbItem(item));
@@ -701,7 +726,11 @@ function openVerbItem(item){
 
 document.getElementById('listeningTestBackBtn').addEventListener('click', () => {
   listeningTestScreen.classList.add('hidden');
-  (listeningTestBackTarget || listeningMenuScreen).classList.remove('hidden');
+  if (listeningTestBackTarget === verbCategoryScreen && currentVerbCategoryKey === 'action') {
+    openVerbCategory('action');
+  } else {
+    (listeningTestBackTarget || listeningMenuScreen).classList.remove('hidden');
+  }
 });
 
 document.getElementById('listeningPlayBtn').addEventListener('click', () => {
@@ -872,7 +901,11 @@ document.getElementById('listeningTryAgainBtn').addEventListener('click', () => 
 });
 document.getElementById('listeningContinueBtn').addEventListener('click', () => {
   listeningTestScreen.classList.add('hidden');
-  (listeningTestBackTarget || listeningMenuScreen).classList.remove('hidden');
+  if (listeningTestBackTarget === verbCategoryScreen && currentVerbCategoryKey === 'action') {
+    openVerbCategory('action');
+  } else {
+    (listeningTestBackTarget || listeningMenuScreen).classList.remove('hidden');
+  }
 });
 
 function logAttempt(mode, prompt, response, result, note){
