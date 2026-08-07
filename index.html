@@ -872,7 +872,7 @@ document.getElementById('listeningTryAgainBtn').addEventListener('click', () => 
 });
 document.getElementById('listeningContinueBtn').addEventListener('click', () => {
   listeningTestScreen.classList.add('hidden');
-  listeningMenuScreen.classList.remove('hidden');
+  (listeningTestBackTarget || listeningMenuScreen).classList.remove('hidden');
 });
 
 function logAttempt(mode, prompt, response, result, note){
