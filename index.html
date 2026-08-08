@@ -282,7 +282,7 @@
 
 <div id="readingScreen" class="hidden">
   <div class="card">
-    <div class="progress" data-i18n="readingHeader">Grade 9 · English Class · Report · Reading</div>
+    <div class="progress" id="readingProgressHeader">Grade 9 · English Class · Report · Reading</div>
     <div class="dialogue" id="readingText"></div>
     <button id="readingPlayBtn" data-i18n="playLine">▶ Play line</button>
     <button id="yourTurnBtn" class="secondary" data-i18n="yourTurn">🗣 Your Turn</button>
@@ -297,12 +297,20 @@
       <div class="score" id="readingScoreBadge"></div>
       <div class="status idle" id="readingScoreNote"></div>
       <div id="readingWordNotes" style="margin-top:10px;font-size:0.9rem;line-height:1.5;"></div>
-      <button id="readingPracticeBtn" class="secondary" style="margin-top:14px;" data-i18n="practiceReplay">▶ Practice (replay passage)</button>
-      <button id="readingRetakeBtn" class="rec" style="margin-top:8px;" data-i18n="retake">🎤 Retake</button>
-      <div class="hint" id="readingLeaveNote" style="margin-top:10px;"></div>
+      <button id="readingContinueBtn" style="margin-top:14px;" data-i18n="continueBtn">Continue</button>
     </div>
 
     <button id="readingBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="readingSummaryScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="readingSummaryHeader">Reading — Summary</div>
+    <div class="score" id="readingSummaryScore"></div>
+    <div id="readingSummaryWords" style="margin-top:10px;font-size:0.9rem;line-height:1.6;"></div>
+    <button id="readingSummaryTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="readingSummaryContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
   </div>
 </div>
 
@@ -349,6 +357,8 @@ const i18n = {
     naturalConversation: "Natural Conversation",
     reading: "Reading",
     readingHeader: "Grade 9 · English Class · Report · Reading",
+    readingSummaryHeader: "Reading — Summary",
+    readingPassageProgress: (n, total) => `Grade 9 · English Class · Report · Reading (${n}/${total})`,
     playLine: "▶ Play line",
     yourTurn: "🗣 Your Turn",
     tapAndSpeak: "🎤 Tap and speak",
@@ -410,6 +420,8 @@ const i18n = {
     naturalConversation: "Percakapan Alami",
     reading: "Membaca",
     readingHeader: "Kelas 9 · Kelas Bahasa Inggris · Laporan · Membaca",
+    readingSummaryHeader: "Membaca — Ringkasan",
+    readingPassageProgress: (n, total) => `Kelas 9 · Kelas Bahasa Inggris · Laporan · Membaca (${n}/${total})`,
     playLine: "▶ Putar kalimat",
     yourTurn: "🗣 Giliranmu",
     tapAndSpeak: "🎤 Ketuk dan bicara",
@@ -1043,6 +1055,7 @@ const grade9MenuScreen = document.getElementById('grade9MenuScreen');
 const englishClassMenuScreen = document.getElementById('englishClassMenuScreen');
 const reportMenuScreen = document.getElementById('reportMenuScreen');
 const readingScreen = document.getElementById('readingScreen');
+const readingSummaryScreen = document.getElementById('readingSummaryScreen');
 const indoScreen = document.getElementById('indoScreen');
 
 const indoDialogues = [
@@ -1053,7 +1066,14 @@ const indoDialogues = [
   { id: "Kamu punya saudara? Ceritakan sedikit tentang mereka.", en: "Do you have any siblings? Tell me a little about them.", keywords: ["brother", "sister", "sibling", "have", "yes", "no"] }
 ];
 
-const reportReadingPassage = "Today\u2019s topic for the animal is orangutans. The name orangutan means \u201cman of the forest.\u201d It\u2019s the largest arboreal mammal. Pongo pygmaeus is their scientific name.";
+const readingPassages = [
+  "Today\u2019s topic for the animal is orangutans. The name orangutan means \u201cman of the forest.\u201d It\u2019s the largest arboreal mammal. Pongo pygmaeus is their scientific name.",
+  "Their long, powerful arms and holding hands, as well as their feet, help them to move through the branches. Orangutans are one of the smartest primates. They can vary in height from 1 to 1.4 meters and weight from 29.9 to 99.79 kgs.",
+  "Orangutans live in Borneo\u2019s swamps and forests. They usually go down from the trees to explore the ground. They sleep at night and relax during the day on trees. They eat lychees, mangosteens, and figs, and drink from holes in the ground. Threats to orangutans include habitat loss through deforestation and illegal hunting."
+];
+
+let readingPassageIndex = 0;
+let readingSummaryResults = []; // {passageNum, overall, category, missingWords, speedLabel}
 
 const modeLabels = {
   g7greetings: 'Grade 7 — Greetings and Parting',
@@ -1084,6 +1104,7 @@ function hideAllMenus(){
   englishClassMenuScreen.classList.add('hidden');
   reportMenuScreen.classList.add('hidden');
   readingScreen.classList.add('hidden');
+  readingSummaryScreen.classList.add('hidden');
   indoScreen.classList.add('hidden');
 }
 
@@ -1384,8 +1405,9 @@ document.getElementById('reportNaturalBtn').addEventListener('click', () => star
 document.getElementById('reportReadingBtn').addEventListener('click', () => {
   reportMenuScreen.classList.add('hidden');
   readingScreen.classList.remove('hidden');
-  document.getElementById('readingText').textContent = reportReadingPassage;
-  resetReadingScreen();
+  readingPassageIndex = 0;
+  readingSummaryResults = [];
+  loadReadingPassage();
 });
 document.getElementById('readingBackBtn').addEventListener('click', () => {
   readingScreen.classList.add('hidden');
@@ -1393,33 +1415,31 @@ document.getElementById('readingBackBtn').addEventListener('click', () => {
 });
 function playReadingPassage(){
   if (!('speechSynthesis' in window)) return;
-  const utter = new SpeechSynthesisUtterance(reportReadingPassage);
+  const utter = new SpeechSynthesisUtterance(readingPassages[readingPassageIndex]);
   utter.lang = 'en-US';
   speechSynthesis.speak(utter);
 }
 document.getElementById('readingPlayBtn').addEventListener('click', playReadingPassage);
-document.getElementById('readingPracticeBtn').addEventListener('click', playReadingPassage);
 
-let readingAttempts = 0;
+function loadReadingPassage(){
+  document.getElementById('readingText').textContent = readingPassages[readingPassageIndex];
+  document.getElementById('readingProgressHeader').textContent =
+    i18n[uiLang].readingPassageProgress(readingPassageIndex + 1, readingPassages.length);
+  resetReadingScreen();
+}
 
 function resetReadingScreen(){
-  readingAttempts = 0;
   readingListening = false;
   readingSegments = [];
   readingConfidences = [];
   document.getElementById('readingRecordArea').classList.add('hidden');
   document.getElementById('readingResultArea').classList.add('hidden');
-  document.getElementById('readingBackBtn').disabled = false;
   document.getElementById('readingRecStatus').textContent = i18n[uiLang].readingIdlePrompt;
   document.getElementById('readingRecStatus').className = 'status idle';
   document.getElementById('readingTranscript').textContent = '';
 }
 
 document.getElementById('yourTurnBtn').addEventListener('click', () => {
-  document.getElementById('readingResultArea').classList.add('hidden');
-  document.getElementById('readingRecordArea').classList.remove('hidden');
-});
-document.getElementById('readingRetakeBtn').addEventListener('click', () => {
   document.getElementById('readingResultArea').classList.add('hidden');
   document.getElementById('readingRecordArea').classList.remove('hidden');
 });
@@ -1455,9 +1475,8 @@ function matchExpectedWords(expectedNorm, saidNorm){
 }
 
 function scoreReadingAttempt(said, elapsedMs, confidence){
-  readingAttempts++;
-
-  const expectedTokens = tokenize(reportReadingPassage);
+  const currentPassage = readingPassages[readingPassageIndex];
+  const expectedTokens = tokenize(currentPassage);
   const saidTokens = tokenize(said);
   const matched = matchExpectedWords(expectedTokens.map(t => t.norm), saidTokens.map(t => t.norm));
   const correctCount = matched.filter(Boolean).length;
@@ -1482,7 +1501,16 @@ function scoreReadingAttempt(said, elapsedMs, confidence){
   else if (overall >= 76) category = 'yellow';
   else category = 'red';
 
-  logAttempt('Reading', 'Orangutan passage', said, `${category.toUpperCase()} — ${overall}%`, missingWords.length ? `Speed: ${speedLabel}. Words to practice: ${missingWords.join(', ')}` : `Speed: ${speedLabel}. All words recognized.`);
+  logAttempt('Reading', `Passage ${readingPassageIndex + 1}`, said, `${category.toUpperCase()} — ${overall}%`, missingWords.length ? `Speed: ${speedLabel}. Words to practice: ${missingWords.join(', ')}` : `Speed: ${speedLabel}. All words recognized.`);
+
+  readingSummaryResults.push({
+    passageNum: readingPassageIndex + 1,
+    overall: overall,
+    category: category,
+    missingWords: missingWords,
+    speedLabel: speedLabel
+  });
+
   showReadingResult(overall, category, missingWords, speedLabel);
 }
 
@@ -1505,24 +1533,51 @@ function showReadingResult(overall, category, missingWords, speedLabel){
   wordNotes.innerHTML = missingWords.length > 0
     ? `<strong>Words to practice:</strong> ${missingWords.join(', ')}`
     : `Every word in the passage was recognized clearly — nice work.`;
-
-  const backBtn = document.getElementById('readingBackBtn');
-  const leaveNote = document.getElementById('readingLeaveNote');
-
-  if (category === 'red' && readingAttempts < 3) {
-    backBtn.disabled = true;
-    leaveNote.textContent = `Score below 76% — practice, then retake before going back. (Attempt ${readingAttempts} of 3)`;
-  } else if (category === 'red') {
-    backBtn.disabled = false;
-    leaveNote.textContent = "You've tried 3 times — you may go back now, but this passage is worth practicing more.";
-  } else if (category === 'yellow') {
-    backBtn.disabled = false;
-    leaveNote.textContent = 'Good effort — practicing again is recommended, but you can go back if you\'re ready.';
-  } else {
-    backBtn.disabled = false;
-    leaveNote.textContent = 'Great reading! Practice again if you\'d like, or go back.';
-  }
 }
+
+document.getElementById('readingContinueBtn').addEventListener('click', () => {
+  readingPassageIndex++;
+  if (readingPassageIndex < readingPassages.length) {
+    loadReadingPassage();
+  } else {
+    showReadingSummary();
+  }
+});
+
+function showReadingSummary(){
+  readingScreen.classList.add('hidden');
+  readingSummaryScreen.classList.remove('hidden');
+
+  const avgOverall = Math.round(
+    readingSummaryResults.reduce((sum, r) => sum + r.overall, 0) / readingSummaryResults.length
+  );
+  document.getElementById('readingSummaryScore').textContent = `Average — ${avgOverall}%`;
+
+  const container = document.getElementById('readingSummaryWords');
+  container.innerHTML = readingSummaryResults.map(r => {
+    const tagClass = r.category === 'green' ? 'ok' : (r.category === 'yellow' ? 'warn2' : 'err');
+    const wordsText = r.missingWords.length > 0
+      ? `Words to practice: ${r.missingWords.join(', ')}`
+      : 'All words recognized clearly.';
+    return `<div class="result-line">
+      <strong>Passage ${r.passageNum}:</strong>
+      <span class="tag ${r.category === 'green' ? 'ok' : 'warn'}">${r.category.toUpperCase()} — ${r.overall}%</span>
+      <div class="said">${wordsText} (Speed: ${r.speedLabel})</div>
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('readingSummaryTryAgainBtn').addEventListener('click', () => {
+  readingPassageIndex = 0;
+  readingSummaryResults = [];
+  readingSummaryScreen.classList.add('hidden');
+  readingScreen.classList.remove('hidden');
+  loadReadingPassage();
+});
+document.getElementById('readingSummaryContinueBtn').addEventListener('click', () => {
+  readingSummaryScreen.classList.add('hidden');
+  reportMenuScreen.classList.remove('hidden');
+});
 
 let readingRecognizer = null;
 let readingListening = false; // true while the student wants listening to continue, until they tap stop
