@@ -267,7 +267,39 @@
     <button id="procedureBtn" data-i18n="procedure">Procedure</button>
     <button id="personalBtn" data-i18n="personal">Personal Experiences</button>
     <button id="descriptiveBtn" data-i18n="descriptive">Descriptive</button>
+    <button id="wordsBoxBtn" class="secondary" style="margin-top:16px;" data-i18n="wordsBoxBtn">📦 Words Box</button>
     <button id="englishClassBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="wordsBoxMenuScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="wordsBoxHeader">Words Box</div>
+    <button id="chapter1Btn">Chapter 1</button>
+    <button id="chapter2Btn">Chapter 2</button>
+    <button id="chapter3Btn">Chapter 3</button>
+    <button id="chapter4Btn">Chapter 4</button>
+    <button id="chapter5Btn">Chapter 5</button>
+    <button id="wordsBoxBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="wordsBoxChapterScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="wordsBoxChapterHeader">Chapter 1</div>
+    <button id="unit1Btn">Unit 1</button>
+    <button id="unit2Btn">Unit 2</button>
+    <button id="unit3Btn">Unit 3</button>
+    <button id="wordsBoxChapterBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="wordsBoxUnitScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="wordsBoxUnitHeader">Chapter 1 · Unit 1</div>
+    <div class="status idle" id="wordsBoxUnitPlaceholder" data-i18n="wordsBoxComingSoon">Content coming soon.</div>
+    <div id="wordsBoxUnitWordList" class="hidden"></div>
+    <button id="wordsBoxUnitBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -351,6 +383,9 @@ const i18n = {
     englishClass: "English Class",
     back: "← Back",
     englishClassHeader: "Grade 9 · English Class",
+    wordsBoxBtn: "📦 Words Box",
+    wordsBoxHeader: "Words Box",
+    wordsBoxComingSoon: "Content coming soon.",
     report: "Report", narrative: "Narrative", procedure: "Procedure",
     personal: "Personal Experiences", descriptive: "Descriptive",
     reportHeader: "Grade 9 · English Class · Report",
@@ -414,6 +449,9 @@ const i18n = {
     englishClass: "Kelas Bahasa Inggris",
     back: "← Kembali",
     englishClassHeader: "Kelas 9 · Kelas Bahasa Inggris",
+    wordsBoxBtn: "📦 Kotak Kata",
+    wordsBoxHeader: "Kotak Kata",
+    wordsBoxComingSoon: "Konten segera hadir.",
     report: "Laporan", narrative: "Naratif", procedure: "Prosedur",
     personal: "Pengalaman Pribadi", descriptive: "Deskriptif",
     reportHeader: "Kelas 9 · Kelas Bahasa Inggris · Laporan",
@@ -619,10 +657,11 @@ const verbCategories = {
 };
 
 let currentListeningCategory = null;   // 'noun' word-list path
-let currentListeningMode = 'word';     // 'word' (Noun) | 'phrase' (Verb)
+let currentListeningMode = 'word';     // 'word' (Noun) | 'phrase' (Verb / Words Box)
 let currentListeningTargetEn = null;
 let currentListeningTargetId = null;   // Indonesian meaning, phrase mode only
 let currentVerbCategoryKey = null;
+let currentListeningLogLabel = '';     // label used in the Excel export for this check
 let listeningTestBackTarget = null;    // which screen "Back" returns to, from the test screen
 
 function categoryLabel(cat){
@@ -718,6 +757,7 @@ function openListeningWord(word){
   currentListeningMode = 'word';
   currentListeningTargetEn = word;
   currentListeningTargetId = null;
+  currentListeningLogLabel = `Listening — ${categoryLabel(currentListeningCategory)}`;
   listeningTestBackTarget = listeningWordListScreen;
   hideAllMenus();
   listeningTestScreen.classList.remove('hidden');
@@ -729,6 +769,7 @@ function openVerbItem(item){
   currentListeningMode = 'phrase';
   currentListeningTargetEn = item.en;
   currentListeningTargetId = item.id;
+  currentListeningLogLabel = `Listening — Verb: ${verbCategories[currentVerbCategoryKey].label}`;
   listeningTestBackTarget = verbCategoryScreen;
   hideAllMenus();
   listeningTestScreen.classList.remove('hidden');
@@ -879,12 +920,8 @@ function showListeningResult(said, candidatePhrases){
   }
   const passed = percent >= 70;
 
-  const modeLabelText = currentListeningMode === 'phrase'
-    ? `Listening — Verb: ${verbCategories[currentVerbCategoryKey].label}`
-    : `Listening — ${categoryLabel(currentListeningCategory)}`;
-
   logAttempt(
-    modeLabelText,
+    currentListeningLogLabel,
     currentListeningTargetEn,
     said,
     `${percent}% match — ${passed ? 'Pass' : 'Practice more'}`,
@@ -1053,6 +1090,9 @@ const gradeScreen = document.getElementById('gradeScreen');
 const grade7MenuScreen = document.getElementById('grade7MenuScreen');
 const grade9MenuScreen = document.getElementById('grade9MenuScreen');
 const englishClassMenuScreen = document.getElementById('englishClassMenuScreen');
+const wordsBoxMenuScreen = document.getElementById('wordsBoxMenuScreen');
+const wordsBoxChapterScreen = document.getElementById('wordsBoxChapterScreen');
+const wordsBoxUnitScreen = document.getElementById('wordsBoxUnitScreen');
 const reportMenuScreen = document.getElementById('reportMenuScreen');
 const readingScreen = document.getElementById('readingScreen');
 const readingSummaryScreen = document.getElementById('readingSummaryScreen');
@@ -1102,6 +1142,9 @@ function hideAllMenus(){
   grade7MenuScreen.classList.add('hidden');
   grade9MenuScreen.classList.add('hidden');
   englishClassMenuScreen.classList.add('hidden');
+  wordsBoxMenuScreen.classList.add('hidden');
+  wordsBoxChapterScreen.classList.add('hidden');
+  wordsBoxUnitScreen.classList.add('hidden');
   reportMenuScreen.classList.add('hidden');
   readingScreen.classList.add('hidden');
   readingSummaryScreen.classList.add('hidden');
@@ -1401,6 +1444,143 @@ document.getElementById('reportBackBtn').addEventListener('click', () => {
   reportMenuScreen.classList.add('hidden');
   englishClassMenuScreen.classList.remove('hidden');
 });
+
+// ---- Words Box: Chapter 1-5, each with Unit 1-3 (empty placeholders for now) ----
+document.getElementById('wordsBoxBtn').addEventListener('click', () => {
+  englishClassMenuScreen.classList.add('hidden');
+  wordsBoxMenuScreen.classList.remove('hidden');
+});
+document.getElementById('wordsBoxBackBtn').addEventListener('click', () => {
+  wordsBoxMenuScreen.classList.add('hidden');
+  englishClassMenuScreen.classList.remove('hidden');
+});
+
+let currentWordsBoxChapter = null;
+
+// Vocabulary content, keyed by chapter -> unit -> array of {en, id}.
+// Units with no entry here fall back to the "Content coming soon." placeholder.
+const wordsBoxContent = {
+  1: {
+    1: [
+      { en: "wildlife", id: "margasatwa" },
+      { en: "pardon", id: "maaf (mohon diulangi)" },
+      { en: "primate", id: "hewan primata" },
+      { en: "weight", id: "berat badan" },
+      { en: "height", id: "tinggi badan" },
+      { en: "tail", id: "ekor" },
+      { en: "interesting", id: "menarik" },
+      { en: "reddish-brown", id: "(berwarna) coklat kemerahan" },
+      { en: "scientific name", id: "nama ilmiah" },
+      { en: "mangrove", id: "hutan mangruf" },
+      { en: "rainforest", id: "hutan hujan tropis" },
+      { en: "specifically", id: "terutama" },
+      { en: "predator", id: "pemangsa" },
+      { en: "destruction", id: "perusakan" },
+      { en: "disappear", id: "menghilang; punah; hancur" },
+      { en: "endangered", id: "terancam punah" },
+      { en: "up to", id: "hingga" },
+      { en: "neck", id: "leher" },
+      { en: "intelligence", id: "kecerdasan" },
+      { en: "mammal", id: "hewan beranak, mamalia" },
+      { en: "bluish white", id: "putih kebiru-biruan" },
+      { en: "graying black", id: "hitam keabu-abuan" },
+      { en: "featherless patch", id: "kulit tak berbulu" },
+      { en: "bamboo shoots", id: "tunas bambu" }
+    ]
+  },
+  2: {
+    1: [
+      { en: "excursion", id: "karya wisata" },
+      { en: "important", id: "penting" },
+      { en: "scary", id: "menakutkan" },
+      { en: "excited", id: "bersemangat, senang, gembira" }
+    ],
+    2: [
+      { en: "north", id: "utara" },
+      { en: "thrilling", id: "mendebarkan, menggembirakan" },
+      { en: "to spend more time", id: "memiliki/menghabiskan waktu lebih banyak" },
+      { en: "coral reefs", id: "terumbu karang" },
+      { en: "reasonable price", id: "harga yang wajar" },
+      { en: "it takes longer", id: "memerlukan waktu yang lebih lama" },
+      { en: "hiked", id: "mendaki" },
+      { en: "realized", id: "menyadari (past verb)" },
+      { en: "landscape", id: "lanskap, pemandangan" },
+      { en: "peak", id: "puncak" },
+      { en: "treasure", id: "harta karun, kekayaan" },
+      { en: "hidden paradise", id: "surga yang tersembunyi" },
+      { en: "within walking distance", id: "dalam jarak dekat/dapat ditempuh dengan jalan kaki" },
+      { en: "underwater creatures", id: "hewan bawah laut" },
+      { en: "picked up", id: "jemput, menjemput" },
+      { en: "embarked", id: "memulai perjalanan" },
+      { en: "booked", id: "memesan (past verb)" },
+      { en: "reward", id: "hadiah, penghargaan" },
+      { en: "to surf", id: "berselancar" },
+      { en: "to stay overnight", id: "bermalam, menginap" }
+    ]
+  }
+};
+
+function openWordsBoxChapter(chapterNum){
+  currentWordsBoxChapter = chapterNum;
+  wordsBoxMenuScreen.classList.add('hidden');
+  wordsBoxChapterScreen.classList.remove('hidden');
+  document.getElementById('wordsBoxChapterHeader').textContent = `Chapter ${chapterNum}`;
+}
+[1, 2, 3, 4, 5].forEach(n => {
+  document.getElementById(`chapter${n}Btn`).addEventListener('click', () => openWordsBoxChapter(n));
+});
+document.getElementById('wordsBoxChapterBackBtn').addEventListener('click', () => {
+  wordsBoxChapterScreen.classList.add('hidden');
+  wordsBoxMenuScreen.classList.remove('hidden');
+});
+
+function openWordsBoxUnit(unitNum){
+  wordsBoxChapterScreen.classList.add('hidden');
+  wordsBoxUnitScreen.classList.remove('hidden');
+  document.getElementById('wordsBoxUnitHeader').textContent = `Chapter ${currentWordsBoxChapter} · Unit ${unitNum}`;
+
+  const placeholder = document.getElementById('wordsBoxUnitPlaceholder');
+  const listEl = document.getElementById('wordsBoxUnitWordList');
+  const words = wordsBoxContent[currentWordsBoxChapter] && wordsBoxContent[currentWordsBoxChapter][unitNum];
+
+  if (words && words.length > 0) {
+    placeholder.classList.add('hidden');
+    listEl.classList.remove('hidden');
+    listEl.innerHTML = '';
+    words.forEach(w => {
+      const row = document.createElement('div');
+      row.className = 'result-line';
+      row.innerHTML = `
+        <strong>${w.en}</strong>
+        <div class="said">${w.id}</div>
+      `;
+      const checkBtn = document.createElement('button');
+      checkBtn.className = 'secondary';
+      checkBtn.style.marginTop = '6px';
+      checkBtn.textContent = '🔊 Check pronunciation';
+      checkBtn.addEventListener('click', () => {
+        if (!('speechSynthesis' in window)) return;
+        const utter = new SpeechSynthesisUtterance(w.en);
+        utter.lang = 'en-US';
+        speechSynthesis.speak(utter);
+      });
+      row.appendChild(checkBtn);
+      listEl.appendChild(row);
+    });
+  } else {
+    placeholder.classList.remove('hidden');
+    listEl.classList.add('hidden');
+    listEl.innerHTML = '';
+  }
+}
+[1, 2, 3].forEach(n => {
+  document.getElementById(`unit${n}Btn`).addEventListener('click', () => openWordsBoxUnit(n));
+});
+document.getElementById('wordsBoxUnitBackBtn').addEventListener('click', () => {
+  wordsBoxUnitScreen.classList.add('hidden');
+  wordsBoxChapterScreen.classList.remove('hidden');
+});
+
 document.getElementById('reportNaturalBtn').addEventListener('click', () => startGrade('report'));
 document.getElementById('reportReadingBtn').addEventListener('click', () => {
   reportMenuScreen.classList.add('hidden');
