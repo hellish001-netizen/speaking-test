@@ -331,13 +331,21 @@
 <div id="englishClassMenuScreen" class="hidden">
   <div class="card">
     <div class="progress" data-i18n="englishClassHeader">Grade 9 · English Class</div>
+    <button id="naturalConversationBtn" data-i18n="naturalConversationBtn">💬 Natural Conversation</button>
+    <button id="wordsBoxBtn" class="secondary" style="margin-top:16px;" data-i18n="wordsBoxBtn">🇮🇩 English Nusantara 9</button>
+    <button id="englishClassBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="naturalConversationMenuScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="naturalConversationBtn">💬 Natural Conversation</div>
     <button id="reportBtn" data-i18n="report">Report</button>
     <button id="narrativeBtn" data-i18n="narrative">Narrative</button>
     <button id="procedureBtn" data-i18n="procedure">Procedure</button>
     <button id="personalBtn" data-i18n="personal">Personal Experiences</button>
     <button id="descriptiveBtn" data-i18n="descriptive">Descriptive</button>
-    <button id="wordsBoxBtn" class="secondary" style="margin-top:16px;" data-i18n="wordsBoxBtn">📦 Words Box</button>
-    <button id="englishClassBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+    <button id="naturalConversationBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -360,6 +368,24 @@
     <button id="unit2Btn">Unit 2</button>
     <button id="unit3Btn">Unit 3</button>
     <button id="wordsBoxChapterBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="ch1Unit1MenuScreen" class="hidden">
+  <div class="card">
+    <div class="progress">Chapter 1 · Unit 1</div>
+    <button id="section2Btn">Section 2 - Listening</button>
+    <button id="ch1Unit1WordsBoxBtn">📦 Words Box</button>
+    <button id="ch1Unit1BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="section2Screen" class="hidden">
+  <div class="card">
+    <div class="progress">Section 2 - Listening (This is Bekantan)</div>
+    <button id="section2PlayBtn" data-i18n="playDialogue">▶ Play Dialogue</button>
+    <div id="section2Script" style="margin-top:14px;font-size:0.98rem;line-height:1.8;"></div>
+    <button id="section2BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -452,8 +478,9 @@ const i18n = {
     englishClass: "English Class",
     back: "← Back",
     englishClassHeader: "Grade 9 · English Class",
-    wordsBoxBtn: "📦 Words Box",
-    wordsBoxHeader: "Words Box",
+    naturalConversationBtn: "💬 Natural Conversation",
+    wordsBoxBtn: "🇮🇩 English Nusantara 9",
+    wordsBoxHeader: "English Nusantara 9",
     wordsBoxComingSoon: "Content coming soon.",
     report: "Report", narrative: "Narrative", procedure: "Procedure",
     personal: "Personal Experiences", descriptive: "Descriptive",
@@ -522,8 +549,9 @@ const i18n = {
     englishClass: "Kelas Bahasa Inggris",
     back: "← Kembali",
     englishClassHeader: "Kelas 9 · Kelas Bahasa Inggris",
-    wordsBoxBtn: "📦 Kotak Kata",
-    wordsBoxHeader: "Kotak Kata",
+    naturalConversationBtn: "💬 Percakapan Alami",
+    wordsBoxBtn: "🇮🇩 English Nusantara 9",
+    wordsBoxHeader: "English Nusantara 9",
     wordsBoxComingSoon: "Konten segera hadir.",
     report: "Laporan", narrative: "Naratif", procedure: "Prosedur",
     personal: "Pengalaman Pribadi", descriptive: "Deskriptif",
@@ -1173,8 +1201,11 @@ const grade7DialogueMenuScreen = document.getElementById('grade7DialogueMenuScre
 const grade9MenuScreen = document.getElementById('grade9MenuScreen');
 const englishClassMenuScreen = document.getElementById('englishClassMenuScreen');
 const wordsBoxMenuScreen = document.getElementById('wordsBoxMenuScreen');
+const naturalConversationMenuScreen = document.getElementById('naturalConversationMenuScreen');
 const wordsBoxChapterScreen = document.getElementById('wordsBoxChapterScreen');
 const wordsBoxUnitScreen = document.getElementById('wordsBoxUnitScreen');
+const ch1Unit1MenuScreen = document.getElementById('ch1Unit1MenuScreen');
+const section2Screen = document.getElementById('section2Screen');
 const reportMenuScreen = document.getElementById('reportMenuScreen');
 const readingScreen = document.getElementById('readingScreen');
 const readingSummaryScreen = document.getElementById('readingSummaryScreen');
@@ -1229,8 +1260,11 @@ function hideAllMenus(){
   grade7DialogueMenuScreen.classList.add('hidden');
   grade9MenuScreen.classList.add('hidden');
   englishClassMenuScreen.classList.add('hidden');
+  naturalConversationMenuScreen.classList.add('hidden');
   wordsBoxMenuScreen.classList.add('hidden');
   wordsBoxChapterScreen.classList.add('hidden');
+  ch1Unit1MenuScreen.classList.add('hidden');
+  section2Screen.classList.add('hidden');
   wordsBoxUnitScreen.classList.add('hidden');
   reportMenuScreen.classList.add('hidden');
   readingScreen.classList.add('hidden');
@@ -1818,13 +1852,21 @@ document.getElementById('englishClassBackBtn').addEventListener('click', () => {
   englishClassMenuScreen.classList.add('hidden');
   grade9MenuScreen.classList.remove('hidden');
 });
-document.getElementById('reportBtn').addEventListener('click', () => {
+document.getElementById('naturalConversationBtn').addEventListener('click', () => {
   englishClassMenuScreen.classList.add('hidden');
+  naturalConversationMenuScreen.classList.remove('hidden');
+});
+document.getElementById('naturalConversationBackBtn').addEventListener('click', () => {
+  naturalConversationMenuScreen.classList.add('hidden');
+  englishClassMenuScreen.classList.remove('hidden');
+});
+document.getElementById('reportBtn').addEventListener('click', () => {
+  naturalConversationMenuScreen.classList.add('hidden');
   reportMenuScreen.classList.remove('hidden');
 });
 document.getElementById('reportBackBtn').addEventListener('click', () => {
   reportMenuScreen.classList.add('hidden');
-  englishClassMenuScreen.classList.remove('hidden');
+  naturalConversationMenuScreen.classList.remove('hidden');
 });
 
 // ---- Words Box: Chapter 1-5, each with Unit 1-3 (empty placeholders for now) ----
@@ -1916,14 +1958,14 @@ document.getElementById('wordsBoxChapterBackBtn').addEventListener('click', () =
   wordsBoxMenuScreen.classList.remove('hidden');
 });
 
-function openWordsBoxUnit(unitNum){
-  wordsBoxChapterScreen.classList.add('hidden');
-  wordsBoxUnitScreen.classList.remove('hidden');
-  document.getElementById('wordsBoxUnitHeader').textContent = `Chapter ${currentWordsBoxChapter} · Unit ${unitNum}`;
+let wordsBoxUnitBackTarget = null;
+
+function renderWordsBoxWordList(chapterNum, unitNum){
+  document.getElementById('wordsBoxUnitHeader').textContent = `Chapter ${chapterNum} · Unit ${unitNum}`;
 
   const placeholder = document.getElementById('wordsBoxUnitPlaceholder');
   const listEl = document.getElementById('wordsBoxUnitWordList');
-  const words = wordsBoxContent[currentWordsBoxChapter] && wordsBoxContent[currentWordsBoxChapter][unitNum];
+  const words = wordsBoxContent[chapterNum] && wordsBoxContent[chapterNum][unitNum];
 
   if (words && words.length > 0) {
     placeholder.classList.add('hidden');
@@ -1955,12 +1997,146 @@ function openWordsBoxUnit(unitNum){
     listEl.innerHTML = '';
   }
 }
+
+function openWordsBoxUnit(unitNum){
+  // Chapter 1, Unit 1 is special: it has its own Section 2 / Words Box submenu.
+  if (currentWordsBoxChapter === 1 && unitNum === 1) {
+    wordsBoxChapterScreen.classList.add('hidden');
+    ch1Unit1MenuScreen.classList.remove('hidden');
+    return;
+  }
+  wordsBoxChapterScreen.classList.add('hidden');
+  wordsBoxUnitScreen.classList.remove('hidden');
+  wordsBoxUnitBackTarget = wordsBoxChapterScreen;
+  renderWordsBoxWordList(currentWordsBoxChapter, unitNum);
+}
 [1, 2, 3].forEach(n => {
   document.getElementById(`unit${n}Btn`).addEventListener('click', () => openWordsBoxUnit(n));
 });
 document.getElementById('wordsBoxUnitBackBtn').addEventListener('click', () => {
   wordsBoxUnitScreen.classList.add('hidden');
+  (wordsBoxUnitBackTarget || wordsBoxChapterScreen).classList.remove('hidden');
+});
+
+// ---- Chapter 1, Unit 1: Section 2 - Listening / Words Box ----
+document.getElementById('ch1Unit1BackBtn').addEventListener('click', () => {
+  ch1Unit1MenuScreen.classList.add('hidden');
   wordsBoxChapterScreen.classList.remove('hidden');
+});
+document.getElementById('ch1Unit1WordsBoxBtn').addEventListener('click', () => {
+  ch1Unit1MenuScreen.classList.add('hidden');
+  wordsBoxUnitScreen.classList.remove('hidden');
+  wordsBoxUnitBackTarget = ch1Unit1MenuScreen;
+  renderWordsBoxWordList(1, 1);
+});
+
+// ---- Section 2 - Listening (This is Bekantan) ----
+const section2Dialogue = {
+  beforePause: [
+    { speaker: "Andre", line: "Monita, what are you reading?", id: "Monita, apa yang sedang kamu baca?" },
+    { speaker: "Monita", line: "Bekantan", id: "Bekantan" }
+  ],
+  afterPause: [
+    { speaker: "Monita", line: "I think I am going to talk about this primate Science project next week.", id: "Aku rasa aku akan membahas primata ini untuk proyek Sains minggu depan." },
+    { speaker: "Andre", line: "Cool, It is the reddish-brown monkey with a long and big nose, right?", id: "Keren, itu monyet berwarna coklat kemerahan dengan hidung yang panjang dan besar, kan?" },
+    { speaker: "Monita", line: "Yes. And Bekantan is quite big. Its weight is about 6-22 kilograms and its height is around 55 to 76 cm. Interestingly, its tail is almost as long as its body.", id: "Ya. Dan Bekantan cukup besar. Beratnya sekitar 6-22 kilogram dan tingginya sekitar 55 hingga 76 cm. Menariknya, ekornya hampir sepanjang tubuhnya." },
+    { speaker: "Andre", line: "What a tail! Hey, look. The book says Bekantan is a Proboscis monkey.", id: "Ekor yang luar biasa! Hei, lihat. Buku ini bilang Bekantan adalah Proboscis monkey." },
+    { speaker: "Monita", line: "Pardon?, what monkey?", id: "Maaf, monyet apa?" },
+    { speaker: "Andre", line: "Proboscis monkey. It means a long-nosed monkey.", id: "Proboscis monkey. Artinya monyet berhidung panjang." },
+    { speaker: "Monita", line: "Hmmm, an interesting name but hard to say.", id: "Hmm, nama yang menarik tapi sulit diucapkan." },
+    { speaker: "Andre", line: "It also has another name. Nasalis larvatus", id: "Itu juga punya nama lain. Nasalis larvatus." },
+    { speaker: "Monita", line: "Wait, I should take notes. Bekantan is a type of primate. Its common name is pro..", id: "Tunggu, aku harus mencatat. Bekantan adalah jenis primata. Nama umumnya adalah pro.." },
+    { speaker: "Andre", line: "Proboscis monkey", id: "Proboscis monkey" },
+    { speaker: "Monita", line: "Right, thanks. Proboscis monkey. And its scientific name is Nasalis larvatus.", id: "Benar, terima kasih. Proboscis monkey. Dan nama ilmiahnya adalah Nasalis larvatus." }
+  ]
+};
+
+function renderSection2Script(){
+  const fmt = (lines, prefix) => lines.map((l, i) => `
+    <div id="${prefix}-${i}" style="margin-bottom:8px;padding:4px 6px;border-radius:6px;transition:background-color 0.2s;">
+      <div><strong>${l.speaker}:</strong> ${l.line}</div>
+      <div style="padding-left:18px;color:#5a6472;font-size:0.88rem;font-style:italic;">(${l.id})</div>
+    </div>
+  `).join('');
+  document.getElementById('section2Script').innerHTML = `
+    ${fmt(section2Dialogue.beforePause, 's2a')}
+    <div class="hint" style="margin:10px 0;text-align:center;">(PAUSE FOR A MOMENT)</div>
+    ${fmt(section2Dialogue.afterPause, 's2b')}
+  `;
+}
+
+document.getElementById('section2Btn').addEventListener('click', () => {
+  ch1Unit1MenuScreen.classList.add('hidden');
+  section2Screen.classList.remove('hidden');
+  renderSection2Script();
+});
+document.getElementById('section2BackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  clearSection2Highlight();
+  section2Screen.classList.add('hidden');
+  ch1Unit1MenuScreen.classList.remove('hidden');
+});
+
+let section2ActiveLineEl = null;
+function clearSection2Highlight(){
+  if (section2ActiveLineEl) {
+    section2ActiveLineEl.style.backgroundColor = '';
+    section2ActiveLineEl = null;
+  }
+}
+function highlightSection2Line(domId){
+  clearSection2Highlight();
+  const el = document.getElementById(domId);
+  if (el) {
+    el.style.backgroundColor = 'var(--go-bg)';
+    section2ActiveLineEl = el;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function pickVoicesForSection2Speakers(){
+  const voices = ('speechSynthesis' in window) ? speechSynthesis.getVoices() : [];
+  const enVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+  const speakers = ['Andre', 'Monita'];
+  const map = {};
+  speakers.forEach((name, i) => {
+    map[name] = enVoices.length > 0 ? enVoices[i % enVoices.length] : null;
+  });
+  return map;
+}
+
+document.getElementById('section2PlayBtn').addEventListener('click', () => {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+
+  const pitchBySpeaker = { Andre: 1.0, Monita: 0.85 };
+  const voiceBySpeaker = pickVoicesForSection2Speakers();
+  const allLines = section2Dialogue.beforePause.map((l, i) => ({
+    ...l,
+    domId: `s2a-${i}`,
+    pauseAfter: i === section2Dialogue.beforePause.length - 1
+  })).concat(section2Dialogue.afterPause.map((l, i) => ({ ...l, domId: `s2b-${i}` })));
+
+  let idx = 0;
+  function playNext(){
+    if (idx >= allLines.length) { clearSection2Highlight(); return; }
+    const item = allLines[idx];
+    const utter = new SpeechSynthesisUtterance(item.line);
+    utter.lang = 'en-US';
+    utter.pitch = pitchBySpeaker[item.speaker] || 1.0;
+    if (voiceBySpeaker[item.speaker]) utter.voice = voiceBySpeaker[item.speaker];
+    utter.onstart = () => highlightSection2Line(item.domId);
+    utter.onend = () => {
+      idx++;
+      if (item.pauseAfter) {
+        setTimeout(playNext, 2000);
+      } else {
+        playNext();
+      }
+    };
+    speechSynthesis.speak(utter);
+  }
+  playNext();
 });
 
 document.getElementById('reportNaturalBtn').addEventListener('click', () => startGrade('report'));
