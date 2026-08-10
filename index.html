@@ -251,22 +251,79 @@
 <div id="grade7MenuScreen" class="hidden">
   <div class="card">
     <div class="progress" data-i18n="grade7Header">Grade 7</div>
-    <button id="englishNusantaraBtn" data-i18n="englishNusantaraBtn">🇮🇩 English Nusantara</button>
+    <button id="englishNusantaraBtn" data-i18n="englishNusantaraBtn">Chapter 1 About Me</button>
     <button id="grade7BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
 <div id="englishNusantaraScreen" class="hidden">
   <div class="card">
-    <div class="progress" data-i18n="englishNusantaraBtn">🇮🇩 English Nusantara</div>
-    <button id="section6Btn" data-i18n="section6Btn">Section 6 - Listening (a)</button>
+    <div class="progress" data-i18n="englishNusantaraBtn">Chapter 1 About Me</div>
+    <button id="g7Unit1Btn">Unit 1</button>
+    <button id="g7Unit2Btn">Unit 2</button>
     <button id="englishNusantaraBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="g7Unit1Screen" class="hidden">
+  <div class="card">
+    <div class="progress">Chapter 1 About Me · Unit 1</div>
+    <button id="section6Btn" data-i18n="section6Btn">Before Class</button>
+    <button id="atRecessBtn">At Recess</button>
+    <button id="g7Unit1BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="g7Unit2Screen" class="hidden">
+  <div class="card">
+    <div class="progress">Chapter 1 About Me · Unit 2</div>
+    <div class="status idle" data-i18n="wordsBoxComingSoon">Content coming soon.</div>
+    <button id="g7Unit2BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="atRecessScreen" class="hidden">
+  <div class="card">
+    <div class="progress">At Recess</div>
+    <button id="atRecessPlayBtn" data-i18n="playDialogue">▶ Play Dialogue</button>
+    <div id="atRecessScript" style="margin-top:14px;font-size:0.98rem;line-height:1.8;"></div>
+    <button id="atRecessQuizBtn" class="secondary" style="margin-top:14px;">📝 Comprehension Quiz</button>
+    <button id="atRecessBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="atRecessQuizScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="atRecessQuizProgress">Question 1 of 8</div>
+    <div class="hint" id="atRecessQuizLevel" style="margin-bottom:6px;"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+      <div class="dialogue" id="atRecessQuizQuestion" style="flex:1;margin-bottom:0;"></div>
+      <div style="display:flex;gap:6px;flex-shrink:0;">
+        <button id="atRecessQuizReplayBtn" class="icon-btn" title="Replay question">🔊</button>
+        <button id="atRecessQuizHintBtn" class="icon-btn" title="Show hint">🇮🇩</button>
+      </div>
+    </div>
+    <div id="atRecessQuizHintText" class="hidden" style="padding-left:2px;color:#5a6472;font-size:0.9rem;font-style:italic;margin-top:4px;"></div>
+    <div id="atRecessQuizOptions" style="margin-top:12px;"></div>
+    <div class="status idle hidden" id="atRecessQuizFeedback" style="margin-top:12px;"></div>
+    <button id="atRecessQuizNextBtn" class="secondary hidden" style="margin-top:14px;">Next →</button>
+    <button id="atRecessQuizBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="atRecessQuizResultScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="results">Results</div>
+    <div class="score" id="atRecessQuizScore"></div>
+    <div id="atRecessQuizReview"></div>
+    <button id="atRecessQuizTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="atRecessQuizContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
   </div>
 </div>
 
 <div id="section6Screen" class="hidden">
   <div class="card">
-    <div class="progress" data-i18n="section6Btn">Section 6 - Listening (a)</div>
+    <div class="progress" data-i18n="section6Btn">Before Class</div>
     <button id="section6PlayBtn" data-i18n="playDialogue">▶ Play Dialogue</button>
     <div id="section6Script" style="margin-top:14px;font-size:0.98rem;line-height:1.8;"></div>
     <button id="section6QuizBtn" class="secondary" style="margin-top:14px;">📝 Comprehension Quiz</button>
@@ -519,9 +576,9 @@ const i18n = {
     changeStudent: "🔄 Change Student",
     studentLabel: (name) => `Student: ${name}`,
     grade7Header: "Grade 7",
-    englishNusantaraBtn: "🇮🇩 English Nusantara",
+    englishNusantaraBtn: "Chapter 1 About Me",
     dialogueBtn: "💬 Dialogue",
-    section6Btn: "Section 6 - Listening (a)",
+    section6Btn: "Before Class",
     playDialogue: "▶ Play Dialogue",
     g7Greetings: "Greetings and Parting",
     g7Introduction: "Introduction",
@@ -590,9 +647,9 @@ const i18n = {
     changeStudent: "🔄 Ganti Siswa",
     studentLabel: (name) => `Siswa: ${name}`,
     grade7Header: "Kelas 7",
-    englishNusantaraBtn: "🇮🇩 English Nusantara",
+    englishNusantaraBtn: "Chapter 1 About Me",
     dialogueBtn: "💬 Dialog",
-    section6Btn: "Section 6 - Listening (a)",
+    section6Btn: "Before Class",
     playDialogue: "▶ Putar Dialog",
     g7Greetings: "Salam dan Perpisahan",
     g7Introduction: "Perkenalan",
@@ -1185,7 +1242,12 @@ const gradeScreen = document.getElementById('gradeScreen');
 const grade8Screen = document.getElementById('grade8Screen');
 const grade7MenuScreen = document.getElementById('grade7MenuScreen');
 const englishNusantaraScreen = document.getElementById('englishNusantaraScreen');
+const g7Unit1Screen = document.getElementById('g7Unit1Screen');
+const g7Unit2Screen = document.getElementById('g7Unit2Screen');
 const section6Screen = document.getElementById('section6Screen');
+const atRecessScreen = document.getElementById('atRecessScreen');
+const atRecessQuizScreen = document.getElementById('atRecessQuizScreen');
+const atRecessQuizResultScreen = document.getElementById('atRecessQuizResultScreen');
 const section6QuizScreen = document.getElementById('section6QuizScreen');
 const section6QuizResultScreen = document.getElementById('section6QuizResultScreen');
 const grade7DialogueMenuScreen = document.getElementById('grade7DialogueMenuScreen');
@@ -1243,7 +1305,12 @@ function hideAllMenus(){
   grade8Screen.classList.add('hidden');
   grade7MenuScreen.classList.add('hidden');
   englishNusantaraScreen.classList.add('hidden');
+  g7Unit1Screen.classList.add('hidden');
+  g7Unit2Screen.classList.add('hidden');
   section6Screen.classList.add('hidden');
+  atRecessScreen.classList.add('hidden');
+  atRecessQuizScreen.classList.add('hidden');
+  atRecessQuizResultScreen.classList.add('hidden');
   section6QuizScreen.classList.add('hidden');
   section6QuizResultScreen.classList.add('hidden');
   grade7DialogueMenuScreen.classList.add('hidden');
@@ -1286,6 +1353,22 @@ document.getElementById('englishNusantaraBackBtn').addEventListener('click', () 
   englishNusantaraScreen.classList.add('hidden');
   grade7MenuScreen.classList.remove('hidden');
 });
+document.getElementById('g7Unit1Btn').addEventListener('click', () => {
+  englishNusantaraScreen.classList.add('hidden');
+  g7Unit1Screen.classList.remove('hidden');
+});
+document.getElementById('g7Unit1BackBtn').addEventListener('click', () => {
+  g7Unit1Screen.classList.add('hidden');
+  englishNusantaraScreen.classList.remove('hidden');
+});
+document.getElementById('g7Unit2Btn').addEventListener('click', () => {
+  englishNusantaraScreen.classList.add('hidden');
+  g7Unit2Screen.classList.remove('hidden');
+});
+document.getElementById('g7Unit2BackBtn').addEventListener('click', () => {
+  g7Unit2Screen.classList.add('hidden');
+  englishNusantaraScreen.classList.remove('hidden');
+});
 
 // ---- Section 6 - Listening (a): multi-speaker dialogue, played sequentially with a pause between parts ----
 const section6Dialogue = {
@@ -1327,15 +1410,26 @@ function renderSection6Script(){
 }
 
 document.getElementById('section6Btn').addEventListener('click', () => {
-  englishNusantaraScreen.classList.add('hidden');
+  g7Unit1Screen.classList.add('hidden');
   section6Screen.classList.remove('hidden');
   renderSection6Script();
+});
+document.getElementById('atRecessBtn').addEventListener('click', () => {
+  g7Unit1Screen.classList.add('hidden');
+  atRecessScreen.classList.remove('hidden');
+  renderAtRecessScript();
+});
+document.getElementById('atRecessBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  clearAtRecessHighlight();
+  atRecessScreen.classList.add('hidden');
+  g7Unit1Screen.classList.remove('hidden');
 });
 document.getElementById('section6BackBtn').addEventListener('click', () => {
   if ('speechSynthesis' in window) speechSynthesis.cancel();
   clearSection6Highlight();
   section6Screen.classList.add('hidden');
-  englishNusantaraScreen.classList.remove('hidden');
+  g7Unit1Screen.classList.remove('hidden');
 });
 
 let section6ActiveLineEl = null;
@@ -1401,6 +1495,259 @@ document.getElementById('section6PlayBtn').addEventListener('click', () => {
     speechSynthesis.speak(utter);
   }
   playNext();
+});
+
+// ---- At Recess ----
+const atRecessDialogue = {
+  beforePause: [
+    { speaker: "Galang", line: "Hi. Are you enjoying the first day of school?", id: "Hai. Apakah kamu menikmati hari pertama sekolah?" },
+    { speaker: "Andre", line: "Well, yes, it's great.", id: "Yah, iya, ini keren." },
+    { speaker: "Galang", line: "By the way, I am Galang. What's your name?", id: "Ngomong-ngomong, aku Galang. Siapa namamu?" },
+    { speaker: "Andre", line: "I'm Andre.", id: "Aku Andre." },
+    { speaker: "Galang", line: "Where do you live?", id: "Kamu tinggal di mana?" },
+    { speaker: "Andre", line: "I live on Jalan Begawan. How old are you?", id: "Aku tinggal di Jalan Begawan. Berapa umurmu?" },
+    { speaker: "Galang", line: "I am 13 years old.", id: "Aku berumur 13 tahun." },
+    { speaker: "Andre", line: "Oh, I am 13 years old too.", id: "Oh, aku juga berumur 13 tahun." }
+  ],
+  afterPause: [
+    { speaker: "Galang", line: "You know, I like school. But, I cannot wait to go home.", id: "Kamu tahu, aku suka sekolah. Tapi, aku tidak sabar untuk pulang." },
+    { speaker: "Andre", line: "Why?", id: "Kenapa?" },
+    { speaker: "Galang", line: "I want to go fishing. It's my hobby.", id: "Aku ingin memancing. Itu hobiku." },
+    { speaker: "Andre", line: "That sounds fun", id: "Kedengarannya seru" },
+    { speaker: "Galang", line: "What's your hobby, Andre.", id: "Apa hobimu, Andre?" },
+    { speaker: "Andre", line: "I like mobile gaming", id: "Aku suka bermain gim di ponsel" },
+    { speaker: "Galang", line: "Oh, I like it too.", id: "Oh, aku juga suka itu." },
+    { speaker: "Andre", line: "Maybe, we can play together.", id: "Mungkin, kita bisa bermain bersama." },
+    { speaker: "Galang", line: "Sure! Can I come to your house", id: "Tentu! Bolehkah aku datang ke rumahmu?" },
+    { speaker: "Andre", line: "Yes. We can play with my siblings, too.", id: "Ya. Kita juga bisa bermain dengan saudara-saudaraku." },
+    { speaker: "Galang", line: "How many sisters or brothers do you have?", id: "Berapa banyak saudara perempuan atau laki-laki yang kamu punya?" },
+    { speaker: "Andre", line: "I have one sister and one brother.", id: "Aku punya satu saudara perempuan dan satu saudara laki-laki." }
+  ]
+};
+
+function renderAtRecessScript(){
+  const fmt = (lines, prefix) => lines.map((l, i) => `
+    <div id="${prefix}-${i}" style="margin-bottom:8px;padding:4px 6px;border-radius:6px;transition:background-color 0.2s;">
+      <div><strong>${l.speaker}:</strong> ${l.line}</div>
+      <div style="padding-left:18px;color:#5a6472;font-size:0.88rem;font-style:italic;">(${l.id})</div>
+    </div>
+  `).join('');
+  document.getElementById('atRecessScript').innerHTML = `
+    ${fmt(atRecessDialogue.beforePause, 'ar1')}
+    <div class="hint" style="margin:10px 0;text-align:center;">(A FEW MOMENTS LATER)</div>
+    ${fmt(atRecessDialogue.afterPause, 'ar2')}
+  `;
+}
+
+let atRecessActiveLineEl = null;
+function clearAtRecessHighlight(){
+  if (atRecessActiveLineEl) {
+    atRecessActiveLineEl.style.backgroundColor = '';
+    atRecessActiveLineEl = null;
+  }
+}
+function highlightAtRecessLine(domId){
+  clearAtRecessHighlight();
+  const el = document.getElementById(domId);
+  if (el) {
+    el.style.backgroundColor = 'var(--go-bg)';
+    atRecessActiveLineEl = el;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function pickVoicesForAtRecessSpeakers(){
+  const voices = ('speechSynthesis' in window) ? speechSynthesis.getVoices() : [];
+  const enVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+  const speakers = ['Galang', 'Andre'];
+  const map = {};
+  speakers.forEach((name, i) => {
+    map[name] = enVoices.length > 0 ? enVoices[i % enVoices.length] : null;
+  });
+  return map;
+}
+
+document.getElementById('atRecessPlayBtn').addEventListener('click', () => {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+
+  const pitchBySpeaker = { Galang: 1.15, Andre: 1.0 };
+  const voiceBySpeaker = pickVoicesForAtRecessSpeakers();
+  const allLines = atRecessDialogue.beforePause.map((l, i) => ({
+    ...l,
+    domId: `ar1-${i}`,
+    pauseAfter: i === atRecessDialogue.beforePause.length - 1
+  })).concat(atRecessDialogue.afterPause.map((l, i) => ({ ...l, domId: `ar2-${i}` })));
+
+  let idx = 0;
+  function playNext(){
+    if (idx >= allLines.length) { clearAtRecessHighlight(); return; }
+    const item = allLines[idx];
+    const utter = new SpeechSynthesisUtterance(item.line);
+    utter.lang = 'en-US';
+    utter.pitch = pitchBySpeaker[item.speaker] || 1.0;
+    if (voiceBySpeaker[item.speaker]) utter.voice = voiceBySpeaker[item.speaker];
+    utter.onstart = () => highlightAtRecessLine(item.domId);
+    utter.onend = () => {
+      idx++;
+      if (item.pauseAfter) {
+        setTimeout(playNext, 2000);
+      } else {
+        playNext();
+      }
+    };
+    speechSynthesis.speak(utter);
+  }
+  playNext();
+});
+
+// ---- At Recess comprehension quiz (LOTS: Remember / Understand / Apply) ----
+const atRecessQuiz = [
+  { level: "Remember", q: "What is Andre's friend's name?", id: "Siapa nama teman Andre?", options: ["Budi", "Galang", "Monita", "Andre"], correct: 1 },
+  { level: "Remember", q: "Where does Andre live?", id: "Di mana Andre tinggal?", options: ["Jalan Begawan", "Jalan Merdeka", "Banjarmasin", "Jalan Sudirman"], correct: 0 },
+  { level: "Remember", q: "How old are Galang and Andre?", id: "Berapa umur Galang dan Andre?", options: ["12", "13", "14", "15"], correct: 1 },
+  { level: "Understand", q: "Why does Galang say he \u201ccannot wait to go home\u201d?", id: "Mengapa Galang berkata dia \u201ctidak sabar untuk pulang\u201d?", options: ["He is bored at school", "He wants to go fishing", "He is sick", "He forgot his bag"], correct: 1 },
+  { level: "Understand", q: "What do Galang and Andre both discover they have in common regarding hobbies?", id: "Apa kesamaan hobi yang ditemukan Galang dan Andre?", options: ["They both like fishing", "They both like mobile gaming", "They both like manga", "They both like swimming"], correct: 1 },
+  { level: "Understand", q: "How many siblings does Andre have?", id: "Berapa banyak saudara yang dimiliki Andre?", options: ["Just one sister", "Just one brother", "One sister and one brother", "No siblings"], correct: 2 },
+  { level: "Apply", q: "Based on the dialogue, what do Galang and Andre plan to do together?", id: "Berdasarkan dialog, apa yang direncanakan Galang dan Andre untuk dilakukan bersama?", options: ["Go fishing together", "Play mobile games at Andre's house", "Study together", "Go to the library"], correct: 1 },
+  { level: "Apply", q: "If Galang wants to be a good friend to Andre on his first day, what did Galang do well in this dialogue?", id: "Jika Galang ingin menjadi teman yang baik bagi Andre di hari pertamanya, apa yang dilakukan Galang dengan baik dalam dialog ini?", options: ["Ignored Andre", "Introduced himself and asked friendly questions", "Made fun of Andre", "Left immediately"], correct: 1 }
+];
+
+let atRecessQuizIndex = 0;
+let atRecessQuizScoreCount = 0;
+let atRecessQuizAnswers = [];
+let currentAtRecessQuiz = [];
+
+function buildShuffledAtRecessQuiz(){
+  return shuffleArray(atRecessQuiz).map(q => {
+    const optionObjs = q.options.map((opt, i) => ({ text: opt, isCorrect: i === q.correct }));
+    const shuffledOptions = shuffleArray(optionObjs);
+    return {
+      level: q.level,
+      q: q.q,
+      id: q.id,
+      options: shuffledOptions.map(o => o.text),
+      correct: shuffledOptions.findIndex(o => o.isCorrect)
+    };
+  });
+}
+
+document.getElementById('atRecessQuizBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  atRecessScreen.classList.add('hidden');
+  atRecessQuizScreen.classList.remove('hidden');
+  currentAtRecessQuiz = buildShuffledAtRecessQuiz();
+  atRecessQuizIndex = 0;
+  atRecessQuizScoreCount = 0;
+  atRecessQuizAnswers = [];
+  renderAtRecessQuizQuestion();
+});
+
+function playAtRecessQuizQuestionAudio(){
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const item = currentAtRecessQuiz[atRecessQuizIndex];
+  const utter = new SpeechSynthesisUtterance(item.q);
+  utter.lang = 'en-US';
+  speechSynthesis.speak(utter);
+}
+
+function renderAtRecessQuizQuestion(){
+  const item = currentAtRecessQuiz[atRecessQuizIndex];
+  document.getElementById('atRecessQuizProgress').textContent = `Question ${atRecessQuizIndex + 1} of ${currentAtRecessQuiz.length}`;
+  document.getElementById('atRecessQuizLevel').textContent = item.level;
+  document.getElementById('atRecessQuizQuestion').textContent = item.q;
+
+  const hintText = document.getElementById('atRecessQuizHintText');
+  hintText.classList.add('hidden');
+  hintText.textContent = item.id;
+
+  const optionsEl = document.getElementById('atRecessQuizOptions');
+  optionsEl.innerHTML = '';
+  item.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'secondary';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => answerAtRecessQuiz(i));
+    optionsEl.appendChild(btn);
+  });
+
+  const feedback = document.getElementById('atRecessQuizFeedback');
+  feedback.classList.add('hidden');
+  document.getElementById('atRecessQuizNextBtn').classList.add('hidden');
+
+  playAtRecessQuizQuestionAudio();
+}
+
+document.getElementById('atRecessQuizReplayBtn').addEventListener('click', playAtRecessQuizQuestionAudio);
+document.getElementById('atRecessQuizHintBtn').addEventListener('click', () => {
+  document.getElementById('atRecessQuizHintText').classList.toggle('hidden');
+});
+
+function answerAtRecessQuiz(selectedIndex){
+  const item = currentAtRecessQuiz[atRecessQuizIndex];
+  const correct = selectedIndex === item.correct;
+  if (correct) atRecessQuizScoreCount++;
+  atRecessQuizAnswers.push({
+    q: item.q,
+    correct: correct,
+    chosen: item.options[selectedIndex],
+    correctAnswer: item.options[item.correct]
+  });
+
+  document.querySelectorAll('#atRecessQuizOptions button').forEach(b => b.disabled = true);
+
+  const feedback = document.getElementById('atRecessQuizFeedback');
+  feedback.classList.remove('hidden');
+  feedback.className = 'status ' + (correct ? 'ok' : 'err');
+  feedback.textContent = correct ? 'Correct!' : `Not quite — the correct answer is "${item.options[item.correct]}".`;
+
+  document.getElementById('atRecessQuizNextBtn').classList.remove('hidden');
+}
+
+document.getElementById('atRecessQuizNextBtn').addEventListener('click', () => {
+  atRecessQuizIndex++;
+  if (atRecessQuizIndex >= currentAtRecessQuiz.length) {
+    showAtRecessQuizResults();
+  } else {
+    renderAtRecessQuizQuestion();
+  }
+});
+
+function showAtRecessQuizResults(){
+  atRecessQuizScreen.classList.add('hidden');
+  atRecessQuizResultScreen.classList.remove('hidden');
+  document.getElementById('atRecessQuizScore').textContent = `${atRecessQuizScoreCount} / ${currentAtRecessQuiz.length} correct`;
+
+  logAttempt('At Recess — Comprehension Quiz', 'Galang/Andre dialogue', '', `${atRecessQuizScoreCount}/${currentAtRecessQuiz.length}`, '');
+
+  const reviewEl = document.getElementById('atRecessQuizReview');
+  reviewEl.innerHTML = atRecessQuizAnswers.map(a => `
+    <div class="result-line">
+      <div>${a.q}</div>
+      <div class="said">Your answer: ${a.chosen}${a.correct ? '' : ' — Correct: ' + a.correctAnswer}</div>
+      <span class="tag ${a.correct ? 'ok' : 'warn'}">${a.correct ? 'CORRECT' : 'INCORRECT'}</span>
+    </div>
+  `).join('');
+}
+
+document.getElementById('atRecessQuizTryAgainBtn').addEventListener('click', () => {
+  atRecessQuizResultScreen.classList.add('hidden');
+  atRecessQuizScreen.classList.remove('hidden');
+  currentAtRecessQuiz = buildShuffledAtRecessQuiz();
+  atRecessQuizIndex = 0;
+  atRecessQuizScoreCount = 0;
+  atRecessQuizAnswers = [];
+  renderAtRecessQuizQuestion();
+});
+document.getElementById('atRecessQuizContinueBtn').addEventListener('click', () => {
+  atRecessQuizResultScreen.classList.add('hidden');
+  atRecessScreen.classList.remove('hidden');
+});
+document.getElementById('atRecessQuizBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  atRecessQuizScreen.classList.add('hidden');
+  atRecessScreen.classList.remove('hidden');
 });
 
 // ---- Section 6 comprehension quiz (LOTS: Remember / Understand / Apply) ----
