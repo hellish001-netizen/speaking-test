@@ -228,12 +228,38 @@
 <div id="grade7MenuScreen" class="hidden">
   <div class="card">
     <div class="progress" data-i18n="grade7Header">Grade 7</div>
+    <button id="englishNusantaraBtn" data-i18n="englishNusantaraBtn">🇮🇩 English Nusantara</button>
+    <button id="grade7DialogueBtn" data-i18n="dialogueBtn">💬 Dialogue</button>
+    <button id="grade7BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="englishNusantaraScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="englishNusantaraBtn">🇮🇩 English Nusantara</div>
+    <button id="section6Btn" data-i18n="section6Btn">Section 6 - Listening (a)</button>
+    <button id="englishNusantaraBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="section6Screen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="section6Btn">Section 6 - Listening (a)</div>
+    <button id="section6PlayBtn" data-i18n="playDialogue">▶ Play Dialogue</button>
+    <div id="section6Script" style="margin-top:14px;font-size:0.98rem;line-height:1.8;"></div>
+    <button id="section6BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="grade7DialogueMenuScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="dialogueBtn">💬 Dialogue</div>
     <button id="g7GreetingsBtn" data-i18n="g7Greetings">Greetings and Parting</button>
     <button id="g7IntroductionBtn" data-i18n="g7Introduction">Introduction</button>
     <button id="g7GratitudeBtn" data-i18n="g7Gratitude">Expressing Gratitude and Apology</button>
     <button id="g7InformationBtn" data-i18n="g7Information">Asking for Information</button>
     <button id="g7DirectionBtn" data-i18n="g7Direction">Asking for Direction</button>
-    <button id="grade7BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+    <button id="grade7DialogueBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -421,6 +447,10 @@ const i18n = {
     changeStudent: "🔄 Change Student",
     studentLabel: (name) => `Student: ${name}`,
     grade7Header: "Grade 7",
+    englishNusantaraBtn: "🇮🇩 English Nusantara",
+    dialogueBtn: "💬 Dialogue",
+    section6Btn: "Section 6 - Listening (a)",
+    playDialogue: "▶ Play Dialogue",
     g7Greetings: "Greetings and Parting",
     g7Introduction: "Introduction",
     g7Gratitude: "Expressing Gratitude and Apology",
@@ -487,6 +517,10 @@ const i18n = {
     changeStudent: "🔄 Ganti Siswa",
     studentLabel: (name) => `Siswa: ${name}`,
     grade7Header: "Kelas 7",
+    englishNusantaraBtn: "🇮🇩 English Nusantara",
+    dialogueBtn: "💬 Dialog",
+    section6Btn: "Section 6 - Listening (a)",
+    playDialogue: "▶ Putar Dialog",
     g7Greetings: "Salam dan Perpisahan",
     g7Introduction: "Perkenalan",
     g7Gratitude: "Ungkapan Terima Kasih dan Maaf",
@@ -1088,6 +1122,9 @@ let selectedGrade = null;
 
 const gradeScreen = document.getElementById('gradeScreen');
 const grade7MenuScreen = document.getElementById('grade7MenuScreen');
+const englishNusantaraScreen = document.getElementById('englishNusantaraScreen');
+const section6Screen = document.getElementById('section6Screen');
+const grade7DialogueMenuScreen = document.getElementById('grade7DialogueMenuScreen');
 const grade9MenuScreen = document.getElementById('grade9MenuScreen');
 const englishClassMenuScreen = document.getElementById('englishClassMenuScreen');
 const wordsBoxMenuScreen = document.getElementById('wordsBoxMenuScreen');
@@ -1140,6 +1177,9 @@ function hideAllMenus(){
   listeningTestScreen.classList.add('hidden');
   gradeScreen.classList.add('hidden');
   grade7MenuScreen.classList.add('hidden');
+  englishNusantaraScreen.classList.add('hidden');
+  section6Screen.classList.add('hidden');
+  grade7DialogueMenuScreen.classList.add('hidden');
   grade9MenuScreen.classList.add('hidden');
   englishClassMenuScreen.classList.add('hidden');
   wordsBoxMenuScreen.classList.add('hidden');
@@ -1168,6 +1208,98 @@ document.getElementById('grade7Btn').addEventListener('click', () => {
 document.getElementById('grade7BackBtn').addEventListener('click', () => {
   grade7MenuScreen.classList.add('hidden');
   gradeScreen.classList.remove('hidden');
+});
+document.getElementById('englishNusantaraBtn').addEventListener('click', () => {
+  grade7MenuScreen.classList.add('hidden');
+  englishNusantaraScreen.classList.remove('hidden');
+});
+document.getElementById('englishNusantaraBackBtn').addEventListener('click', () => {
+  englishNusantaraScreen.classList.add('hidden');
+  grade7MenuScreen.classList.remove('hidden');
+});
+
+// ---- Section 6 - Listening (a): multi-speaker dialogue, played sequentially with a pause between parts ----
+const section6Dialogue = {
+  part1: [
+    { speaker: "A", line: "Hi Galang, How are you?" },
+    { speaker: "B", line: "Fine, Thanks. How about you?" },
+    { speaker: "A", line: "Yeah, I'm OK.." },
+    { speaker: "A", line: "....By the way, this is Monita" },
+    { speaker: "B", line: "Hi, Monita, Nice to meet you." },
+    { speaker: "C", line: "Nice to meet you too, Galang" },
+    { speaker: "A", line: "Monita is our classmate. Today is her first day at school" },
+    { speaker: "B", line: "Oh, I see" }
+  ],
+  part2: [
+    { speaker: "A", line: "Monita likes playing mobile games, too." },
+    { speaker: "C", line: "And, I also like drawing manga." },
+    { speaker: "B", line: "Cool. I love manga. But, I can not draw." },
+    { speaker: "A", line: "You know, we can play mobile games together." },
+    { speaker: "B", line: "The more, the merrier." },
+    { speaker: "C", line: "Right! By the way, I've got to find my seat. See you later." }
+  ]
+};
+
+function renderSection6Script(){
+  const fmt = (lines) => lines.map(l => `<div><strong>${l.speaker}:</strong> ${l.line}</div>`).join('');
+  document.getElementById('section6Script').innerHTML = `
+    <div class="dialogue" style="margin-bottom:6px;"><em>Before Class</em></div>
+    <div class="dialogue" style="margin-bottom:6px;"><em>Part 1...</em></div>
+    ${fmt(section6Dialogue.part1)}
+    <div class="hint" style="margin:10px 0;text-align:center;">(PAUSE FOR A MOMENT)</div>
+    <div class="dialogue" style="margin-bottom:6px;"><em>Part 2...</em></div>
+    ${fmt(section6Dialogue.part2)}
+  `;
+}
+
+document.getElementById('section6Btn').addEventListener('click', () => {
+  englishNusantaraScreen.classList.add('hidden');
+  section6Screen.classList.remove('hidden');
+  renderSection6Script();
+});
+document.getElementById('section6BackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  section6Screen.classList.add('hidden');
+  englishNusantaraScreen.classList.remove('hidden');
+});
+
+document.getElementById('section6PlayBtn').addEventListener('click', () => {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+
+  const pitchBySpeaker = { A: 1.0, B: 1.3, C: 0.75 };
+  const allLines = section6Dialogue.part1.map((l, i) => ({
+    ...l,
+    pauseAfter: i === section6Dialogue.part1.length - 1
+  })).concat(section6Dialogue.part2);
+
+  let idx = 0;
+  function playNext(){
+    if (idx >= allLines.length) return;
+    const item = allLines[idx];
+    const utter = new SpeechSynthesisUtterance(item.line);
+    utter.lang = 'en-US';
+    utter.pitch = pitchBySpeaker[item.speaker] || 1.0;
+    utter.onend = () => {
+      idx++;
+      if (item.pauseAfter) {
+        setTimeout(playNext, 2000); // simulate "(PAUSE FOR A MOMENT)"
+      } else {
+        playNext();
+      }
+    };
+    speechSynthesis.speak(utter);
+  }
+  playNext();
+});
+
+document.getElementById('grade7DialogueBtn').addEventListener('click', () => {
+  grade7MenuScreen.classList.add('hidden');
+  grade7DialogueMenuScreen.classList.remove('hidden');
+});
+document.getElementById('grade7DialogueBackBtn').addEventListener('click', () => {
+  grade7DialogueMenuScreen.classList.add('hidden');
+  grade7MenuScreen.classList.remove('hidden');
 });
 document.getElementById('g7GreetingsBtn').addEventListener('click', () => startGrade('g7greetings'));
 document.getElementById('g7IntroductionBtn').addEventListener('click', () => startGrade('g7introduction'));
