@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
 <head>
 <meta charset="UTF-8">
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Speaking Practice</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -96,6 +97,18 @@
   button.secondary:disabled{ background:transparent; border-color:#c7cdd3; color:#b8c2cc; cursor:not-allowed; box-shadow:none; }
   button.rec{ background:var(--margin); }
   button.secondary{ background:transparent; border:1.5px solid var(--accent); color:var(--accent); box-shadow:none; }
+  button.icon-btn{
+    width:auto;
+    padding:6px 10px;
+    font-size:1.05rem;
+    border-radius:6px;
+    border:1.5px solid var(--accent);
+    background:transparent;
+    color:var(--accent);
+    margin-top:0;
+    box-shadow:none;
+    line-height:1;
+  }
   .status{ margin-top:12px; padding:12px; border-radius:6px; font-size:0.88rem; line-height:1.45; border-left:3px solid transparent; }
   .status.ok{ background:var(--go-bg); color:var(--go); border-left-color:var(--go); }
   .status.warn2{ background:var(--yellow-bg); color:var(--yellow); border-left-color:var(--yellow); }
@@ -247,7 +260,37 @@
     <div class="progress" data-i18n="section6Btn">Section 6 - Listening (a)</div>
     <button id="section6PlayBtn" data-i18n="playDialogue">▶ Play Dialogue</button>
     <div id="section6Script" style="margin-top:14px;font-size:0.98rem;line-height:1.8;"></div>
+    <button id="section6QuizBtn" class="secondary" style="margin-top:14px;">📝 Comprehension Quiz</button>
     <button id="section6BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="section6QuizScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="section6QuizProgress">Question 1 of 8</div>
+    <div class="hint" id="section6QuizLevel" style="margin-bottom:6px;"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+      <div class="dialogue" id="section6QuizQuestion" style="flex:1;margin-bottom:0;"></div>
+      <div style="display:flex;gap:6px;flex-shrink:0;">
+        <button id="section6QuizReplayBtn" class="icon-btn" title="Replay question">🔊</button>
+        <button id="section6QuizHintBtn" class="icon-btn" title="Show hint">🇮🇩</button>
+      </div>
+    </div>
+    <div id="section6QuizHintText" class="hidden" style="padding-left:2px;color:#5a6472;font-size:0.9rem;font-style:italic;margin-top:4px;"></div>
+    <div id="section6QuizOptions" style="margin-top:12px;"></div>
+    <div class="status idle hidden" id="section6QuizFeedback" style="margin-top:12px;"></div>
+    <button id="section6QuizNextBtn" class="secondary hidden" style="margin-top:14px;">Next →</button>
+    <button id="section6QuizBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="section6QuizResultScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="results">Results</div>
+    <div class="score" id="section6QuizScore"></div>
+    <div id="section6QuizReview"></div>
+    <button id="section6QuizTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="section6QuizContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
   </div>
 </div>
 
@@ -1124,6 +1167,8 @@ const gradeScreen = document.getElementById('gradeScreen');
 const grade7MenuScreen = document.getElementById('grade7MenuScreen');
 const englishNusantaraScreen = document.getElementById('englishNusantaraScreen');
 const section6Screen = document.getElementById('section6Screen');
+const section6QuizScreen = document.getElementById('section6QuizScreen');
+const section6QuizResultScreen = document.getElementById('section6QuizResultScreen');
 const grade7DialogueMenuScreen = document.getElementById('grade7DialogueMenuScreen');
 const grade9MenuScreen = document.getElementById('grade9MenuScreen');
 const englishClassMenuScreen = document.getElementById('englishClassMenuScreen');
@@ -1179,6 +1224,8 @@ function hideAllMenus(){
   grade7MenuScreen.classList.add('hidden');
   englishNusantaraScreen.classList.add('hidden');
   section6Screen.classList.add('hidden');
+  section6QuizScreen.classList.add('hidden');
+  section6QuizResultScreen.classList.add('hidden');
   grade7DialogueMenuScreen.classList.add('hidden');
   grade9MenuScreen.classList.add('hidden');
   englishClassMenuScreen.classList.add('hidden');
@@ -1332,6 +1379,168 @@ document.getElementById('section6PlayBtn').addEventListener('click', () => {
     speechSynthesis.speak(utter);
   }
   playNext();
+});
+
+// ---- Section 6 comprehension quiz (LOTS: Remember / Understand / Apply) ----
+// Every answer is checkable directly against the dialogue text — no AI judging needed.
+const section6Quiz = [
+  { level: "Remember", q: "What is the name of the new student?", id: "Siapa nama siswa baru itu?", options: ["Galang", "Andre", "Monita", "Sarah"], correct: 2 },
+  { level: "Remember", q: "Who introduces Monita to Galang?", id: "Siapa yang memperkenalkan Monita kepada Galang?", options: ["Monita", "Andre", "The teacher", "Nobody"], correct: 1 },
+  { level: "Understand", q: "Why does Andre say \u201cToday is her first day at school\u201d?", id: "Mengapa Andre berkata \u201cHari ini adalah hari pertamanya di sekolah\u201d?", options: ["To ask Galang a question", "To explain why Galang hasn't met Monita before", "To complain about school", "To say goodbye"], correct: 1 },
+  { level: "Understand", q: "What do Monita and Galang both like, even though Galang says he can't do it?", id: "Apa yang disukai Monita dan Galang, meskipun Galang bilang dia tidak bisa melakukannya?", options: ["Playing mobile games", "Drawing manga", "Reading books", "Swimming"], correct: 1 },
+  { level: "Understand", q: "What does Galang mean when he says \u201cThe more, the merrier\u201d?", id: "Apa maksud Galang ketika dia berkata \u201cThe more, the merrier\u201d?", options: ["He is upset", "He is happy to have more people join", "He wants to leave", "He disagrees"], correct: 1 },
+  { level: "Apply", q: "Based on the dialogue, what do Andre, Galang, and Monita plan to do together?", id: "Berdasarkan dialog, apa yang direncanakan Andre, Galang, dan Monita untuk dilakukan bersama?", options: ["Play basketball", "Play mobile games together", "Go to the library", "Do homework"], correct: 1 },
+  { level: "Apply", q: "If Galang wants to build a friendship with Monita, what would be a good idea based on their shared interest?", id: "Jika Galang ingin membangun pertemanan dengan Monita, apa ide yang baik berdasarkan minat yang sama?", options: ["Ignore her", "Ask her to teach him to draw manga", "Avoid talking to her", "Complain about school"], correct: 1 },
+  { level: "Remember", q: "What does Monita need to do at the end of Part 2?", id: "Apa yang perlu dilakukan Monita di akhir Part 2?", options: ["Go home", "Find her seat", "Call her parents", "Eat lunch"], correct: 1 }
+];
+
+let section6QuizIndex = 0;
+let section6QuizScoreCount = 0;
+let section6QuizAnswers = [];
+let currentSection6Quiz = [];
+
+// Fisher-Yates shuffle
+function shuffleArray(arr){
+  const copy = arr.slice();
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+// Builds a fresh shuffled copy each time: question order shuffled, AND each
+// question's own answer positions shuffled (with "correct" remapped to match).
+function buildShuffledSection6Quiz(){
+  return shuffleArray(section6Quiz).map(q => {
+    const optionObjs = q.options.map((opt, i) => ({ text: opt, isCorrect: i === q.correct }));
+    const shuffledOptions = shuffleArray(optionObjs);
+    return {
+      level: q.level,
+      q: q.q,
+      id: q.id,
+      options: shuffledOptions.map(o => o.text),
+      correct: shuffledOptions.findIndex(o => o.isCorrect)
+    };
+  });
+}
+
+document.getElementById('section6QuizBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  section6Screen.classList.add('hidden');
+  section6QuizScreen.classList.remove('hidden');
+  currentSection6Quiz = buildShuffledSection6Quiz();
+  section6QuizIndex = 0;
+  section6QuizScoreCount = 0;
+  section6QuizAnswers = [];
+  renderSection6QuizQuestion();
+});
+
+function playSection6QuizQuestionAudio(){
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const item = currentSection6Quiz[section6QuizIndex];
+  const utter = new SpeechSynthesisUtterance(item.q);
+  utter.lang = 'en-US';
+  speechSynthesis.speak(utter);
+}
+
+function renderSection6QuizQuestion(){
+  const item = currentSection6Quiz[section6QuizIndex];
+  document.getElementById('section6QuizProgress').textContent = `Question ${section6QuizIndex + 1} of ${currentSection6Quiz.length}`;
+  document.getElementById('section6QuizLevel').textContent = item.level;
+  document.getElementById('section6QuizQuestion').textContent = item.q;
+
+  const hintText = document.getElementById('section6QuizHintText');
+  hintText.classList.add('hidden');
+  hintText.textContent = item.id;
+
+  const optionsEl = document.getElementById('section6QuizOptions');
+  optionsEl.innerHTML = '';
+  item.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'secondary';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => answerSection6Quiz(i));
+    optionsEl.appendChild(btn);
+  });
+
+  const feedback = document.getElementById('section6QuizFeedback');
+  feedback.classList.add('hidden');
+  document.getElementById('section6QuizNextBtn').classList.add('hidden');
+
+  playSection6QuizQuestionAudio();
+}
+
+document.getElementById('section6QuizReplayBtn').addEventListener('click', playSection6QuizQuestionAudio);
+document.getElementById('section6QuizHintBtn').addEventListener('click', () => {
+  document.getElementById('section6QuizHintText').classList.toggle('hidden');
+});
+
+function answerSection6Quiz(selectedIndex){
+  const item = currentSection6Quiz[section6QuizIndex];
+  const correct = selectedIndex === item.correct;
+  if (correct) section6QuizScoreCount++;
+  section6QuizAnswers.push({
+    q: item.q,
+    correct: correct,
+    chosen: item.options[selectedIndex],
+    correctAnswer: item.options[item.correct]
+  });
+
+  document.querySelectorAll('#section6QuizOptions button').forEach(b => b.disabled = true);
+
+  const feedback = document.getElementById('section6QuizFeedback');
+  feedback.classList.remove('hidden');
+  feedback.className = 'status ' + (correct ? 'ok' : 'err');
+  feedback.textContent = correct ? 'Correct!' : `Not quite — the correct answer is "${item.options[item.correct]}".`;
+
+  document.getElementById('section6QuizNextBtn').classList.remove('hidden');
+}
+
+document.getElementById('section6QuizNextBtn').addEventListener('click', () => {
+  section6QuizIndex++;
+  if (section6QuizIndex >= currentSection6Quiz.length) {
+    showSection6QuizResults();
+  } else {
+    renderSection6QuizQuestion();
+  }
+});
+
+function showSection6QuizResults(){
+  section6QuizScreen.classList.add('hidden');
+  section6QuizResultScreen.classList.remove('hidden');
+  document.getElementById('section6QuizScore').textContent = `${section6QuizScoreCount} / ${currentSection6Quiz.length} correct`;
+
+  logAttempt('Section 6 — Comprehension Quiz', 'Andre/Galang/Monita dialogue', '', `${section6QuizScoreCount}/${currentSection6Quiz.length}`, '');
+
+  const reviewEl = document.getElementById('section6QuizReview');
+  reviewEl.innerHTML = section6QuizAnswers.map(a => `
+    <div class="result-line">
+      <div>${a.q}</div>
+      <div class="said">Your answer: ${a.chosen}${a.correct ? '' : ' — Correct: ' + a.correctAnswer}</div>
+      <span class="tag ${a.correct ? 'ok' : 'warn'}">${a.correct ? 'CORRECT' : 'INCORRECT'}</span>
+    </div>
+  `).join('');
+}
+
+document.getElementById('section6QuizTryAgainBtn').addEventListener('click', () => {
+  section6QuizResultScreen.classList.add('hidden');
+  section6QuizScreen.classList.remove('hidden');
+  currentSection6Quiz = buildShuffledSection6Quiz();
+  section6QuizIndex = 0;
+  section6QuizScoreCount = 0;
+  section6QuizAnswers = [];
+  renderSection6QuizQuestion();
+});
+document.getElementById('section6QuizContinueBtn').addEventListener('click', () => {
+  section6QuizResultScreen.classList.add('hidden');
+  section6Screen.classList.remove('hidden');
+});
+document.getElementById('section6QuizBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  section6QuizScreen.classList.add('hidden');
+  section6Screen.classList.remove('hidden');
 });
 
 document.getElementById('grade7DialogueBtn').addEventListener('click', () => {
