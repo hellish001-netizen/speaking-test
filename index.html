@@ -1221,34 +1221,39 @@ document.getElementById('englishNusantaraBackBtn').addEventListener('click', () 
 // ---- Section 6 - Listening (a): multi-speaker dialogue, played sequentially with a pause between parts ----
 const section6Dialogue = {
   part1: [
-    { speaker: "A", line: "Hi Galang, How are you?" },
-    { speaker: "B", line: "Fine, Thanks. How about you?" },
-    { speaker: "A", line: "Yeah, I'm OK.." },
-    { speaker: "A", line: "....By the way, this is Monita" },
-    { speaker: "B", line: "Hi, Monita, Nice to meet you." },
-    { speaker: "C", line: "Nice to meet you too, Galang" },
-    { speaker: "A", line: "Monita is our classmate. Today is her first day at school" },
-    { speaker: "B", line: "Oh, I see" }
+    { speaker: "Andre", line: "Hi Galang, How are you?", id: "Hai Galang, bagaimana kabarmu?" },
+    { speaker: "Galang", line: "Fine, Thanks. How about you?", id: "Baik, terima kasih. Bagaimana denganmu?" },
+    { speaker: "Andre", line: "Yeah, I'm OK..", id: "Ya, aku baik-baik saja.." },
+    { speaker: "Andre", line: "....By the way, this is Monita", id: "...Ngomong-ngomong, ini Monita" },
+    { speaker: "Galang", line: "Hi, Monita, Nice to meet you.", id: "Hai, Monita, senang bertemu denganmu." },
+    { speaker: "Monita", line: "Nice to meet you too, Galang", id: "Senang bertemu denganmu juga, Galang" },
+    { speaker: "Andre", line: "Monita is our classmate. Today is her first day at school", id: "Monita adalah teman sekelas kita. Hari ini adalah hari pertamanya di sekolah" },
+    { speaker: "Galang", line: "Oh, I see", id: "Oh, begitu" }
   ],
   part2: [
-    { speaker: "A", line: "Monita likes playing mobile games, too." },
-    { speaker: "C", line: "And, I also like drawing manga." },
-    { speaker: "B", line: "Cool. I love manga. But, I can not draw." },
-    { speaker: "A", line: "You know, we can play mobile games together." },
-    { speaker: "B", line: "The more, the merrier." },
-    { speaker: "C", line: "Right! By the way, I've got to find my seat. See you later." }
+    { speaker: "Andre", line: "Monita likes playing mobile games, too.", id: "Monita juga suka bermain gim di ponsel." },
+    { speaker: "Monita", line: "And, I also like drawing manga.", id: "Dan, aku juga suka menggambar manga." },
+    { speaker: "Galang", line: "Cool. I love manga. But, I can not draw.", id: "Keren. Aku suka manga. Tapi, aku tidak bisa menggambar." },
+    { speaker: "Andre", line: "You know, we can play mobile games together.", id: "Kamu tahu, kita bisa bermain gim ponsel bersama." },
+    { speaker: "Galang", line: "The more, the merrier.", id: "Semakin ramai, semakin seru." },
+    { speaker: "Monita", line: "Right! By the way, I've got to find my seat. See you later.", id: "Benar! Ngomong-ngomong, aku harus mencari tempat dudukku. Sampai jumpa nanti." }
   ]
 };
 
 function renderSection6Script(){
-  const fmt = (lines) => lines.map(l => `<div><strong>${l.speaker}:</strong> ${l.line}</div>`).join('');
+  const fmt = (lines, prefix) => lines.map((l, i) => `
+    <div id="${prefix}-${i}" style="margin-bottom:8px;padding:4px 6px;border-radius:6px;transition:background-color 0.2s;">
+      <div><strong>${l.speaker}:</strong> ${l.line}</div>
+      <div style="padding-left:18px;color:#5a6472;font-size:0.88rem;font-style:italic;">(${l.id})</div>
+    </div>
+  `).join('');
   document.getElementById('section6Script').innerHTML = `
     <div class="dialogue" style="margin-bottom:6px;"><em>Before Class</em></div>
     <div class="dialogue" style="margin-bottom:6px;"><em>Part 1...</em></div>
-    ${fmt(section6Dialogue.part1)}
+    ${fmt(section6Dialogue.part1, 's6p1')}
     <div class="hint" style="margin:10px 0;text-align:center;">(PAUSE FOR A MOMENT)</div>
     <div class="dialogue" style="margin-bottom:6px;"><em>Part 2...</em></div>
-    ${fmt(section6Dialogue.part2)}
+    ${fmt(section6Dialogue.part2, 's6p2')}
   `;
 }
 
@@ -1259,27 +1264,63 @@ document.getElementById('section6Btn').addEventListener('click', () => {
 });
 document.getElementById('section6BackBtn').addEventListener('click', () => {
   if ('speechSynthesis' in window) speechSynthesis.cancel();
+  clearSection6Highlight();
   section6Screen.classList.add('hidden');
   englishNusantaraScreen.classList.remove('hidden');
 });
+
+let section6ActiveLineEl = null;
+function clearSection6Highlight(){
+  if (section6ActiveLineEl) {
+    section6ActiveLineEl.style.backgroundColor = '';
+    section6ActiveLineEl = null;
+  }
+}
+function highlightSection6Line(domId){
+  clearSection6Highlight();
+  const el = document.getElementById(domId);
+  if (el) {
+    el.style.backgroundColor = 'var(--go-bg)';
+    section6ActiveLineEl = el;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+// Try to give each character a genuinely distinct voice (not just pitch) when the
+// device offers more than one English voice. Mobile Chrome often only has one —
+// pitch still applies either way as a reliable fallback.
+function pickVoicesForSpeakers(){
+  const voices = ('speechSynthesis' in window) ? speechSynthesis.getVoices() : [];
+  const enVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+  const speakers = ['Andre', 'Galang', 'Monita'];
+  const map = {};
+  speakers.forEach((name, i) => {
+    map[name] = enVoices.length > 0 ? enVoices[i % enVoices.length] : null;
+  });
+  return map;
+}
 
 document.getElementById('section6PlayBtn').addEventListener('click', () => {
   if (!('speechSynthesis' in window)) return;
   speechSynthesis.cancel();
 
-  const pitchBySpeaker = { A: 1.0, B: 1.3, C: 0.75 };
+  const pitchBySpeaker = { Andre: 1.0, Galang: 1.3, Monita: 0.85 };
+  const voiceBySpeaker = pickVoicesForSpeakers();
   const allLines = section6Dialogue.part1.map((l, i) => ({
     ...l,
+    domId: `s6p1-${i}`,
     pauseAfter: i === section6Dialogue.part1.length - 1
-  })).concat(section6Dialogue.part2);
+  })).concat(section6Dialogue.part2.map((l, i) => ({ ...l, domId: `s6p2-${i}` })));
 
   let idx = 0;
   function playNext(){
-    if (idx >= allLines.length) return;
+    if (idx >= allLines.length) { clearSection6Highlight(); return; }
     const item = allLines[idx];
     const utter = new SpeechSynthesisUtterance(item.line);
     utter.lang = 'en-US';
     utter.pitch = pitchBySpeaker[item.speaker] || 1.0;
+    if (voiceBySpeaker[item.speaker]) utter.voice = voiceBySpeaker[item.speaker];
+    utter.onstart = () => highlightSection6Line(item.domId);
     utter.onend = () => {
       idx++;
       if (item.pauseAfter) {
