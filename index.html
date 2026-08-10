@@ -160,8 +160,8 @@
   <div class="card">
     <button id="langToggleBtn" class="secondary" style="margin-bottom:16px;">🌐 Bahasa Indonesia</button>
     <div class="progress" data-i18n="chooseActivity">Choose an activity</div>
-    <button id="goListeningBtn" data-i18n="listeningBtn">🎧 Listening</button>
-    <button id="goSpeakingBtn" data-i18n="speakingBtn">🗣 Speaking</button>
+    <button id="goListeningBtn" data-i18n="listeningBtn">🎧 Listening - Speaking</button>
+    <button id="goSpeakingBtn" data-i18n="speakingBtn">🗣 English for Nusantara</button>
     <div class="hint" id="currentStudentLabel" style="margin-top:14px;"></div>
     <button id="downloadReportBtn" class="secondary" style="margin-top:8px;" data-i18n="downloadReport">⬇ Download Results (Excel)</button>
     <button id="changeStudentBtn" class="secondary" style="margin-top:8px;" data-i18n="changeStudent">🔄 Change Student</button>
@@ -173,6 +173,10 @@
     <div class="progress" data-i18n="listeningHeader">Listening</div>
     <button id="listeningVerbBtn" data-i18n="verbBtn">Verb</button>
     <button id="listeningNounBtn" data-i18n="nounBtn">Noun</button>
+    <button id="grade7DialogueBtn" data-i18n="dialogueBtn">💬 Dialogue</button>
+    <button id="naturalConversationBtn" data-i18n="naturalConversationBtn">💬 Natural Conversation</button>
+    <button id="challengeBtn" class="secondary" style="margin-top:16px;" data-i18n="challenge">🚀 Level Up Challenge</button>
+    <button id="indoModeBtn" class="secondary" style="margin-top:8px;" data-i18n="indoModeBtn">🇮🇩→🇬🇧 Indonesian Prompts</button>
     <button id="listeningMenuBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
@@ -232,9 +236,15 @@
     <button id="grade7Btn" data-i18n="grade7">Grade 7</button>
     <button id="grade8Btn" data-i18n="grade8">Grade 8</button>
     <button id="grade9Btn" data-i18n="grade9">Grade 9</button>
-    <button id="challengeBtn" class="secondary" style="margin-top:16px;" data-i18n="challenge">🚀 Level Up Challenge</button>
-    <button id="indoModeBtn" class="secondary" style="margin-top:8px;" data-i18n="indoModeBtn">🇮🇩→🇬🇧 Indonesian Prompts</button>
     <button id="gradeScreenBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="grade8Screen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="grade8">Grade 8</div>
+    <div class="status idle" data-i18n="wordsBoxComingSoon">Content coming soon.</div>
+    <button id="grade8BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -242,7 +252,6 @@
   <div class="card">
     <div class="progress" data-i18n="grade7Header">Grade 7</div>
     <button id="englishNusantaraBtn" data-i18n="englishNusantaraBtn">🇮🇩 English Nusantara</button>
-    <button id="grade7DialogueBtn" data-i18n="dialogueBtn">💬 Dialogue</button>
     <button id="grade7BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
@@ -319,24 +328,6 @@
   </div>
 </div>
 
-<div id="grade9MenuScreen" class="hidden">
-  <div class="card">
-    <div class="progress" data-i18n="grade9Header">Grade 9</div>
-    <button id="grade9IntroBtn" data-i18n="introduction">Introduction</button>
-    <button id="englishClassBtn" data-i18n="englishClass">English Class</button>
-    <button id="grade9BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
-  </div>
-</div>
-
-<div id="englishClassMenuScreen" class="hidden">
-  <div class="card">
-    <div class="progress" data-i18n="englishClassHeader">Grade 9 · English Class</div>
-    <button id="naturalConversationBtn" data-i18n="naturalConversationBtn">💬 Natural Conversation</button>
-    <button id="wordsBoxBtn" class="secondary" style="margin-top:16px;" data-i18n="wordsBoxBtn">🇮🇩 English Nusantara 9</button>
-    <button id="englishClassBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
-  </div>
-</div>
-
 <div id="naturalConversationMenuScreen" class="hidden">
   <div class="card">
     <div class="progress" data-i18n="naturalConversationBtn">💬 Natural Conversation</div>
@@ -351,7 +342,7 @@
 
 <div id="wordsBoxMenuScreen" class="hidden">
   <div class="card">
-    <div class="progress" data-i18n="wordsBoxHeader">Words Box</div>
+    <div class="progress" data-i18n="grade9Header">Grade 9</div>
     <button id="chapter1Btn">Chapter 1</button>
     <button id="chapter2Btn">Chapter 2</button>
     <button id="chapter3Btn">Chapter 3</button>
@@ -360,6 +351,7 @@
     <button id="wordsBoxBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
+
 
 <div id="wordsBoxChapterScreen" class="hidden">
   <div class="card">
@@ -374,7 +366,8 @@
 <div id="ch1Unit1MenuScreen" class="hidden">
   <div class="card">
     <div class="progress">Chapter 1 · Unit 1</div>
-    <button id="section2Btn">Section 2 - Listening</button>
+    <button id="section2Btn">Part 1 What's in a name</button>
+    <button id="part2HabitatBtn">Part 2 Habitat</button>
     <button id="ch1Unit1WordsBoxBtn">📦 Words Box</button>
     <button id="ch1Unit1BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
@@ -382,10 +375,19 @@
 
 <div id="section2Screen" class="hidden">
   <div class="card">
-    <div class="progress">Section 2 - Listening (This is Bekantan)</div>
+    <div class="progress">Part 1 What's in a name</div>
     <button id="section2PlayBtn" data-i18n="playDialogue">▶ Play Dialogue</button>
     <div id="section2Script" style="margin-top:14px;font-size:0.98rem;line-height:1.8;"></div>
     <button id="section2BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="part2HabitatScreen" class="hidden">
+  <div class="card">
+    <div class="progress">Part 2 Habitat</div>
+    <button id="part2HabitatPlayBtn" data-i18n="playDialogue">▶ Play Dialogue</button>
+    <div id="part2HabitatScript" style="margin-top:14px;font-size:0.98rem;line-height:1.8;"></div>
+    <button id="part2HabitatBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -527,8 +529,8 @@ const i18n = {
     g7Information: "Asking for Information",
     g7Direction: "Asking for Direction",
     chooseActivity: "Choose an activity",
-    listeningBtn: "🎧 Listening",
-    speakingBtn: "🗣 Speaking",
+    listeningBtn: "🎧 Listening - Speaking",
+    speakingBtn: "🗣 English for Nusantara",
     listeningHeader: "Listening",
     verbBtn: "Verb",
     nounBtn: "Noun",
@@ -598,8 +600,8 @@ const i18n = {
     g7Information: "Menanyakan Informasi",
     g7Direction: "Menanyakan Arah",
     chooseActivity: "Pilih aktivitas",
-    listeningBtn: "🎧 Menyimak",
-    speakingBtn: "🗣 Berbicara",
+    listeningBtn: "🎧 Listening - Speaking",
+    speakingBtn: "🗣 English for Nusantara",
     listeningHeader: "Menyimak",
     verbBtn: "Kata Kerja",
     nounBtn: "Kata Benda",
@@ -1141,18 +1143,6 @@ const dialoguesByGrade = {
     { a: "Can you show me on the map?", keywords: ["map", "here", "there", "is"] },
     { a: "Thank you for your help!", keywords: ["welcome", "no", "problem", "sure"] }
   ],
-  8: [
-    { a: "Hi! Can you tell me a little bit about yourself?", keywords: ["i'm", "im", "name", "from", "live", "student", "grade", "school", "year"] },
-    { a: "What do you like to do in your free time?", keywords: ["like", "love", "play", "read", "watch", "listen", "draw", "hobby", "time"] },
-    { a: "Do you have any brothers or sisters?", keywords: ["brother", "sister", "sibling", "yes", "no", "have", "only"] },
-    { a: "I'd like you to meet my friend, Budi. Can you introduce him to me?", keywords: ["this", "name", "he", "his", "friend", "is"] }
-  ],
-  9: [
-    { a: "Hi! It's nice to meet you. Tell me a bit about yourself.", keywords: ["i'm", "im", "name", "from", "live", "student", "like"] },
-    { a: "What are your hobbies, and why do you enjoy them?", keywords: ["like", "love", "hobby", "because", "fun", "enjoy", "play"] },
-    { a: "Can you tell me about your best friend? What are they like?", keywords: ["friend", "he", "she", "name", "kind", "funny", "nice"] },
-    { a: "What do you want to do after you graduate?", keywords: ["want", "will", "become", "study", "work", "future", "college", "university"] }
-  ],
   challenge: [
     { level: "A1", a: "Hi! What's your name, and how old are you?", keywords: ["name", "old", "year", "i'm", "im"] },
     { level: "A1", a: "Where do you live, and who do you live with?", keywords: ["live", "with", "family", "parents", "mother", "father", "city"] },
@@ -1192,20 +1182,20 @@ let dialogues = [];
 let selectedGrade = null;
 
 const gradeScreen = document.getElementById('gradeScreen');
+const grade8Screen = document.getElementById('grade8Screen');
 const grade7MenuScreen = document.getElementById('grade7MenuScreen');
 const englishNusantaraScreen = document.getElementById('englishNusantaraScreen');
 const section6Screen = document.getElementById('section6Screen');
 const section6QuizScreen = document.getElementById('section6QuizScreen');
 const section6QuizResultScreen = document.getElementById('section6QuizResultScreen');
 const grade7DialogueMenuScreen = document.getElementById('grade7DialogueMenuScreen');
-const grade9MenuScreen = document.getElementById('grade9MenuScreen');
-const englishClassMenuScreen = document.getElementById('englishClassMenuScreen');
 const wordsBoxMenuScreen = document.getElementById('wordsBoxMenuScreen');
 const naturalConversationMenuScreen = document.getElementById('naturalConversationMenuScreen');
 const wordsBoxChapterScreen = document.getElementById('wordsBoxChapterScreen');
 const wordsBoxUnitScreen = document.getElementById('wordsBoxUnitScreen');
 const ch1Unit1MenuScreen = document.getElementById('ch1Unit1MenuScreen');
 const section2Screen = document.getElementById('section2Screen');
+const part2HabitatScreen = document.getElementById('part2HabitatScreen');
 const reportMenuScreen = document.getElementById('reportMenuScreen');
 const readingScreen = document.getElementById('readingScreen');
 const readingSummaryScreen = document.getElementById('readingSummaryScreen');
@@ -1234,8 +1224,6 @@ const modeLabels = {
   g7gratitude: 'Grade 7 — Expressing Gratitude and Apology',
   g7information: 'Grade 7 — Asking for Information',
   g7direction: 'Grade 7 — Asking for Direction',
-  8: 'Grade 8',
-  9: 'Grade 9 — Introduction',
   challenge: 'Level Up Challenge',
   report: 'Grade 9 — English Class: Report Text',
   narrative: 'Grade 9 — English Class: Narrative Text',
@@ -1252,19 +1240,19 @@ function hideAllMenus(){
   verbCategoryScreen.classList.add('hidden');
   listeningTestScreen.classList.add('hidden');
   gradeScreen.classList.add('hidden');
+  grade8Screen.classList.add('hidden');
   grade7MenuScreen.classList.add('hidden');
   englishNusantaraScreen.classList.add('hidden');
   section6Screen.classList.add('hidden');
   section6QuizScreen.classList.add('hidden');
   section6QuizResultScreen.classList.add('hidden');
   grade7DialogueMenuScreen.classList.add('hidden');
-  grade9MenuScreen.classList.add('hidden');
-  englishClassMenuScreen.classList.add('hidden');
   naturalConversationMenuScreen.classList.add('hidden');
   wordsBoxMenuScreen.classList.add('hidden');
   wordsBoxChapterScreen.classList.add('hidden');
   ch1Unit1MenuScreen.classList.add('hidden');
   section2Screen.classList.add('hidden');
+  part2HabitatScreen.classList.add('hidden');
   wordsBoxUnitScreen.classList.add('hidden');
   reportMenuScreen.classList.add('hidden');
   readingScreen.classList.add('hidden');
@@ -1578,19 +1566,26 @@ document.getElementById('section6QuizBackBtn').addEventListener('click', () => {
 });
 
 document.getElementById('grade7DialogueBtn').addEventListener('click', () => {
-  grade7MenuScreen.classList.add('hidden');
+  listeningMenuScreen.classList.add('hidden');
   grade7DialogueMenuScreen.classList.remove('hidden');
 });
 document.getElementById('grade7DialogueBackBtn').addEventListener('click', () => {
   grade7DialogueMenuScreen.classList.add('hidden');
-  grade7MenuScreen.classList.remove('hidden');
+  listeningMenuScreen.classList.remove('hidden');
 });
 document.getElementById('g7GreetingsBtn').addEventListener('click', () => startGrade('g7greetings'));
 document.getElementById('g7IntroductionBtn').addEventListener('click', () => startGrade('g7introduction'));
 document.getElementById('g7GratitudeBtn').addEventListener('click', () => startGrade('g7gratitude'));
 document.getElementById('g7InformationBtn').addEventListener('click', () => startGrade('g7information'));
 document.getElementById('g7DirectionBtn').addEventListener('click', () => startGrade('g7direction'));
-document.getElementById('grade8Btn').addEventListener('click', () => startGrade(8));
+document.getElementById('grade8Btn').addEventListener('click', () => {
+  gradeScreen.classList.add('hidden');
+  grade8Screen.classList.remove('hidden');
+});
+document.getElementById('grade8BackBtn').addEventListener('click', () => {
+  grade8Screen.classList.add('hidden');
+  gradeScreen.classList.remove('hidden');
+});
 document.getElementById('challengeBtn').addEventListener('click', () => startGrade('challenge'));
 
 // ---- Indonesian-prompt mode: text shown in Indonesian, student must respond in English ----
@@ -1610,7 +1605,7 @@ document.getElementById('indoModeBtn').addEventListener('click', () => {
 document.getElementById('indoBackBtn').addEventListener('click', () => {
   if (indoCountdownTimer) { clearInterval(indoCountdownTimer); indoCountdownTimer = null; }
   indoScreen.classList.add('hidden');
-  gradeScreen.classList.remove('hidden');
+  listeningMenuScreen.classList.remove('hidden');
 });
 
 function renderIndoLine(){
@@ -1837,28 +1832,15 @@ function showIndoResults(){
 
 document.getElementById('grade9Btn').addEventListener('click', () => {
   gradeScreen.classList.add('hidden');
-  grade9MenuScreen.classList.remove('hidden');
-});
-document.getElementById('grade9BackBtn').addEventListener('click', () => {
-  grade9MenuScreen.classList.add('hidden');
-  gradeScreen.classList.remove('hidden');
-});
-document.getElementById('grade9IntroBtn').addEventListener('click', () => startGrade(9));
-document.getElementById('englishClassBtn').addEventListener('click', () => {
-  grade9MenuScreen.classList.add('hidden');
-  englishClassMenuScreen.classList.remove('hidden');
-});
-document.getElementById('englishClassBackBtn').addEventListener('click', () => {
-  englishClassMenuScreen.classList.add('hidden');
-  grade9MenuScreen.classList.remove('hidden');
+  wordsBoxMenuScreen.classList.remove('hidden');
 });
 document.getElementById('naturalConversationBtn').addEventListener('click', () => {
-  englishClassMenuScreen.classList.add('hidden');
+  listeningMenuScreen.classList.add('hidden');
   naturalConversationMenuScreen.classList.remove('hidden');
 });
 document.getElementById('naturalConversationBackBtn').addEventListener('click', () => {
   naturalConversationMenuScreen.classList.add('hidden');
-  englishClassMenuScreen.classList.remove('hidden');
+  listeningMenuScreen.classList.remove('hidden');
 });
 document.getElementById('reportBtn').addEventListener('click', () => {
   naturalConversationMenuScreen.classList.add('hidden');
@@ -1869,14 +1851,10 @@ document.getElementById('reportBackBtn').addEventListener('click', () => {
   naturalConversationMenuScreen.classList.remove('hidden');
 });
 
-// ---- Words Box: Chapter 1-5, each with Unit 1-3 (empty placeholders for now) ----
-document.getElementById('wordsBoxBtn').addEventListener('click', () => {
-  englishClassMenuScreen.classList.add('hidden');
-  wordsBoxMenuScreen.classList.remove('hidden');
-});
+// ---- Grade 9 content: Chapter 1-5, each with Unit 1-3 (empty placeholders for now) ----
 document.getElementById('wordsBoxBackBtn').addEventListener('click', () => {
   wordsBoxMenuScreen.classList.add('hidden');
-  englishClassMenuScreen.classList.remove('hidden');
+  gradeScreen.classList.remove('hidden');
 });
 
 let currentWordsBoxChapter = null;
@@ -2134,6 +2112,90 @@ document.getElementById('section2PlayBtn').addEventListener('click', () => {
         playNext();
       }
     };
+    speechSynthesis.speak(utter);
+  }
+  playNext();
+});
+
+// ---- Chapter 1, Unit 1: Part 2 Habitat ----
+document.getElementById('part2HabitatBtn').addEventListener('click', () => {
+  ch1Unit1MenuScreen.classList.add('hidden');
+  part2HabitatScreen.classList.remove('hidden');
+  renderPart2HabitatScript();
+});
+document.getElementById('part2HabitatBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  clearPart2HabitatHighlight();
+  part2HabitatScreen.classList.add('hidden');
+  ch1Unit1MenuScreen.classList.remove('hidden');
+});
+
+const part2HabitatDialogue = [
+  { speaker: "Andre", line: "Bekantans are from Borneo, right? So, we can find them in Indonesia, Malaysia and Brunei.", id: "Bekantan berasal dari Kalimantan (Borneo), kan? Jadi, kita bisa menemukan mereka di Indonesia, Malaysia, dan Brunei." },
+  { speaker: "Monita", line: "Yes, but we can find them mostly on the Indonesian side", id: "Ya, tapi kita paling banyak menemukan mereka di sisi Indonesia." },
+  { speaker: "Andre", line: "Really?", id: "Benarkah?" },
+  { speaker: "Monita", line: "Yes, that is why Bekantans are used as the icon of Banjarmasin, South Kalimantan.", id: "Ya, itulah sebabnya Bekantan dijadikan ikon kota Banjarmasin, Kalimantan Selatan." },
+  { speaker: "Andre", line: "Well, I believe we can find these monkeys in Borneo forests.", id: "Baiklah, aku yakin kita bisa menemukan monyet ini di hutan Kalimantan." },
+  { speaker: "Monita", line: "Right, specifically in mangroves. You know, mangroves are a type of rainforest that meet the sea.", id: "Benar, khususnya di hutan mangrove. Kamu tahu, mangrove adalah jenis hutan hujan tropis yang bertemu dengan laut." },
+  { speaker: "Andre", line: "So, Bekantans live in mangrove trees.", id: "Jadi, Bekantan hidup di pohon-pohon mangrove." },
+  { speaker: "Monita", line: "Yes, they like spending most of their time in trees. Bekantans are grouped as arboreal animals.", id: "Ya, mereka suka menghabiskan sebagian besar waktu mereka di pohon. Bekantan dikelompokkan sebagai hewan arboreal." },
+  { speaker: "Andre", line: "Say again. Arboreal?, animals that eat, sleep, and play trees.", id: "Ulangi lagi. Arboreal?, hewan yang makan, tidur, dan bermain di pohon." }
+];
+
+function renderPart2HabitatScript(){
+  document.getElementById('part2HabitatScript').innerHTML = part2HabitatDialogue.map((l, i) => `
+    <div id="p2h-${i}" style="margin-bottom:8px;padding:4px 6px;border-radius:6px;transition:background-color 0.2s;">
+      <div><strong>${l.speaker}:</strong> ${l.line}</div>
+      <div style="padding-left:18px;color:#5a6472;font-size:0.88rem;font-style:italic;">(${l.id})</div>
+    </div>
+  `).join('');
+}
+
+let part2HabitatActiveLineEl = null;
+function clearPart2HabitatHighlight(){
+  if (part2HabitatActiveLineEl) {
+    part2HabitatActiveLineEl.style.backgroundColor = '';
+    part2HabitatActiveLineEl = null;
+  }
+}
+function highlightPart2HabitatLine(domId){
+  clearPart2HabitatHighlight();
+  const el = document.getElementById(domId);
+  if (el) {
+    el.style.backgroundColor = 'var(--go-bg)';
+    part2HabitatActiveLineEl = el;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function pickVoicesForPart2HabitatSpeakers(){
+  const voices = ('speechSynthesis' in window) ? speechSynthesis.getVoices() : [];
+  const enVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+  const speakers = ['Andre', 'Monita'];
+  const map = {};
+  speakers.forEach((name, i) => {
+    map[name] = enVoices.length > 0 ? enVoices[i % enVoices.length] : null;
+  });
+  return map;
+}
+
+document.getElementById('part2HabitatPlayBtn').addEventListener('click', () => {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+
+  const pitchBySpeaker = { Andre: 1.0, Monita: 0.85 };
+  const voiceBySpeaker = pickVoicesForPart2HabitatSpeakers();
+
+  let idx = 0;
+  function playNext(){
+    if (idx >= part2HabitatDialogue.length) { clearPart2HabitatHighlight(); return; }
+    const item = part2HabitatDialogue[idx];
+    const utter = new SpeechSynthesisUtterance(item.line);
+    utter.lang = 'en-US';
+    utter.pitch = pitchBySpeaker[item.speaker] || 1.0;
+    if (voiceBySpeaker[item.speaker]) utter.voice = voiceBySpeaker[item.speaker];
+    utter.onstart = () => highlightPart2HabitatLine(`p2h-${idx}`);
+    utter.onend = () => { idx++; playNext(); };
     speechSynthesis.speak(utter);
   }
   playNext();
@@ -2610,7 +2672,7 @@ function showResults(){
 restartBtn.addEventListener('click', () => {
   resultsScreen.classList.add('hidden');
   testScreen.classList.add('hidden');
-  gradeScreen.classList.remove('hidden');
+  listeningMenuScreen.classList.remove('hidden');
 });
 </script>
 
