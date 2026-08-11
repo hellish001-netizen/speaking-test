@@ -110,6 +110,23 @@
     line-height:1;
   }
   .status{ margin-top:12px; padding:12px; border-radius:6px; font-size:0.88rem; line-height:1.45; border-left:3px solid transparent; }
+  .matchGrid{ display:flex; gap:10px; margin-top:12px; }
+  .matchCol{ flex:1; display:flex; flex-direction:column; gap:8px; }
+  .matchItem{
+    padding:10px 6px;
+    border:1.5px solid var(--accent);
+    border-radius:6px;
+    text-align:center;
+    font-size:0.82rem;
+    line-height:1.3;
+    cursor:pointer;
+    background:#fff;
+    color:var(--accent);
+    user-select:none;
+  }
+  .matchItem.selected{ background:var(--accent); color:#fff; }
+  .matchItem.matched{ background:var(--go-bg); border-color:var(--go); color:var(--go); opacity:0.6; pointer-events:none; }
+  .matchItem.wrong{ background:var(--warn-bg); border-color:var(--warn); color:var(--warn); }
   .status.ok{ background:var(--go-bg); color:var(--go); border-left-color:var(--go); }
   .status.warn2{ background:var(--yellow-bg); color:var(--yellow); border-left-color:var(--yellow); }
   .status.err{ background:var(--warn-bg); color:var(--warn); border-left-color:var(--warn); }
@@ -277,8 +294,66 @@
 <div id="g7Unit2Screen" class="hidden">
   <div class="card">
     <div class="progress">Chapter 1 About Me · Unit 2</div>
-    <div class="status idle" data-i18n="wordsBoxComingSoon">Content coming soon.</div>
+    <button id="iLoveFishingBtn">I Love Fishing</button>
+    <button id="hobbiesBtn">Hobbies</button>
     <button id="g7Unit2BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="hobbiesScreen" class="hidden">
+  <div class="card">
+    <div class="progress">Hobbies</div>
+    <div id="hobbiesWordList"></div>
+    <button id="hobbiesMatchBtn" class="secondary" style="margin-top:14px;">🔗 Match-Making Quiz</button>
+    <button id="hobbiesTFBtn" class="secondary" style="margin-top:8px;">✅❌ True/False Quiz</button>
+    <button id="hobbiesBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="hobbiesMatchScreen" class="hidden">
+  <div class="card">
+    <div class="progress">Hobbies · Match-Making</div>
+    <div class="status idle" id="hobbiesMatchStatus">Tap an English word, then tap its Indonesian match.</div>
+    <div class="matchGrid">
+      <div class="matchCol" id="hobbiesMatchColEn"></div>
+      <div class="matchCol" id="hobbiesMatchColId"></div>
+    </div>
+    <div id="hobbiesMatchResultArea" class="hidden" style="margin-top:14px;">
+      <div class="score" id="hobbiesMatchScore"></div>
+      <button id="hobbiesMatchTryAgainBtn" class="secondary" style="margin-top:8px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+      <button id="hobbiesMatchContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
+    </div>
+    <button id="hobbiesMatchBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="hobbiesTFScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="hobbiesTFProgress">Question 1 of 10</div>
+    <div class="dialogue" id="hobbiesTFStatement"></div>
+    <button id="hobbiesTFTrueBtn">True</button>
+    <button id="hobbiesTFFalseBtn">False</button>
+    <div class="status idle hidden" id="hobbiesTFFeedback" style="margin-top:12px;"></div>
+    <button id="hobbiesTFNextBtn" class="secondary hidden" style="margin-top:14px;">Next →</button>
+    <button id="hobbiesTFBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="hobbiesTFResultScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="results">Results</div>
+    <div class="score" id="hobbiesTFScore"></div>
+    <button id="hobbiesTFTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="hobbiesTFContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
+  </div>
+</div>
+
+<div id="iLoveFishingScreen" class="hidden">
+  <div class="card">
+    <div class="progress">I Love Fishing</div>
+    <button id="iLoveFishingPlayBtn" data-i18n="playDialogue">▶ Play Dialogue</button>
+    <div id="iLoveFishingScript" style="margin-top:14px;font-size:0.98rem;line-height:1.8;"></div>
+    <button id="iLoveFishingBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -1244,6 +1319,11 @@ const grade7MenuScreen = document.getElementById('grade7MenuScreen');
 const englishNusantaraScreen = document.getElementById('englishNusantaraScreen');
 const g7Unit1Screen = document.getElementById('g7Unit1Screen');
 const g7Unit2Screen = document.getElementById('g7Unit2Screen');
+const iLoveFishingScreen = document.getElementById('iLoveFishingScreen');
+const hobbiesScreen = document.getElementById('hobbiesScreen');
+const hobbiesMatchScreen = document.getElementById('hobbiesMatchScreen');
+const hobbiesTFScreen = document.getElementById('hobbiesTFScreen');
+const hobbiesTFResultScreen = document.getElementById('hobbiesTFResultScreen');
 const section6Screen = document.getElementById('section6Screen');
 const atRecessScreen = document.getElementById('atRecessScreen');
 const atRecessQuizScreen = document.getElementById('atRecessQuizScreen');
@@ -1307,6 +1387,11 @@ function hideAllMenus(){
   englishNusantaraScreen.classList.add('hidden');
   g7Unit1Screen.classList.add('hidden');
   g7Unit2Screen.classList.add('hidden');
+  iLoveFishingScreen.classList.add('hidden');
+  hobbiesScreen.classList.add('hidden');
+  hobbiesMatchScreen.classList.add('hidden');
+  hobbiesTFScreen.classList.add('hidden');
+  hobbiesTFResultScreen.classList.add('hidden');
   section6Screen.classList.add('hidden');
   atRecessScreen.classList.add('hidden');
   atRecessQuizScreen.classList.add('hidden');
@@ -1368,6 +1453,275 @@ document.getElementById('g7Unit2Btn').addEventListener('click', () => {
 document.getElementById('g7Unit2BackBtn').addEventListener('click', () => {
   g7Unit2Screen.classList.add('hidden');
   englishNusantaraScreen.classList.remove('hidden');
+});
+document.getElementById('iLoveFishingBtn').addEventListener('click', () => {
+  g7Unit2Screen.classList.add('hidden');
+  iLoveFishingScreen.classList.remove('hidden');
+  renderILoveFishingScript();
+});
+document.getElementById('iLoveFishingBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  clearILoveFishingHighlight();
+  iLoveFishingScreen.classList.add('hidden');
+  g7Unit2Screen.classList.remove('hidden');
+});
+
+// ---- Hobbies vocabulary list ----
+const hobbiesWords = [
+  { en: "reading", id: "membaca" },
+  { en: "drawing", id: "menggambar" },
+  { en: "painting", id: "melukis" },
+  { en: "singing", id: "bernyanyi" },
+  { en: "dancing", id: "menari" },
+  { en: "cooking", id: "memasak" },
+  { en: "fishing", id: "memancing" },
+  { en: "swimming", id: "berenang" },
+  { en: "cycling", id: "bersepeda" },
+  { en: "gardening", id: "berkebun" },
+  { en: "photography", id: "fotografi" },
+  { en: "writing", id: "menulis" },
+  { en: "traveling", id: "bepergian" },
+  { en: "camping", id: "berkemah" },
+  { en: "hiking", id: "mendaki gunung" },
+  { en: "playing music", id: "bermain musik" },
+  { en: "collecting stamps", id: "mengoleksi perangko" },
+  { en: "knitting", id: "merajut" },
+  { en: "playing chess", id: "bermain catur" },
+  { en: "watching movies", id: "menonton film" },
+  { en: "playing video games", id: "bermain gim video" },
+  { en: "skateboarding", id: "bermain skateboard" },
+  { en: "baking", id: "memanggang" },
+  { en: "yoga", id: "yoga" },
+  { en: "birdwatching", id: "mengamati burung" }
+];
+
+document.getElementById('hobbiesBtn').addEventListener('click', () => {
+  g7Unit2Screen.classList.add('hidden');
+  hobbiesScreen.classList.remove('hidden');
+  const listEl = document.getElementById('hobbiesWordList');
+  listEl.innerHTML = '';
+  hobbiesWords.forEach(w => {
+    const row = document.createElement('div');
+    row.className = 'result-line';
+    row.innerHTML = `
+      <strong>${w.en}</strong>
+      <div class="said">${w.id}</div>
+    `;
+    const checkBtn = document.createElement('button');
+    checkBtn.className = 'secondary';
+    checkBtn.style.marginTop = '6px';
+    checkBtn.textContent = '🔊 Check pronunciation';
+    checkBtn.addEventListener('click', () => {
+      if (!('speechSynthesis' in window)) return;
+      const utter = new SpeechSynthesisUtterance(w.en);
+      utter.lang = 'en-US';
+      speechSynthesis.speak(utter);
+    });
+    row.appendChild(checkBtn);
+    listEl.appendChild(row);
+  });
+});
+document.getElementById('hobbiesBackBtn').addEventListener('click', () => {
+  hobbiesScreen.classList.add('hidden');
+  g7Unit2Screen.classList.remove('hidden');
+});
+
+// ---- Hobbies: Match-Making Quiz ----
+let hobbiesMatchPairs = [];
+let hobbiesMatchSelectedEn = null;
+let hobbiesMatchSelectedId = null;
+let hobbiesMatchMatchedCount = 0;
+
+function startHobbiesMatch(){
+  hobbiesScreen.classList.add('hidden');
+  hobbiesMatchScreen.classList.remove('hidden');
+  hobbiesMatchPairs = pickRandomSubset(hobbiesWords, 8);
+  hobbiesMatchSelectedEn = null;
+  hobbiesMatchSelectedId = null;
+  hobbiesMatchMatchedCount = 0;
+  document.getElementById('hobbiesMatchResultArea').classList.add('hidden');
+  document.getElementById('hobbiesMatchStatus').className = 'status idle';
+  document.getElementById('hobbiesMatchStatus').textContent = 'Tap a word, then tap its match in the other column.';
+
+  // For each pair, randomly decide which column gets the English word and which
+  // gets the Indonesian word — so neither column is "always English" or "always
+  // Indonesian". Each pair still contributes exactly one item per column.
+  const colAItems = [];
+  const colBItems = [];
+  hobbiesMatchPairs.forEach((w, i) => {
+    if (Math.random() < 0.5) {
+      colAItems.push({ text: w.en, pair: i });
+      colBItems.push({ text: w.id, pair: i });
+    } else {
+      colAItems.push({ text: w.id, pair: i });
+      colBItems.push({ text: w.en, pair: i });
+    }
+  });
+  const enOrder = shuffleArray(colAItems);
+  const idOrder = shuffleArray(colBItems);
+
+  const colEn = document.getElementById('hobbiesMatchColEn');
+  const colId = document.getElementById('hobbiesMatchColId');
+  colEn.innerHTML = '';
+  colId.innerHTML = '';
+
+  enOrder.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'matchItem';
+    div.textContent = item.text;
+    div.dataset.pair = item.pair;
+    div.addEventListener('click', () => selectHobbiesMatchItem(div, 'en'));
+    colEn.appendChild(div);
+  });
+  idOrder.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'matchItem';
+    div.textContent = item.text;
+    div.dataset.pair = item.pair;
+    div.addEventListener('click', () => selectHobbiesMatchItem(div, 'id'));
+    colId.appendChild(div);
+  });
+}
+
+document.getElementById('hobbiesMatchBtn').addEventListener('click', startHobbiesMatch);
+document.getElementById('hobbiesMatchBackBtn').addEventListener('click', () => {
+  hobbiesMatchScreen.classList.add('hidden');
+  hobbiesScreen.classList.remove('hidden');
+});
+
+function selectHobbiesMatchItem(el, side){
+  if (el.classList.contains('matched')) return;
+  if (side === 'en') {
+    if (hobbiesMatchSelectedEn) hobbiesMatchSelectedEn.classList.remove('selected');
+    hobbiesMatchSelectedEn = el;
+    el.classList.add('selected');
+  } else {
+    if (hobbiesMatchSelectedId) hobbiesMatchSelectedId.classList.remove('selected');
+    hobbiesMatchSelectedId = el;
+    el.classList.add('selected');
+  }
+
+  if (hobbiesMatchSelectedEn && hobbiesMatchSelectedId) {
+    const enEl = hobbiesMatchSelectedEn, idEl = hobbiesMatchSelectedId;
+    if (enEl.dataset.pair === idEl.dataset.pair) {
+      enEl.classList.remove('selected'); idEl.classList.remove('selected');
+      enEl.classList.add('matched'); idEl.classList.add('matched');
+      hobbiesMatchMatchedCount++;
+      hobbiesMatchSelectedEn = null;
+      hobbiesMatchSelectedId = null;
+      if (hobbiesMatchMatchedCount === hobbiesMatchPairs.length) {
+        finishHobbiesMatch();
+      }
+    } else {
+      enEl.classList.add('wrong'); idEl.classList.add('wrong');
+      setTimeout(() => {
+        enEl.classList.remove('selected', 'wrong');
+        idEl.classList.remove('selected', 'wrong');
+      }, 700);
+      hobbiesMatchSelectedEn = null;
+      hobbiesMatchSelectedId = null;
+    }
+  }
+}
+
+function finishHobbiesMatch(){
+  document.getElementById('hobbiesMatchStatus').className = 'status ok';
+  document.getElementById('hobbiesMatchStatus').textContent = 'All matched — great job!';
+  document.getElementById('hobbiesMatchScore').textContent = `${hobbiesMatchPairs.length} / ${hobbiesMatchPairs.length} matched`;
+  document.getElementById('hobbiesMatchResultArea').classList.remove('hidden');
+  logAttempt('Hobbies — Match-Making Quiz', 'Hobby vocabulary', '', `${hobbiesMatchPairs.length}/${hobbiesMatchPairs.length}`, '');
+}
+
+document.getElementById('hobbiesMatchTryAgainBtn').addEventListener('click', startHobbiesMatch);
+document.getElementById('hobbiesMatchContinueBtn').addEventListener('click', () => {
+  hobbiesMatchScreen.classList.add('hidden');
+  hobbiesScreen.classList.remove('hidden');
+});
+
+// ---- Hobbies: True/False Quiz ----
+let hobbiesTFQuiz = [];
+let hobbiesTFIndex = 0;
+let hobbiesTFScoreCount = 0;
+
+function buildHobbiesTFQuiz(){
+  const pool = shuffleArray(hobbiesWords).slice(0, 10);
+  return pool.map(w => {
+    const isTrue = Math.random() < 0.5;
+    let shownId = w.id;
+    if (!isTrue) {
+      let wrong;
+      do { wrong = hobbiesWords[Math.floor(Math.random() * hobbiesWords.length)]; } while (wrong.id === w.id);
+      shownId = wrong.id;
+    }
+    return { en: w.en, shownId: shownId, answer: isTrue };
+  });
+}
+
+document.getElementById('hobbiesTFBtn').addEventListener('click', () => {
+  hobbiesScreen.classList.add('hidden');
+  hobbiesTFScreen.classList.remove('hidden');
+  hobbiesTFQuiz = buildHobbiesTFQuiz();
+  hobbiesTFIndex = 0;
+  hobbiesTFScoreCount = 0;
+  renderHobbiesTFQuestion();
+});
+document.getElementById('hobbiesTFBackBtn').addEventListener('click', () => {
+  hobbiesTFScreen.classList.add('hidden');
+  hobbiesScreen.classList.remove('hidden');
+});
+
+function renderHobbiesTFQuestion(){
+  const item = hobbiesTFQuiz[hobbiesTFIndex];
+  document.getElementById('hobbiesTFProgress').textContent = `Question ${hobbiesTFIndex + 1} of ${hobbiesTFQuiz.length}`;
+  document.getElementById('hobbiesTFStatement').textContent = `"${item.en}" means "${item.shownId}"`;
+  document.getElementById('hobbiesTFFeedback').classList.add('hidden');
+  document.getElementById('hobbiesTFNextBtn').classList.add('hidden');
+  document.getElementById('hobbiesTFTrueBtn').disabled = false;
+  document.getElementById('hobbiesTFFalseBtn').disabled = false;
+}
+
+function answerHobbiesTF(selected){
+  const item = hobbiesTFQuiz[hobbiesTFIndex];
+  const correct = selected === item.answer;
+  if (correct) hobbiesTFScoreCount++;
+  document.getElementById('hobbiesTFTrueBtn').disabled = true;
+  document.getElementById('hobbiesTFFalseBtn').disabled = true;
+  const feedback = document.getElementById('hobbiesTFFeedback');
+  feedback.classList.remove('hidden');
+  feedback.className = 'status ' + (correct ? 'ok' : 'err');
+  feedback.textContent = correct ? 'Correct!' : `Not quite — this statement is ${item.answer ? 'True' : 'False'}.`;
+  document.getElementById('hobbiesTFNextBtn').classList.remove('hidden');
+}
+document.getElementById('hobbiesTFTrueBtn').addEventListener('click', () => answerHobbiesTF(true));
+document.getElementById('hobbiesTFFalseBtn').addEventListener('click', () => answerHobbiesTF(false));
+
+document.getElementById('hobbiesTFNextBtn').addEventListener('click', () => {
+  hobbiesTFIndex++;
+  if (hobbiesTFIndex >= hobbiesTFQuiz.length) {
+    showHobbiesTFResults();
+  } else {
+    renderHobbiesTFQuestion();
+  }
+});
+
+function showHobbiesTFResults(){
+  hobbiesTFScreen.classList.add('hidden');
+  hobbiesTFResultScreen.classList.remove('hidden');
+  document.getElementById('hobbiesTFScore').textContent = `${hobbiesTFScoreCount} / ${hobbiesTFQuiz.length} correct`;
+  logAttempt('Hobbies — True/False Quiz', 'Hobby vocabulary', '', `${hobbiesTFScoreCount}/${hobbiesTFQuiz.length}`, '');
+}
+
+document.getElementById('hobbiesTFTryAgainBtn').addEventListener('click', () => {
+  hobbiesTFResultScreen.classList.add('hidden');
+  hobbiesTFScreen.classList.remove('hidden');
+  hobbiesTFQuiz = buildHobbiesTFQuiz();
+  hobbiesTFIndex = 0;
+  hobbiesTFScoreCount = 0;
+  renderHobbiesTFQuestion();
+});
+document.getElementById('hobbiesTFContinueBtn').addEventListener('click', () => {
+  hobbiesTFResultScreen.classList.add('hidden');
+  hobbiesScreen.classList.remove('hidden');
 });
 
 // ---- Section 6 - Listening (a): multi-speaker dialogue, played sequentially with a pause between parts ----
@@ -1596,6 +1950,87 @@ document.getElementById('atRecessPlayBtn').addEventListener('click', () => {
         playNext();
       }
     };
+    speechSynthesis.speak(utter);
+  }
+  playNext();
+});
+
+// ---- I Love Fishing ----
+const iLoveFishingDialogue = [
+  { speaker: "Andre", line: "Hi, Galang. What's up?", id: "Hai, Galang. Ada apa?" },
+  { speaker: "Galang", line: "Hi. I am about to go to the river for fishing.", id: "Hai. Aku mau pergi ke sungai untuk memancing." },
+  { speaker: "Andre", line: "Do you go fishing very often?", id: "Apakah kamu sering pergi memancing?" },
+  { speaker: "Galang", line: "Yes. it's my hobby. I go fishing once a week.", id: "Ya. Itu hobiku. Aku memancing sekali seminggu." },
+  { speaker: "Andre", line: "You have a lot to bring. What do you need for fishing?", id: "Kamu membawa banyak barang. Apa yang kamu butuhkan untuk memancing?" },
+  { speaker: "Galang", line: "I need a fishing rod, a bucket, and fishing net.", id: "Aku butuh joran pancing, ember, dan jaring ikan." },
+  { speaker: "Andre", line: "Fishing sound interesting.", id: "Memancing kedengarannya menarik." },
+  { speaker: "Galang", line: "Do you want to join me?", id: "Apakah kamu mau ikut denganku?" },
+  { speaker: "Andre", line: "Well, maybe next time.", id: "Yah, mungkin lain kali." },
+  { speaker: "Galang", line: "Too bad.", id: "Sayang sekali." },
+  { speaker: "Galang", line: "So, what's your hobby?", id: "Jadi, apa hobimu?" },
+  { speaker: "Andre", line: "I like mobile gaming.", id: "Aku suka bermain gim di ponsel." },
+  { speaker: "Galang", line: "How often do you play mobile gaming?", id: "Seberapa sering kamu bermain gim di ponsel?" },
+  { speaker: "Andre", line: "Only on weekends", id: "Hanya di akhir pekan" },
+  { speaker: "Galang", line: "Nice", id: "Bagus" },
+  { speaker: "Galang", line: "Well, I have got to go now.", id: "Baiklah, aku harus pergi sekarang." },
+  { speaker: "Andre", line: "Sure. Enjoy your fishing Galang!", id: "Tentu. Selamat memancing, Galang!" },
+  { speaker: "Galang", line: "Thanks. Have fun with your mobile gaming, too.", id: "Terima kasih. Selamat bermain gim juga." }
+];
+
+function renderILoveFishingScript(){
+  document.getElementById('iLoveFishingScript').innerHTML = iLoveFishingDialogue.map((l, i) => `
+    <div id="ilf-${i}" style="margin-bottom:8px;padding:4px 6px;border-radius:6px;transition:background-color 0.2s;">
+      <div><strong>${l.speaker}:</strong> ${l.line}</div>
+      <div style="padding-left:18px;color:#5a6472;font-size:0.88rem;font-style:italic;">(${l.id})</div>
+    </div>
+  `).join('');
+}
+
+let iLoveFishingActiveLineEl = null;
+function clearILoveFishingHighlight(){
+  if (iLoveFishingActiveLineEl) {
+    iLoveFishingActiveLineEl.style.backgroundColor = '';
+    iLoveFishingActiveLineEl = null;
+  }
+}
+function highlightILoveFishingLine(domId){
+  clearILoveFishingHighlight();
+  const el = document.getElementById(domId);
+  if (el) {
+    el.style.backgroundColor = 'var(--go-bg)';
+    iLoveFishingActiveLineEl = el;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function pickVoicesForILoveFishingSpeakers(){
+  const voices = ('speechSynthesis' in window) ? speechSynthesis.getVoices() : [];
+  const enVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+  const speakers = ['Andre', 'Galang'];
+  const map = {};
+  speakers.forEach((name, i) => {
+    map[name] = enVoices.length > 0 ? enVoices[i % enVoices.length] : null;
+  });
+  return map;
+}
+
+document.getElementById('iLoveFishingPlayBtn').addEventListener('click', () => {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+
+  const pitchBySpeaker = { Andre: 1.0, Galang: 1.15 };
+  const voiceBySpeaker = pickVoicesForILoveFishingSpeakers();
+
+  let idx = 0;
+  function playNext(){
+    if (idx >= iLoveFishingDialogue.length) { clearILoveFishingHighlight(); return; }
+    const item = iLoveFishingDialogue[idx];
+    const utter = new SpeechSynthesisUtterance(item.line);
+    utter.lang = 'en-US';
+    utter.pitch = pitchBySpeaker[item.speaker] || 1.0;
+    if (voiceBySpeaker[item.speaker]) utter.voice = voiceBySpeaker[item.speaker];
+    utter.onstart = () => highlightILoveFishingLine(`ilf-${idx}`);
+    utter.onend = () => { idx++; playNext(); };
     speechSynthesis.speak(utter);
   }
   playNext();
