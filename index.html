@@ -2956,7 +2956,7 @@ document.getElementById('sentenceGameCheckBtn').addEventListener('click', () => 
     ? `Correct! "${fullSentence}"`
     : `Not quite — the correct sentence is "${fullSentence}"`;
 
-  if ('speechSynthesis' in window) {
+  if (correct && 'speechSynthesis' in window) {
     speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(fullSentence);
     utter.lang = 'en-US';
