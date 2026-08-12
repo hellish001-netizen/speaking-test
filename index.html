@@ -57,6 +57,11 @@
     padding:18px 18px 18px 30px;
     margin-bottom:14px;
     box-shadow:0 1px 0 rgba(35,48,61,0.04);
+    animation:screenFadeIn 0.28s ease-out;
+  }
+  @keyframes screenFadeIn{
+    from{ opacity:0; transform:translateY(10px); }
+    to{ opacity:1; transform:translateY(0); }
   }
   .card::before{
     content:'';
@@ -320,8 +325,38 @@
 <div id="aParadeInMyHometownScreen" class="hidden">
   <div class="card">
     <div class="progress patriotic-title">A Parade in My Hometown</div>
-    <div class="status idle" data-i18n="wordsBoxComingSoon">Content coming soon.</div>
+    <button id="aParadeInMyHometownPlayBtn" data-i18n="playDialogue">▶ Play Dialogue</button>
+    <div id="aParadeInMyHometownScript" style="margin-top:14px;font-size:0.98rem;line-height:1.8;"></div>
+    <button id="paradeReferenceQuizBtn" class="secondary" style="margin-top:14px;">🔍 Reference Quiz</button>
     <button id="aParadeInMyHometownBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="paradeReferenceQuizScreen" class="hidden">
+  <div class="card">
+    <div class="progress patriotic-title" id="paradeReferenceQuizProgress">Question 1 of 5</div>
+    <div class="dialogue" id="paradeReferenceQuizSentence" style="font-style:italic;"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-top:8px;">
+      <div class="dialogue" id="paradeReferenceQuizQuestion" style="flex:1;margin-bottom:0;"></div>
+      <div style="display:flex;gap:6px;flex-shrink:0;">
+        <button id="paradeReferenceQuizReplayBtn" class="icon-btn" title="Replay sentence">🔊</button>
+        <button id="paradeReferenceQuizHintBtn" class="icon-btn" title="Show hint">🇮🇩</button>
+      </div>
+    </div>
+    <div id="paradeReferenceQuizHintText" class="hidden" style="padding-left:2px;color:#5a6472;font-size:0.9rem;font-style:italic;margin-top:4px;"></div>
+    <div id="paradeReferenceQuizOptions" style="margin-top:12px;"></div>
+    <div class="status idle hidden" id="paradeReferenceQuizFeedback" style="margin-top:12px;"></div>
+    <button id="paradeReferenceQuizNextBtn" class="secondary hidden" style="margin-top:14px;">Next →</button>
+    <button id="paradeReferenceQuizBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="paradeReferenceQuizResultScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="results">Results</div>
+    <div class="score" id="paradeReferenceQuizScore"></div>
+    <button id="paradeReferenceQuizTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="paradeReferenceQuizContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
   </div>
 </div>
 
@@ -742,6 +777,47 @@
 
 <script>
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+// ---- Sound design: short synthesized tones for feedback moments only (correct/incorrect/success).
+// No audio files — generated in-browser via Web Audio API, so zero network/connection cost.
+// Deliberately NOT used on navigation taps, since this app already relies on spoken TTS constantly;
+// stacking a click sound on every tap would compete with that and get tuned out fast.
+let sfxAudioCtx = null;
+function getSfxAudioCtx(){
+  if (!sfxAudioCtx) {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return null;
+    sfxAudioCtx = new Ctx();
+  }
+  if (sfxAudioCtx.state === 'suspended') sfxAudioCtx.resume();
+  return sfxAudioCtx;
+}
+function playTone(freq, duration, startTime, volume){
+  const ctx = getSfxAudioCtx();
+  if (!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(volume || 0.15, ctx.currentTime + (startTime || 0));
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (startTime || 0) + duration);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(ctx.currentTime + (startTime || 0));
+  osc.stop(ctx.currentTime + (startTime || 0) + duration);
+}
+function playCorrectSound(){
+  playTone(523.25, 0.12, 0, 0.14);   // C5
+  playTone(659.25, 0.16, 0.1, 0.14); // E5
+}
+function playIncorrectSound(){
+  playTone(190, 0.22, 0, 0.12);
+}
+function playSuccessSound(){
+  playTone(523.25, 0.12, 0, 0.14);    // C5
+  playTone(659.25, 0.12, 0.12, 0.14); // E5
+  playTone(783.99, 0.22, 0.24, 0.14); // G5
+}
 
 // ---- Bilingual menu/instruction text (test content itself stays English) ----
 const i18n = {
@@ -1302,6 +1378,7 @@ function showListeningResult(said, candidatePhrases){
     percent = wordMatchPercent(candidateWords, currentListeningTargetEn);
   }
   const passed = percent >= 70;
+  if (passed) playCorrectSound(); else playIncorrectSound();
 
   logAttempt(
     currentListeningLogLabel,
@@ -1463,6 +1540,8 @@ const grade8Chapter1Screen = document.getElementById('grade8Chapter1Screen');
 const grade8Chapter1Unit1Screen = document.getElementById('grade8Chapter1Unit1Screen');
 const grade8Chapter1Unit2Screen = document.getElementById('grade8Chapter1Unit2Screen');
 const aParadeInMyHometownScreen = document.getElementById('aParadeInMyHometownScreen');
+const paradeReferenceQuizScreen = document.getElementById('paradeReferenceQuizScreen');
+const paradeReferenceQuizResultScreen = document.getElementById('paradeReferenceQuizResultScreen');
 const irregularVsRegularScreen = document.getElementById('irregularVsRegularScreen');
 const letterTileScreen = document.getElementById('letterTileScreen');
 const sentenceGameScreen = document.getElementById('sentenceGameScreen');
@@ -1542,6 +1621,8 @@ function hideAllMenus(){
   grade8Chapter1Unit1Screen.classList.add('hidden');
   grade8Chapter1Unit2Screen.classList.add('hidden');
   aParadeInMyHometownScreen.classList.add('hidden');
+  paradeReferenceQuizScreen.classList.add('hidden');
+  paradeReferenceQuizResultScreen.classList.add('hidden');
   irregularVsRegularScreen.classList.add('hidden');
   irregularVerbsScreen.classList.add('hidden');
   regularVerbsScreen.classList.add('hidden');
@@ -1770,6 +1851,7 @@ function selectHobbiesMatchItem(el, side){
   if (hobbiesMatchSelectedEn && hobbiesMatchSelectedId) {
     const enEl = hobbiesMatchSelectedEn, idEl = hobbiesMatchSelectedId;
     if (enEl.dataset.pair === idEl.dataset.pair) {
+      playCorrectSound();
       enEl.classList.remove('selected'); idEl.classList.remove('selected');
       enEl.classList.add('matched'); idEl.classList.add('matched');
       hobbiesMatchMatchedCount++;
@@ -1779,6 +1861,7 @@ function selectHobbiesMatchItem(el, side){
         finishHobbiesMatch();
       }
     } else {
+      playIncorrectSound();
       enEl.classList.add('wrong'); idEl.classList.add('wrong');
       setTimeout(() => {
         enEl.classList.remove('selected', 'wrong');
@@ -1791,6 +1874,7 @@ function selectHobbiesMatchItem(el, side){
 }
 
 function finishHobbiesMatch(){
+  playSuccessSound();
   document.getElementById('hobbiesMatchStatus').className = 'status ok';
   document.getElementById('hobbiesMatchStatus').textContent = 'All matched — great job!';
   document.getElementById('hobbiesMatchScore').textContent = `${hobbiesMatchPairs.length} / ${hobbiesMatchPairs.length} matched`;
@@ -1849,7 +1933,7 @@ function renderHobbiesTFQuestion(){
 function answerHobbiesTF(selected){
   const item = hobbiesTFQuiz[hobbiesTFIndex];
   const correct = selected === item.answer;
-  if (correct) hobbiesTFScoreCount++;
+  if (correct) { hobbiesTFScoreCount++; playCorrectSound(); } else { playIncorrectSound(); }
   document.getElementById('hobbiesTFTrueBtn').disabled = true;
   document.getElementById('hobbiesTFFalseBtn').disabled = true;
   const feedback = document.getElementById('hobbiesTFFeedback');
@@ -2288,7 +2372,7 @@ document.getElementById('atRecessQuizHintBtn').addEventListener('click', () => {
 function answerAtRecessQuiz(selectedIndex){
   const item = currentAtRecessQuiz[atRecessQuizIndex];
   const correct = selectedIndex === item.correct;
-  if (correct) atRecessQuizScoreCount++;
+  if (correct) { atRecessQuizScoreCount++; playCorrectSound(); } else { playIncorrectSound(); }
   atRecessQuizAnswers.push({
     q: item.q,
     correct: correct,
@@ -2450,7 +2534,7 @@ document.getElementById('section6QuizHintBtn').addEventListener('click', () => {
 function answerSection6Quiz(selectedIndex){
   const item = currentSection6Quiz[section6QuizIndex];
   const correct = selectedIndex === item.correct;
-  if (correct) section6QuizScoreCount++;
+  if (correct) { section6QuizScoreCount++; playCorrectSound(); } else { playIncorrectSound(); }
   section6QuizAnswers.push({
     q: item.q,
     correct: correct,
@@ -2561,11 +2645,236 @@ document.getElementById('grade8Chapter1Unit2BackBtn').addEventListener('click', 
 document.getElementById('aParadeInMyHometownBtn').addEventListener('click', () => {
   grade8Chapter1Unit2Screen.classList.add('hidden');
   aParadeInMyHometownScreen.classList.remove('hidden');
+  renderAParadeInMyHometownScript();
 });
 document.getElementById('aParadeInMyHometownBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  clearAParadeInMyHometownHighlight();
   aParadeInMyHometownScreen.classList.add('hidden');
   grade8Chapter1Unit2Screen.classList.remove('hidden');
 });
+
+// ---- A Parade in My Hometown: single-narrator monologue ----
+const aParadeInMyHometownLines = [
+  { line: "When I was a child, I always waited for Independence Day.", id: "Ketika aku masih kecil, aku selalu menunggu-nunggu Hari Kemerdekaan." },
+  { line: "My father used to ask me to watch a parade together.", id: "Ayahku biasa mengajakku menonton pawai bersama." },
+  { line: "We saw it from our front yard.", id: "Kami menontonnya dari halaman depan rumah kami." },
+  { line: "I remember how attractive the parade was.", id: "Aku ingat betapa menariknya pawai itu." },
+  { line: "In the first line of the parade, I saw the people dressed up uniquely.", id: "Di barisan pertama pawai, aku melihat orang-orang berpakaian unik." },
+  { line: "Some people wore Indonesian heroes' costumes.", id: "Beberapa orang mengenakan kostum pahlawan Indonesia." },
+  { line: "Some others dressed like local ghosts.", id: "Yang lain berpakaian seperti hantu lokal." },
+  { line: "They were scary but they were funny, too.", id: "Mereka menyeramkan tapi juga lucu." },
+  { line: "Next, I remembered that a lot of people marched in the second line.", id: "Selanjutnya, aku ingat banyak orang berbaris di barisan kedua." },
+  { line: "They waved a mini Indonesian flag.", id: "Mereka melambaikan bendera Indonesia kecil." },
+  { line: "They walked around the village and sang the \u2018Hari Merdeka\u2019 song.", id: "Mereka berjalan mengelilingi desa dan menyanyikan lagu \u2018Hari Merdeka\u2019." },
+  { line: "Their singing was accompanied by traditional instruments like angklung, suling, and rebana.", id: "Nyanyian mereka diiringi alat musik tradisional seperti angklung, suling, dan rebana." },
+  { line: "At last, I also saw that many children rode their bicycles in the parade.", id: "Terakhir, aku juga melihat banyak anak mengendarai sepeda mereka dalam pawai itu." },
+  { line: "They decorated their bicycles creatively.", id: "Mereka menghias sepeda mereka dengan kreatif." },
+  { line: "I always wanted to join the parade but I was too shy.", id: "Aku selalu ingin ikut pawai itu tapi aku terlalu malu." },
+  { line: "Luckily, I have the chance to join a parade at my school next week.", id: "Untungnya, aku punya kesempatan untuk ikut pawai di sekolahku minggu depan." },
+  { line: "I am really looking forward to it.", id: "Aku sungguh menantikannya." }
+];
+
+function renderAParadeInMyHometownScript(){
+  document.getElementById('aParadeInMyHometownScript').innerHTML = aParadeInMyHometownLines.map((l, i) => `
+    <div id="apimh-${i}" style="margin-bottom:8px;padding:4px 6px;border-radius:6px;transition:background-color 0.2s;">
+      <div>${l.line}</div>
+      <div style="padding-left:18px;color:#5a6472;font-size:0.88rem;font-style:italic;">(${l.id})</div>
+    </div>
+  `).join('');
+}
+
+let aParadeInMyHometownActiveLineEl = null;
+function clearAParadeInMyHometownHighlight(){
+  if (aParadeInMyHometownActiveLineEl) {
+    aParadeInMyHometownActiveLineEl.style.backgroundColor = '';
+    aParadeInMyHometownActiveLineEl = null;
+  }
+}
+function highlightAParadeInMyHometownLine(domId){
+  clearAParadeInMyHometownHighlight();
+  const el = document.getElementById(domId);
+  if (el) {
+    el.style.backgroundColor = 'var(--go-bg)';
+    aParadeInMyHometownActiveLineEl = el;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+document.getElementById('aParadeInMyHometownPlayBtn').addEventListener('click', () => {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+
+  let idx = 0;
+  function playNext(){
+    if (idx >= aParadeInMyHometownLines.length) { clearAParadeInMyHometownHighlight(); return; }
+    const item = aParadeInMyHometownLines[idx];
+    const utter = new SpeechSynthesisUtterance(item.line);
+    utter.lang = 'en-US';
+    utter.onstart = () => highlightAParadeInMyHometownLine(`apimh-${idx}`);
+    utter.onend = () => { idx++; playNext(); };
+    speechSynthesis.speak(utter);
+  }
+  playNext();
+});
+
+// ---- Reference Quiz: what does the pronoun refer to? (only clean, unambiguous cases used) ----
+const paradeReferenceQuiz = [
+  {
+    sentence: "We saw it from our front yard.",
+    id: "Kami menontonnya dari halaman depan rumah kami.",
+    q: "\u201cIt\u201d in this sentence refers to:",
+    options: ["A parade", "Independence Day", "The front yard", "My father"],
+    correct: 0
+  },
+  {
+    sentence: "They waved a mini Indonesian flag.",
+    id: "Mereka melambaikan bendera Indonesia kecil.",
+    q: "\u201cThey\u201d in this sentence refers to:",
+    options: ["My father", "The people marching in the second line", "The children on bicycles", "The heroes in costumes"],
+    correct: 1
+  },
+  {
+    sentence: "Their singing was accompanied by traditional instruments like angklung, suling, and rebana.",
+    id: "Nyanyian mereka diiringi alat musik tradisional seperti angklung, suling, dan rebana.",
+    q: "\u201cTheir\u201d in this sentence refers to:",
+    options: ["My father's", "The marching people's", "The children's", "The heroes'"],
+    correct: 1
+  },
+  {
+    sentence: "They decorated their bicycles creatively.",
+    id: "Mereka menghias sepeda mereka dengan kreatif.",
+    q: "\u201cThey\u201d in this sentence refers to:",
+    options: ["The heroes", "The marching people", "Many children who rode bicycles", "My father"],
+    correct: 2
+  },
+  {
+    sentence: "I am really looking forward to it.",
+    id: "Aku sungguh menantikannya.",
+    q: "\u201cIt\u201d in this sentence refers to:",
+    options: ["The parade the writer saw as a child", "A parade at the writer's school next week", "The 'Hari Merdeka' song", "My father's costume"],
+    correct: 1
+  }
+];
+
+let currentParadeReferenceQuiz = [];
+let paradeReferenceQuizIndex = 0;
+let paradeReferenceQuizScoreCount = 0;
+
+function buildShuffledParadeReferenceQuiz(){
+  return shuffleArray(paradeReferenceQuiz).map(q => {
+    const optionObjs = q.options.map((opt, i) => ({ text: opt, isCorrect: i === q.correct }));
+    const shuffledOptions = shuffleArray(optionObjs);
+    return {
+      sentence: q.sentence,
+      id: q.id,
+      q: q.q,
+      options: shuffledOptions.map(o => o.text),
+      correct: shuffledOptions.findIndex(o => o.isCorrect)
+    };
+  });
+}
+
+document.getElementById('paradeReferenceQuizBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  aParadeInMyHometownScreen.classList.add('hidden');
+  paradeReferenceQuizScreen.classList.remove('hidden');
+  currentParadeReferenceQuiz = buildShuffledParadeReferenceQuiz();
+  paradeReferenceQuizIndex = 0;
+  paradeReferenceQuizScoreCount = 0;
+  renderParadeReferenceQuizQuestion();
+});
+document.getElementById('paradeReferenceQuizBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  paradeReferenceQuizScreen.classList.add('hidden');
+  aParadeInMyHometownScreen.classList.remove('hidden');
+});
+
+function playParadeReferenceQuizSentence(){
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const item = currentParadeReferenceQuiz[paradeReferenceQuizIndex];
+  const utter = new SpeechSynthesisUtterance(item.sentence);
+  utter.lang = 'en-US';
+  speechSynthesis.speak(utter);
+}
+
+function renderParadeReferenceQuizQuestion(){
+  const item = currentParadeReferenceQuiz[paradeReferenceQuizIndex];
+  document.getElementById('paradeReferenceQuizProgress').textContent = `Question ${paradeReferenceQuizIndex + 1} of ${currentParadeReferenceQuiz.length}`;
+  document.getElementById('paradeReferenceQuizSentence').textContent = `"${item.sentence}"`;
+  document.getElementById('paradeReferenceQuizQuestion').textContent = item.q;
+
+  const hintText = document.getElementById('paradeReferenceQuizHintText');
+  hintText.classList.add('hidden');
+  hintText.textContent = item.id;
+
+  const optionsEl = document.getElementById('paradeReferenceQuizOptions');
+  optionsEl.innerHTML = '';
+  item.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'secondary';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => answerParadeReferenceQuiz(i));
+    optionsEl.appendChild(btn);
+  });
+
+  const feedback = document.getElementById('paradeReferenceQuizFeedback');
+  feedback.classList.add('hidden');
+  document.getElementById('paradeReferenceQuizNextBtn').classList.add('hidden');
+
+  playParadeReferenceQuizSentence();
+}
+
+document.getElementById('paradeReferenceQuizReplayBtn').addEventListener('click', playParadeReferenceQuizSentence);
+document.getElementById('paradeReferenceQuizHintBtn').addEventListener('click', () => {
+  document.getElementById('paradeReferenceQuizHintText').classList.toggle('hidden');
+});
+
+function answerParadeReferenceQuiz(selectedIndex){
+  const item = currentParadeReferenceQuiz[paradeReferenceQuizIndex];
+  const correct = selectedIndex === item.correct;
+  if (correct) { paradeReferenceQuizScoreCount++; playCorrectSound(); } else { playIncorrectSound(); }
+
+  document.querySelectorAll('#paradeReferenceQuizOptions button').forEach(b => b.disabled = true);
+
+  const feedback = document.getElementById('paradeReferenceQuizFeedback');
+  feedback.classList.remove('hidden');
+  feedback.className = 'status ' + (correct ? 'ok' : 'err');
+  feedback.textContent = correct ? 'Correct!' : `Not quite — the correct answer is "${item.options[item.correct]}".`;
+
+  document.getElementById('paradeReferenceQuizNextBtn').classList.remove('hidden');
+}
+
+document.getElementById('paradeReferenceQuizNextBtn').addEventListener('click', () => {
+  paradeReferenceQuizIndex++;
+  if (paradeReferenceQuizIndex >= currentParadeReferenceQuiz.length) {
+    showParadeReferenceQuizResults();
+  } else {
+    renderParadeReferenceQuizQuestion();
+  }
+});
+
+function showParadeReferenceQuizResults(){
+  paradeReferenceQuizScreen.classList.add('hidden');
+  paradeReferenceQuizResultScreen.classList.remove('hidden');
+  document.getElementById('paradeReferenceQuizScore').textContent = `${paradeReferenceQuizScoreCount} / ${currentParadeReferenceQuiz.length} correct`;
+  logAttempt('A Parade in My Hometown — Reference Quiz', 'Pronoun reference', '', `${paradeReferenceQuizScoreCount}/${currentParadeReferenceQuiz.length}`, '');
+}
+
+document.getElementById('paradeReferenceQuizTryAgainBtn').addEventListener('click', () => {
+  paradeReferenceQuizResultScreen.classList.add('hidden');
+  paradeReferenceQuizScreen.classList.remove('hidden');
+  currentParadeReferenceQuiz = buildShuffledParadeReferenceQuiz();
+  paradeReferenceQuizIndex = 0;
+  paradeReferenceQuizScoreCount = 0;
+  renderParadeReferenceQuizQuestion();
+});
+document.getElementById('paradeReferenceQuizContinueBtn').addEventListener('click', () => {
+  paradeReferenceQuizResultScreen.classList.add('hidden');
+  aParadeInMyHometownScreen.classList.remove('hidden');
+});
+
 document.getElementById('irregularVsRegularBtn').addEventListener('click', () => {
   grade8Chapter1Unit1Screen.classList.add('hidden');
   irregularVsRegularScreen.classList.remove('hidden');
@@ -2808,7 +3117,7 @@ document.getElementById('letterTileCheckBtn').addEventListener('click', () => {
   const item = letterTileRounds[letterTileIndex];
   const attempt = letterTileAnswerLetters.join('');
   const correct = attempt === item.past;
-  if (correct) letterTileScoreCount++;
+  if (correct) { letterTileScoreCount++; playCorrectSound(); } else { playIncorrectSound(); }
 
   const feedback = document.getElementById('letterTileFeedback');
   feedback.classList.remove('hidden');
@@ -2983,7 +3292,7 @@ document.getElementById('sentenceGameCheckBtn').addEventListener('click', () => 
   const correctOrder = [item.subject, item.verb, item.object].join('|');
   const attempt = sentenceGameAnswerPieces.join('|');
   const correct = attempt === correctOrder;
-  if (correct) sentenceGameScoreCount++;
+  if (correct) { sentenceGameScoreCount++; } else { playIncorrectSound(); }
 
   const fullSentence = `${item.subject} ${item.verb} ${item.object}.`;
   const feedback = document.getElementById('sentenceGameFeedback');
@@ -3234,6 +3543,7 @@ function judgeIndoResponse(said, confidence){
   indoResults.push({ prompt: item.id, said: said, confidence: confidence, quality: result.quality, feedback: result.feedback });
   logAttempt('Indonesian Prompts', item.id, said, result.quality, result.feedback);
   const passed = (result.quality === 'adequate' || result.quality === 'strong');
+  if (passed) playCorrectSound(); else playIncorrectSound();
   statusEl.className = 'status ' + (passed ? 'ok' : 'err');
   statusEl.textContent = result.feedback;
 
@@ -3765,6 +4075,8 @@ function scoreReadingAttempt(said, elapsedMs, confidence){
 function showReadingResult(overall, category, missingWords, speedLabel){
   document.getElementById('readingRecordArea').classList.add('hidden');
   document.getElementById('readingResultArea').classList.remove('hidden');
+  if (category === 'green') playCorrectSound();
+  else if (category === 'red') playIncorrectSound();
 
   const colorVar = { green: 'var(--go)', yellow: 'var(--yellow)', red: 'var(--warn)' }[category];
   const labelText = { green: 'GREEN', yellow: 'YELLOW', red: 'RED' }[category];
@@ -4058,6 +4370,7 @@ function judgeResponse(said, confidence){
   logAttempt(modeLabels[selectedGrade] || selectedGrade, d.a, said, result.quality, result.feedback);
 
   const passed = (result.quality === 'adequate' || result.quality === 'strong');
+  if (passed) playCorrectSound(); else playIncorrectSound();
   setStatus(passed ? 'Good response!' : 'Let\'s look at that one.', passed ? 'ok' : 'err');
   nextBtn.classList.remove('hidden');
   nextBtn.textContent = (current === dialogues.length - 1) ? i18n[uiLang].seeResults : i18n[uiLang].next;
