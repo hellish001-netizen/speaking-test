@@ -123,6 +123,20 @@
     animation:patrioticTwinkle 1.6s ease-in-out infinite alternate;
     text-shadow:0 0 1px rgba(0,0,0,0.35), 0 0 3px rgba(0,0,0,0.15);
   }
+  @keyframes rainbowShift{
+    0%{ background-position:0% 50%; }
+    100%{ background-position:400% 50%; }
+  }
+  .rainbow-title{
+    color:var(--accent); /* fallback if gradient text isn't supported */
+    font-weight:700;
+    background:linear-gradient(90deg, #ff3b30, #ff9500, #ffcc00, #34c759, #007aff, #5856d6, #ff2d55, #ff3b30);
+    background-size:400% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:rainbowShift 4s linear infinite;
+  }
   .status{ margin-top:12px; padding:12px; border-radius:6px; font-size:0.88rem; line-height:1.45; border-left:3px solid transparent; }
   .matchGrid{ display:flex; gap:10px; margin-top:12px; }
   .matchCol{ flex:1; display:flex; flex-direction:column; gap:8px; }
@@ -223,6 +237,7 @@
 <div id="mainMenuScreen" class="hidden">
   <div class="card">
     <button id="langToggleBtn" class="secondary" style="margin-bottom:16px;">🌐 Bahasa Indonesia</button>
+    <div class="dialogue rainbow-title" id="timeGreeting" style="margin-bottom:6px;font-size:1.2rem;"></div>
     <div class="progress" data-i18n="chooseActivity">Choose an activity</div>
     <button id="goListeningBtn" data-i18n="listeningBtn">🎧 Listening - Speaking</button>
     <button id="goSpeakingBtn" data-i18n="speakingBtn">🗣 English for Nusantara</button>
@@ -877,6 +892,11 @@ const i18n = {
     downloadReport: "⬇ Download Results (Excel)",
     changeStudent: "🔄 Change Student",
     studentLabel: (name) => `Student: ${name}`,
+    greetingMorning: "Good morning",
+    greetingMidday: "Good afternoon",
+    greetingAfternoon: "Good afternoon",
+    greetingEvening: "Good evening",
+    greetingNight: "Good night",
     grade7Header: "Grade 7",
     englishNusantaraBtn: "Chapter 1 About Me",
     dialogueBtn: "💬 Dialogue",
@@ -948,6 +968,11 @@ const i18n = {
     downloadReport: "⬇ Unduh Hasil (Excel)",
     changeStudent: "🔄 Ganti Siswa",
     studentLabel: (name) => `Siswa: ${name}`,
+    greetingMorning: "Selamat pagi",
+    greetingMidday: "Selamat siang",
+    greetingAfternoon: "Selamat sore",
+    greetingEvening: "Selamat malam",
+    greetingNight: "Selamat malam",
     grade7Header: "Kelas 7",
     englishNusantaraBtn: "Chapter 1 About Me",
     dialogueBtn: "💬 Dialog",
@@ -984,9 +1009,24 @@ const listeningTestScreen = document.getElementById('listeningTestScreen');
 const verbMenuScreen = document.getElementById('verbMenuScreen');
 const verbCategoryScreen = document.getElementById('verbCategoryScreen');
 
+function getTimeGreeting(){
+  const hour = new Date().getHours();
+  let key;
+  if (hour >= 5 && hour < 11) key = 'greetingMorning';
+  else if (hour >= 11 && hour < 15) key = 'greetingMidday';
+  else if (hour >= 15 && hour < 18) key = 'greetingAfternoon';
+  else if (hour >= 18 && hour < 22) key = 'greetingEvening';
+  else key = 'greetingNight';
+  return i18n[uiLang][key];
+}
+
 function refreshStudentLabel(){
   const label = document.getElementById('currentStudentLabel');
   if (studentName) label.textContent = i18n[uiLang].studentLabel(studentName);
+  const greetingEl = document.getElementById('timeGreeting');
+  if (greetingEl) {
+    greetingEl.textContent = studentName ? `${getTimeGreeting()}, ${studentName}!` : getTimeGreeting();
+  }
 }
 
 document.getElementById('nameContinueBtn').addEventListener('click', () => {
