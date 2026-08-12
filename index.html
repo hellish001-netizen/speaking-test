@@ -135,6 +135,33 @@
   .matchItem.selected{ background:var(--accent); color:#fff; }
   .matchItem.matched{ background:var(--go-bg); border-color:var(--go); color:var(--go); opacity:0.6; pointer-events:none; }
   .matchItem.wrong{ background:var(--warn-bg); border-color:var(--warn); color:var(--warn); }
+  .tileRow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .letterTile{
+    width:38px; height:38px;
+    display:flex; align-items:center; justify-content:center;
+    border:1.5px solid var(--accent);
+    border-radius:6px;
+    background:#fff;
+    color:var(--accent);
+    font-weight:700;
+    font-size:1.05rem;
+    text-transform:uppercase;
+    cursor:pointer;
+    user-select:none;
+  }
+  .letterSlot{
+    width:38px; height:38px;
+    display:flex; align-items:center; justify-content:center;
+    border:1.5px dashed var(--line);
+    border-radius:6px;
+    background:#fdfaf3;
+    color:var(--ink);
+    font-weight:700;
+    font-size:1.05rem;
+    text-transform:uppercase;
+    cursor:pointer;
+    user-select:none;
+  }
   .status.ok{ background:var(--go-bg); color:var(--go); border-left-color:var(--go); }
   .status.warn2{ background:var(--yellow-bg); color:var(--yellow); border-left-color:var(--yellow); }
   .status.err{ background:var(--warn-bg); color:var(--warn); border-left-color:var(--warn); }
@@ -283,9 +310,58 @@
 
 <div id="grade8Chapter1Unit1Screen" class="hidden">
   <div class="card">
-    <div class="progress">Unit 1: The Champion of Panjat Pinang</div>
-    <div class="status idle" data-i18n="wordsBoxComingSoon">Content coming soon.</div>
+    <div class="progress patriotic-title">Unit 1: The Champion of Panjat Pinang</div>
+    <button id="irregularVsRegularBtn">Irregular VS Regular</button>
     <button id="grade8Chapter1Unit1BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="irregularVsRegularScreen" class="hidden">
+  <div class="card">
+    <div class="progress patriotic-title">Irregular VS Regular</div>
+    <button id="irregularVerbsBtn">Irregular Verbs</button>
+    <button id="regularVerbsBtn">Regular Verbs</button>
+    <button id="letterTileBtn" class="secondary" style="margin-top:16px;">🔤 Letter-Tile Game</button>
+    <button id="irregularVsRegularBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="letterTileScreen" class="hidden">
+  <div class="card">
+    <div class="progress patriotic-title" id="letterTileProgress">Round 1 of 10</div>
+    <div class="dialogue" id="letterTileClue"></div>
+    <div class="tileRow" id="letterTileAnswer"></div>
+    <div class="tileRow" id="letterTilePool"></div>
+    <div class="status idle hidden" id="letterTileFeedback" style="margin-top:12px;"></div>
+    <button id="letterTileClearBtn" class="secondary" style="margin-top:14px;">↺ Clear</button>
+    <button id="letterTileCheckBtn" class="hidden" style="margin-top:8px;">Check</button>
+    <button id="letterTileNextBtn" class="secondary hidden" style="margin-top:8px;">Next →</button>
+    <button id="letterTileBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="letterTileResultScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="results">Results</div>
+    <div class="score" id="letterTileScore"></div>
+    <button id="letterTileTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="letterTileContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
+  </div>
+</div>
+
+<div id="irregularVerbsScreen" class="hidden">
+  <div class="card">
+    <div class="progress patriotic-title">Irregular Verbs</div>
+    <div id="irregularVerbsWordList"></div>
+    <button id="irregularVerbsBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="regularVerbsScreen" class="hidden">
+  <div class="card">
+    <div class="progress patriotic-title">Regular Verbs</div>
+    <div id="regularVerbsWordList"></div>
+    <button id="regularVerbsBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -1341,6 +1417,11 @@ const gradeScreen = document.getElementById('gradeScreen');
 const grade8Screen = document.getElementById('grade8Screen');
 const grade8Chapter1Screen = document.getElementById('grade8Chapter1Screen');
 const grade8Chapter1Unit1Screen = document.getElementById('grade8Chapter1Unit1Screen');
+const irregularVsRegularScreen = document.getElementById('irregularVsRegularScreen');
+const letterTileScreen = document.getElementById('letterTileScreen');
+const letterTileResultScreen = document.getElementById('letterTileResultScreen');
+const irregularVerbsScreen = document.getElementById('irregularVerbsScreen');
+const regularVerbsScreen = document.getElementById('regularVerbsScreen');
 const grade7MenuScreen = document.getElementById('grade7MenuScreen');
 const englishNusantaraScreen = document.getElementById('englishNusantaraScreen');
 const g7Unit1Screen = document.getElementById('g7Unit1Screen');
@@ -1411,6 +1492,11 @@ function hideAllMenus(){
   grade8Screen.classList.add('hidden');
   grade8Chapter1Screen.classList.add('hidden');
   grade8Chapter1Unit1Screen.classList.add('hidden');
+  irregularVsRegularScreen.classList.add('hidden');
+  irregularVerbsScreen.classList.add('hidden');
+  regularVerbsScreen.classList.add('hidden');
+  letterTileScreen.classList.add('hidden');
+  letterTileResultScreen.classList.add('hidden');
   grade7MenuScreen.classList.add('hidden');
   englishNusantaraScreen.classList.add('hidden');
   g7Unit1Screen.classList.add('hidden');
@@ -2412,6 +2498,290 @@ document.getElementById('grade8Chapter1Unit1BackBtn').addEventListener('click', 
   grade8Chapter1Unit1Screen.classList.add('hidden');
   grade8Chapter1Screen.classList.remove('hidden');
 });
+document.getElementById('irregularVsRegularBtn').addEventListener('click', () => {
+  grade8Chapter1Unit1Screen.classList.add('hidden');
+  irregularVsRegularScreen.classList.remove('hidden');
+});
+document.getElementById('irregularVsRegularBackBtn').addEventListener('click', () => {
+  irregularVsRegularScreen.classList.add('hidden');
+  grade8Chapter1Unit1Screen.classList.remove('hidden');
+});
+document.getElementById('irregularVerbsBtn').addEventListener('click', () => {
+  irregularVsRegularScreen.classList.add('hidden');
+  irregularVerbsScreen.classList.remove('hidden');
+  renderVerbWordList(document.getElementById('irregularVerbsWordList'), irregularVerbsWords);
+});
+document.getElementById('irregularVerbsBackBtn').addEventListener('click', () => {
+  irregularVerbsScreen.classList.add('hidden');
+  irregularVsRegularScreen.classList.remove('hidden');
+});
+document.getElementById('regularVerbsBtn').addEventListener('click', () => {
+  irregularVsRegularScreen.classList.add('hidden');
+  regularVerbsScreen.classList.remove('hidden');
+  renderVerbWordList(document.getElementById('regularVerbsWordList'), regularVerbsWords);
+});
+document.getElementById('regularVerbsBackBtn').addEventListener('click', () => {
+  regularVerbsScreen.classList.add('hidden');
+  irregularVsRegularScreen.classList.remove('hidden');
+});
+
+// ---- Irregular Verbs: physical/competition activities (lomba 17 Agustus & sport-adjacent) ----
+const irregularVerbsWords = [
+  { en: "run", past: "ran", id: "berlari" },
+  { en: "throw", past: "threw", id: "melempar" },
+  { en: "catch", past: "caught", id: "menangkap" },
+  { en: "swim", past: "swam", id: "berenang" },
+  { en: "fall", past: "fell", id: "jatuh" },
+  { en: "stand", past: "stood", id: "berdiri" },
+  { en: "sit", past: "sat", id: "duduk" },
+  { en: "ride", past: "rode", id: "mengendarai" },
+  { en: "hold", past: "held", id: "memegang" },
+  { en: "win", past: "won", id: "menang" },
+  { en: "lose", past: "lost", id: "kalah" },
+  { en: "fight", past: "fought", id: "bertarung" },
+  { en: "bite", past: "bit", id: "menggigit" },
+  { en: "break", past: "broke", id: "mematahkan" },
+  { en: "bring", past: "brought", id: "membawa" },
+  { en: "build", past: "built", id: "membangun" },
+  { en: "buy", past: "bought", id: "membeli" },
+  { en: "choose", past: "chose", id: "memilih" },
+  { en: "come", past: "came", id: "datang" },
+  { en: "cut", past: "cut", id: "memotong" },
+  { en: "dig", past: "dug", id: "menggali" },
+  { en: "do", past: "did", id: "melakukan" },
+  { en: "draw", past: "drew", id: "menggambar" },
+  { en: "drive", past: "drove", id: "mengemudi" },
+  { en: "eat", past: "ate", id: "makan" },
+  { en: "drink", past: "drank", id: "minum" },
+  { en: "fly", past: "flew", id: "terbang" },
+  { en: "get", past: "got", id: "mendapatkan" },
+  { en: "give", past: "gave", id: "memberi" },
+  { en: "go", past: "went", id: "pergi" },
+  { en: "grow", past: "grew", id: "tumbuh" },
+  { en: "hang", past: "hung", id: "menggantung" },
+  { en: "hit", past: "hit", id: "memukul" },
+  { en: "keep", past: "kept", id: "menyimpan" },
+  { en: "know", past: "knew", id: "tahu" },
+  { en: "leave", past: "left", id: "meninggalkan" },
+  { en: "make", past: "made", id: "membuat" },
+  { en: "meet", past: "met", id: "bertemu" },
+  { en: "put", past: "put", id: "meletakkan" },
+  { en: "read", past: "read", id: "membaca" }
+];
+
+// ---- Regular Verbs: casual activities and celebration-related actions ----
+const regularVerbsWords = [
+  { en: "walk", past: "walked", id: "berjalan" },
+  { en: "jump", past: "jumped", id: "melompat" },
+  { en: "climb", past: "climbed", id: "memanjat" },
+  { en: "pull", past: "pulled", id: "menarik" },
+  { en: "push", past: "pushed", id: "mendorong" },
+  { en: "clap", past: "clapped", id: "bertepuk tangan" },
+  { en: "cheer", past: "cheered", id: "bersorak" },
+  { en: "march", past: "marched", id: "berbaris" },
+  { en: "wave", past: "waved", id: "melambai" },
+  { en: "dance", past: "danced", id: "menari" },
+  { en: "cook", past: "cooked", id: "memasak" },
+  { en: "clean", past: "cleaned", id: "membersihkan" },
+  { en: "wash", past: "washed", id: "mencuci" },
+  { en: "paint", past: "painted", id: "melukis" },
+  { en: "decorate", past: "decorated", id: "menghias" },
+  { en: "celebrate", past: "celebrated", id: "merayakan" },
+  { en: "play", past: "played", id: "bermain" },
+  { en: "watch", past: "watched", id: "menonton" },
+  { en: "help", past: "helped", id: "membantu" },
+  { en: "laugh", past: "laughed", id: "tertawa" },
+  { en: "smile", past: "smiled", id: "tersenyum" },
+  { en: "shout", past: "shouted", id: "berteriak" },
+  { en: "kick", past: "kicked", id: "menendang" },
+  { en: "pack", past: "packed", id: "mengemas" },
+  { en: "carry", past: "carried", id: "membawa" },
+  { en: "tie", past: "tied", id: "mengikat" },
+  { en: "lift", past: "lifted", id: "mengangkat" },
+  { en: "skip", past: "skipped", id: "melompat-lompat" },
+  { en: "crawl", past: "crawled", id: "merangkak" },
+  { en: "race", past: "raced", id: "berlomba" },
+  { en: "compete", past: "competed", id: "berkompetisi" },
+  { en: "practice", past: "practiced", id: "berlatih" },
+  { en: "train", past: "trained", id: "berlatih (fisik)" },
+  { en: "jog", past: "jogged", id: "joging" },
+  { en: "stretch", past: "stretched", id: "meregangkan" },
+  { en: "bounce", past: "bounced", id: "memantul" },
+  { en: "balance", past: "balanced", id: "menyeimbangkan" },
+  { en: "cross", past: "crossed", id: "menyeberang" },
+  { en: "finish", past: "finished", id: "menyelesaikan" },
+  { en: "start", past: "started", id: "memulai" }
+];
+
+function renderVerbWordList(containerEl, words){
+  containerEl.innerHTML = '';
+  words.forEach(w => {
+    const row = document.createElement('div');
+    row.className = 'result-line';
+    row.innerHTML = `
+      <strong>${w.en} → ${w.past}</strong>
+      <div class="said">${w.id}</div>
+    `;
+    const checkBtn = document.createElement('button');
+    checkBtn.className = 'secondary';
+    checkBtn.style.marginTop = '6px';
+    checkBtn.textContent = '🔊 Check pronunciation';
+    checkBtn.addEventListener('click', () => {
+      if (!('speechSynthesis' in window)) return;
+      const utter = new SpeechSynthesisUtterance(`${w.en}, ${w.past}`);
+      utter.lang = 'en-US';
+      speechSynthesis.speak(utter);
+    });
+    row.appendChild(checkBtn);
+    containerEl.appendChild(row);
+  });
+}
+
+// ---- Letter-Tile Game: unscramble the past-tense form ----
+const letterTileWords = irregularVerbsWords.concat(regularVerbsWords);
+
+let letterTileRounds = [];
+let letterTileIndex = 0;
+let letterTileScoreCount = 0;
+let letterTilePoolLetters = []; // {char, used}
+let letterTileAnswerLetters = []; // chars placed so far
+
+document.getElementById('letterTileBtn').addEventListener('click', () => {
+  irregularVsRegularScreen.classList.add('hidden');
+  letterTileScreen.classList.remove('hidden');
+  letterTileRounds = pickRandomSubset(letterTileWords, 10);
+  letterTileIndex = 0;
+  letterTileScoreCount = 0;
+  renderLetterTileRound();
+});
+document.getElementById('letterTileBackBtn').addEventListener('click', () => {
+  letterTileScreen.classList.add('hidden');
+  irregularVsRegularScreen.classList.remove('hidden');
+});
+
+function renderLetterTileRound(){
+  const item = letterTileRounds[letterTileIndex];
+  document.getElementById('letterTileProgress').textContent = `Round ${letterTileIndex + 1} of ${letterTileRounds.length}`;
+  document.getElementById('letterTileClue').textContent = `${item.en} (${item.id})`;
+
+  const feedback = document.getElementById('letterTileFeedback');
+  feedback.classList.add('hidden');
+  document.getElementById('letterTileNextBtn').classList.add('hidden');
+  document.getElementById('letterTileCheckBtn').classList.add('hidden');
+
+  letterTileAnswerLetters = [];
+  let scrambled;
+  do {
+    scrambled = shuffleArray(item.past.split(''));
+  } while (scrambled.join('') === item.past && item.past.length > 1);
+  letterTilePoolLetters = scrambled.map(ch => ({ char: ch, used: false }));
+
+  renderLetterTileTiles();
+}
+
+function renderLetterTileTiles(){
+  const answerEl = document.getElementById('letterTileAnswer');
+  const poolEl = document.getElementById('letterTilePool');
+  answerEl.innerHTML = '';
+  poolEl.innerHTML = '';
+
+  letterTileAnswerLetters.forEach((ch, idx) => {
+    const slot = document.createElement('div');
+    slot.className = 'letterSlot';
+    slot.textContent = ch;
+    slot.addEventListener('click', () => removeLetterTile(idx));
+    answerEl.appendChild(slot);
+  });
+
+  letterTilePoolLetters.forEach((tile, idx) => {
+    const div = document.createElement('div');
+    div.className = 'letterTile';
+    if (tile.used) {
+      div.style.visibility = 'hidden';
+    } else {
+      div.textContent = tile.char;
+      div.addEventListener('click', () => pickLetterTile(idx));
+    }
+    poolEl.appendChild(div);
+  });
+
+  const target = letterTileRounds[letterTileIndex].past;
+  const checkBtn = document.getElementById('letterTileCheckBtn');
+  if (letterTileAnswerLetters.length === target.length) {
+    checkBtn.classList.remove('hidden');
+  } else {
+    checkBtn.classList.add('hidden');
+  }
+}
+
+function pickLetterTile(idx){
+  const tile = letterTilePoolLetters[idx];
+  if (tile.used) return;
+  tile.used = true;
+  letterTileAnswerLetters.push(tile.char);
+  renderLetterTileTiles();
+}
+
+function removeLetterTile(answerIdx){
+  const ch = letterTileAnswerLetters[answerIdx];
+  letterTileAnswerLetters.splice(answerIdx, 1);
+  const poolTile = letterTilePoolLetters.find(t => t.used && t.char === ch);
+  if (poolTile) poolTile.used = false;
+  renderLetterTileTiles();
+}
+
+document.getElementById('letterTileClearBtn').addEventListener('click', () => {
+  letterTileAnswerLetters = [];
+  letterTilePoolLetters.forEach(t => t.used = false);
+  renderLetterTileTiles();
+});
+
+document.getElementById('letterTileCheckBtn').addEventListener('click', () => {
+  const item = letterTileRounds[letterTileIndex];
+  const attempt = letterTileAnswerLetters.join('');
+  const correct = attempt === item.past;
+  if (correct) letterTileScoreCount++;
+
+  const feedback = document.getElementById('letterTileFeedback');
+  feedback.classList.remove('hidden');
+  feedback.className = 'status ' + (correct ? 'ok' : 'err');
+  feedback.textContent = correct ? 'Correct!' : `Not quite — the correct spelling is "${item.past}".`;
+
+  document.getElementById('letterTileCheckBtn').classList.add('hidden');
+  document.getElementById('letterTileClearBtn').classList.add('hidden');
+  document.getElementById('letterTileNextBtn').classList.remove('hidden');
+});
+
+document.getElementById('letterTileNextBtn').addEventListener('click', () => {
+  document.getElementById('letterTileClearBtn').classList.remove('hidden');
+  letterTileIndex++;
+  if (letterTileIndex >= letterTileRounds.length) {
+    showLetterTileResults();
+  } else {
+    renderLetterTileRound();
+  }
+});
+
+function showLetterTileResults(){
+  letterTileScreen.classList.add('hidden');
+  letterTileResultScreen.classList.remove('hidden');
+  document.getElementById('letterTileScore').textContent = `${letterTileScoreCount} / ${letterTileRounds.length} correct`;
+  logAttempt('Irregular vs Regular — Letter-Tile Game', 'Past-tense spelling', '', `${letterTileScoreCount}/${letterTileRounds.length}`, '');
+}
+
+document.getElementById('letterTileTryAgainBtn').addEventListener('click', () => {
+  letterTileResultScreen.classList.add('hidden');
+  letterTileScreen.classList.remove('hidden');
+  letterTileRounds = pickRandomSubset(letterTileWords, 10);
+  letterTileIndex = 0;
+  letterTileScoreCount = 0;
+  renderLetterTileRound();
+});
+document.getElementById('letterTileContinueBtn').addEventListener('click', () => {
+  letterTileResultScreen.classList.add('hidden');
+  irregularVsRegularScreen.classList.remove('hidden');
+});
+
 document.getElementById('challengeBtn').addEventListener('click', () => startGrade('challenge'));
 
 // ---- Indonesian-prompt mode: text shown in Indonesian, student must respond in English ----
