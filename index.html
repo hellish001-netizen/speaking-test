@@ -322,9 +322,36 @@
     <button id="irregularVerbsBtn">Irregular Verbs</button>
     <button id="regularVerbsBtn">Regular Verbs</button>
     <button id="letterTileBtn" class="secondary" style="margin-top:16px;">🔤 Letter-Tile Game</button>
+    <button id="sentenceGameBtn" class="secondary" style="margin-top:8px;">🧩 Let's Construct A Sentence</button>
     <button id="irregularVsRegularBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
+
+<div id="sentenceGameScreen" class="hidden">
+  <div class="card">
+    <div class="progress patriotic-title" id="sentenceGameProgress">Sentence 1 of 15</div>
+    <div class="status idle" id="sentenceGameInstructions">Tap the pieces in order: Subject → Verb → Object.</div>
+    <button id="sentenceGameHintBtn" class="icon-btn" title="Show hint" style="margin-top:8px;">🇮🇩</button>
+    <div class="status idle hidden" id="sentenceGameHintText" style="margin-top:8px;font-style:italic;"></div>
+    <div class="tileRow" id="sentenceGameAnswer" style="margin-top:12px;"></div>
+    <div class="tileRow" id="sentenceGamePool"></div>
+    <div class="status idle hidden" id="sentenceGameFeedback" style="margin-top:12px;"></div>
+    <button id="sentenceGameClearBtn" class="secondary" style="margin-top:14px;">↺ Clear</button>
+    <button id="sentenceGameCheckBtn" class="hidden" style="margin-top:8px;">Check</button>
+    <button id="sentenceGameNextBtn" class="secondary hidden" style="margin-top:8px;">Next →</button>
+    <button id="sentenceGameBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="sentenceGameResultScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="results">Results</div>
+    <div class="score" id="sentenceGameScore"></div>
+    <button id="sentenceGameTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="sentenceGameContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
+  </div>
+</div>
+
 
 <div id="letterTileScreen" class="hidden">
   <div class="card">
@@ -1419,6 +1446,8 @@ const grade8Chapter1Screen = document.getElementById('grade8Chapter1Screen');
 const grade8Chapter1Unit1Screen = document.getElementById('grade8Chapter1Unit1Screen');
 const irregularVsRegularScreen = document.getElementById('irregularVsRegularScreen');
 const letterTileScreen = document.getElementById('letterTileScreen');
+const sentenceGameScreen = document.getElementById('sentenceGameScreen');
+const sentenceGameResultScreen = document.getElementById('sentenceGameResultScreen');
 const letterTileResultScreen = document.getElementById('letterTileResultScreen');
 const irregularVerbsScreen = document.getElementById('irregularVerbsScreen');
 const regularVerbsScreen = document.getElementById('regularVerbsScreen');
@@ -1497,6 +1526,8 @@ function hideAllMenus(){
   regularVerbsScreen.classList.add('hidden');
   letterTileScreen.classList.add('hidden');
   letterTileResultScreen.classList.add('hidden');
+  sentenceGameScreen.classList.add('hidden');
+  sentenceGameResultScreen.classList.add('hidden');
   grade7MenuScreen.classList.add('hidden');
   englishNusantaraScreen.classList.add('hidden');
   g7Unit1Screen.classList.add('hidden');
@@ -2779,6 +2810,190 @@ document.getElementById('letterTileTryAgainBtn').addEventListener('click', () =>
 });
 document.getElementById('letterTileContinueBtn').addEventListener('click', () => {
   letterTileResultScreen.classList.add('hidden');
+  irregularVsRegularScreen.classList.remove('hidden');
+});
+
+// ---- Let's Construct A Sentence: S + V + O (Object simplified to a noun/noun group) ----
+const sentenceGameSentences = [
+  { subject: "Andre", verb: "caught", object: "the ball", id: "Andre menangkap bola itu." },
+  { subject: "Galang", verb: "threw", object: "the ball", id: "Galang melempar bola itu." },
+  { subject: "Monita", verb: "read", object: "a book", id: "Monita membaca sebuah buku." },
+  { subject: "Andre", verb: "rode", object: "a bike", id: "Andre mengendarai sepeda." },
+  { subject: "Galang", verb: "built", object: "a tent", id: "Galang membangun sebuah tenda." },
+  { subject: "Monita", verb: "drew", object: "a picture", id: "Monita menggambar sebuah gambar." },
+  { subject: "Andre", verb: "ate", object: "the cake", id: "Andre memakan kue itu." },
+  { subject: "Galang", verb: "drank", object: "the water", id: "Galang meminum air itu." },
+  { subject: "Monita", verb: "made", object: "a kite", id: "Monita membuat sebuah layang-layang." },
+  { subject: "Andre", verb: "kicked", object: "the ball", id: "Andre menendang bola itu." },
+  { subject: "Galang", verb: "washed", object: "the dishes", id: "Galang mencuci piring-piring itu." },
+  { subject: "Monita", verb: "painted", object: "the wall", id: "Monita mengecat dinding itu." },
+  { subject: "Andre", verb: "climbed", object: "the tree", id: "Andre memanjat pohon itu." },
+  { subject: "Galang", verb: "carried", object: "the bag", id: "Galang membawa tas itu." },
+  { subject: "Monita", verb: "cooked", object: "dinner", id: "Monita memasak makan malam." }
+];
+
+let sentenceGameRounds = [];
+let sentenceGameIndex = 0;
+let sentenceGameScoreCount = 0;
+let sentenceGamePoolPieces = []; // {text, used}
+let sentenceGameAnswerPieces = []; // texts placed so far
+
+document.getElementById('sentenceGameBtn').addEventListener('click', () => {
+  irregularVsRegularScreen.classList.add('hidden');
+  sentenceGameScreen.classList.remove('hidden');
+  sentenceGameRounds = shuffleArray(sentenceGameSentences);
+  sentenceGameIndex = 0;
+  sentenceGameScoreCount = 0;
+  renderSentenceGameRound();
+});
+document.getElementById('sentenceGameBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  sentenceGameScreen.classList.add('hidden');
+  irregularVsRegularScreen.classList.remove('hidden');
+});
+
+function renderSentenceGameRound(){
+  const item = sentenceGameRounds[sentenceGameIndex];
+  document.getElementById('sentenceGameProgress').textContent = `Sentence ${sentenceGameIndex + 1} of ${sentenceGameRounds.length}`;
+
+  const hintText = document.getElementById('sentenceGameHintText');
+  hintText.classList.add('hidden');
+  hintText.textContent = item.id;
+
+  const feedback = document.getElementById('sentenceGameFeedback');
+  feedback.classList.add('hidden');
+  document.getElementById('sentenceGameNextBtn').classList.add('hidden');
+  document.getElementById('sentenceGameCheckBtn').classList.add('hidden');
+  document.getElementById('sentenceGameClearBtn').classList.remove('hidden');
+
+  sentenceGameAnswerPieces = [];
+  let pieces;
+  do {
+    pieces = shuffleArray([item.subject, item.verb, item.object]);
+  } while (pieces.join('|') === [item.subject, item.verb, item.object].join('|'));
+  sentenceGamePoolPieces = pieces.map(text => ({ text, used: false }));
+
+  renderSentenceGamePieces();
+}
+
+function renderSentenceGamePieces(){
+  const answerEl = document.getElementById('sentenceGameAnswer');
+  const poolEl = document.getElementById('sentenceGamePool');
+  answerEl.innerHTML = '';
+  poolEl.innerHTML = '';
+
+  sentenceGameAnswerPieces.forEach((text, idx) => {
+    const slot = document.createElement('div');
+    slot.className = 'letterSlot';
+    slot.style.width = 'auto';
+    slot.style.padding = '8px 12px';
+    slot.textContent = text;
+    slot.addEventListener('click', () => removeSentencePiece(idx));
+    answerEl.appendChild(slot);
+  });
+
+  sentenceGamePoolPieces.forEach((piece, idx) => {
+    const div = document.createElement('div');
+    div.className = 'letterTile';
+    div.style.width = 'auto';
+    div.style.padding = '8px 12px';
+    div.style.textTransform = 'none';
+    if (piece.used) {
+      div.style.visibility = 'hidden';
+    } else {
+      div.textContent = piece.text;
+      div.addEventListener('click', () => pickSentencePiece(idx));
+    }
+    poolEl.appendChild(div);
+  });
+
+  const checkBtn = document.getElementById('sentenceGameCheckBtn');
+  if (sentenceGameAnswerPieces.length === 3) {
+    checkBtn.classList.remove('hidden');
+  } else {
+    checkBtn.classList.add('hidden');
+  }
+}
+
+function pickSentencePiece(idx){
+  const piece = sentenceGamePoolPieces[idx];
+  if (piece.used) return;
+  piece.used = true;
+  sentenceGameAnswerPieces.push(piece.text);
+  renderSentenceGamePieces();
+}
+
+function removeSentencePiece(answerIdx){
+  const text = sentenceGameAnswerPieces[answerIdx];
+  sentenceGameAnswerPieces.splice(answerIdx, 1);
+  const poolPiece = sentenceGamePoolPieces.find(p => p.used && p.text === text);
+  if (poolPiece) poolPiece.used = false;
+  renderSentenceGamePieces();
+}
+
+document.getElementById('sentenceGameClearBtn').addEventListener('click', () => {
+  sentenceGameAnswerPieces = [];
+  sentenceGamePoolPieces.forEach(p => p.used = false);
+  renderSentenceGamePieces();
+});
+
+document.getElementById('sentenceGameHintBtn').addEventListener('click', () => {
+  document.getElementById('sentenceGameHintText').classList.toggle('hidden');
+});
+
+document.getElementById('sentenceGameCheckBtn').addEventListener('click', () => {
+  const item = sentenceGameRounds[sentenceGameIndex];
+  const correctOrder = [item.subject, item.verb, item.object].join('|');
+  const attempt = sentenceGameAnswerPieces.join('|');
+  const correct = attempt === correctOrder;
+  if (correct) sentenceGameScoreCount++;
+
+  const fullSentence = `${item.subject} ${item.verb} ${item.object}.`;
+  const feedback = document.getElementById('sentenceGameFeedback');
+  feedback.classList.remove('hidden');
+  feedback.className = 'status ' + (correct ? 'ok' : 'err');
+  feedback.textContent = correct
+    ? `Correct! "${fullSentence}"`
+    : `Not quite — the correct sentence is "${fullSentence}"`;
+
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(fullSentence);
+    utter.lang = 'en-US';
+    speechSynthesis.speak(utter);
+  }
+
+  document.getElementById('sentenceGameCheckBtn').classList.add('hidden');
+  document.getElementById('sentenceGameClearBtn').classList.add('hidden');
+  document.getElementById('sentenceGameNextBtn').classList.remove('hidden');
+});
+
+document.getElementById('sentenceGameNextBtn').addEventListener('click', () => {
+  sentenceGameIndex++;
+  if (sentenceGameIndex >= sentenceGameRounds.length) {
+    showSentenceGameResults();
+  } else {
+    renderSentenceGameRound();
+  }
+});
+
+function showSentenceGameResults(){
+  sentenceGameScreen.classList.add('hidden');
+  sentenceGameResultScreen.classList.remove('hidden');
+  document.getElementById('sentenceGameScore').textContent = `${sentenceGameScoreCount} / ${sentenceGameRounds.length} correct`;
+  logAttempt('Irregular vs Regular — Sentence Construction', 'S+V+O sentence order', '', `${sentenceGameScoreCount}/${sentenceGameRounds.length}`, '');
+}
+
+document.getElementById('sentenceGameTryAgainBtn').addEventListener('click', () => {
+  sentenceGameResultScreen.classList.add('hidden');
+  sentenceGameScreen.classList.remove('hidden');
+  sentenceGameRounds = shuffleArray(sentenceGameSentences);
+  sentenceGameIndex = 0;
+  sentenceGameScoreCount = 0;
+  renderSentenceGameRound();
+});
+document.getElementById('sentenceGameContinueBtn').addEventListener('click', () => {
+  sentenceGameResultScreen.classList.add('hidden');
   irregularVsRegularScreen.classList.remove('hidden');
 });
 
