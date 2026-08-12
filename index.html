@@ -304,7 +304,24 @@
   <div class="card">
     <div class="progress patriotic-title">Chapter 1 Celebrating Independence Day</div>
     <button id="grade8Chapter1Unit1Btn">Unit 1: The Champion of Panjat Pinang</button>
+    <button id="grade8Chapter1Unit2Btn">Unit 2: Going to a Parade</button>
     <button id="grade8Chapter1BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="grade8Chapter1Unit2Screen" class="hidden">
+  <div class="card">
+    <div class="progress patriotic-title">Unit 2: Going to a Parade</div>
+    <button id="aParadeInMyHometownBtn">A Parade in My Hometown</button>
+    <button id="grade8Chapter1Unit2BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="aParadeInMyHometownScreen" class="hidden">
+  <div class="card">
+    <div class="progress patriotic-title">A Parade in My Hometown</div>
+    <div class="status idle" data-i18n="wordsBoxComingSoon">Content coming soon.</div>
+    <button id="aParadeInMyHometownBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -1444,6 +1461,8 @@ const gradeScreen = document.getElementById('gradeScreen');
 const grade8Screen = document.getElementById('grade8Screen');
 const grade8Chapter1Screen = document.getElementById('grade8Chapter1Screen');
 const grade8Chapter1Unit1Screen = document.getElementById('grade8Chapter1Unit1Screen');
+const grade8Chapter1Unit2Screen = document.getElementById('grade8Chapter1Unit2Screen');
+const aParadeInMyHometownScreen = document.getElementById('aParadeInMyHometownScreen');
 const irregularVsRegularScreen = document.getElementById('irregularVsRegularScreen');
 const letterTileScreen = document.getElementById('letterTileScreen');
 const sentenceGameScreen = document.getElementById('sentenceGameScreen');
@@ -1521,6 +1540,8 @@ function hideAllMenus(){
   grade8Screen.classList.add('hidden');
   grade8Chapter1Screen.classList.add('hidden');
   grade8Chapter1Unit1Screen.classList.add('hidden');
+  grade8Chapter1Unit2Screen.classList.add('hidden');
+  aParadeInMyHometownScreen.classList.add('hidden');
   irregularVsRegularScreen.classList.add('hidden');
   irregularVerbsScreen.classList.add('hidden');
   regularVerbsScreen.classList.add('hidden');
@@ -2528,6 +2549,22 @@ document.getElementById('grade8Chapter1Unit1Btn').addEventListener('click', () =
 document.getElementById('grade8Chapter1Unit1BackBtn').addEventListener('click', () => {
   grade8Chapter1Unit1Screen.classList.add('hidden');
   grade8Chapter1Screen.classList.remove('hidden');
+});
+document.getElementById('grade8Chapter1Unit2Btn').addEventListener('click', () => {
+  grade8Chapter1Screen.classList.add('hidden');
+  grade8Chapter1Unit2Screen.classList.remove('hidden');
+});
+document.getElementById('grade8Chapter1Unit2BackBtn').addEventListener('click', () => {
+  grade8Chapter1Unit2Screen.classList.add('hidden');
+  grade8Chapter1Screen.classList.remove('hidden');
+});
+document.getElementById('aParadeInMyHometownBtn').addEventListener('click', () => {
+  grade8Chapter1Unit2Screen.classList.add('hidden');
+  aParadeInMyHometownScreen.classList.remove('hidden');
+});
+document.getElementById('aParadeInMyHometownBackBtn').addEventListener('click', () => {
+  aParadeInMyHometownScreen.classList.add('hidden');
+  grade8Chapter1Unit2Screen.classList.remove('hidden');
 });
 document.getElementById('irregularVsRegularBtn').addEventListener('click', () => {
   grade8Chapter1Unit1Screen.classList.add('hidden');
