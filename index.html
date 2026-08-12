@@ -109,6 +109,14 @@
     box-shadow:none;
     line-height:1;
   }
+  @keyframes patrioticTwinkle{
+    from{ color:#CE1126; }
+    to{ color:#ffffff; }
+  }
+  .patriotic-title{
+    animation:patrioticTwinkle 1.6s ease-in-out infinite alternate;
+    text-shadow:0 0 1px rgba(0,0,0,0.35), 0 0 3px rgba(0,0,0,0.15);
+  }
   .status{ margin-top:12px; padding:12px; border-radius:6px; font-size:0.88rem; line-height:1.45; border-left:3px solid transparent; }
   .matchGrid{ display:flex; gap:10px; margin-top:12px; }
   .matchCol{ flex:1; display:flex; flex-direction:column; gap:8px; }
@@ -260,8 +268,24 @@
 <div id="grade8Screen" class="hidden">
   <div class="card">
     <div class="progress" data-i18n="grade8">Grade 8</div>
-    <div class="status idle" data-i18n="wordsBoxComingSoon">Content coming soon.</div>
+    <button id="grade8Chapter1Btn">Chapter 1 Celebrating Independence Day</button>
     <button id="grade8BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="grade8Chapter1Screen" class="hidden">
+  <div class="card">
+    <div class="progress patriotic-title">Chapter 1 Celebrating Independence Day</div>
+    <button id="grade8Chapter1Unit1Btn">Unit 1: The Champion of Panjat Pinang</button>
+    <button id="grade8Chapter1BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="grade8Chapter1Unit1Screen" class="hidden">
+  <div class="card">
+    <div class="progress">Unit 1: The Champion of Panjat Pinang</div>
+    <div class="status idle" data-i18n="wordsBoxComingSoon">Content coming soon.</div>
+    <button id="grade8Chapter1Unit1BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -1315,6 +1339,8 @@ let selectedGrade = null;
 
 const gradeScreen = document.getElementById('gradeScreen');
 const grade8Screen = document.getElementById('grade8Screen');
+const grade8Chapter1Screen = document.getElementById('grade8Chapter1Screen');
+const grade8Chapter1Unit1Screen = document.getElementById('grade8Chapter1Unit1Screen');
 const grade7MenuScreen = document.getElementById('grade7MenuScreen');
 const englishNusantaraScreen = document.getElementById('englishNusantaraScreen');
 const g7Unit1Screen = document.getElementById('g7Unit1Screen');
@@ -1383,6 +1409,8 @@ function hideAllMenus(){
   listeningTestScreen.classList.add('hidden');
   gradeScreen.classList.add('hidden');
   grade8Screen.classList.add('hidden');
+  grade8Chapter1Screen.classList.add('hidden');
+  grade8Chapter1Unit1Screen.classList.add('hidden');
   grade7MenuScreen.classList.add('hidden');
   englishNusantaraScreen.classList.add('hidden');
   g7Unit1Screen.classList.add('hidden');
@@ -2367,6 +2395,22 @@ document.getElementById('grade8Btn').addEventListener('click', () => {
 document.getElementById('grade8BackBtn').addEventListener('click', () => {
   grade8Screen.classList.add('hidden');
   gradeScreen.classList.remove('hidden');
+});
+document.getElementById('grade8Chapter1Btn').addEventListener('click', () => {
+  grade8Screen.classList.add('hidden');
+  grade8Chapter1Screen.classList.remove('hidden');
+});
+document.getElementById('grade8Chapter1BackBtn').addEventListener('click', () => {
+  grade8Chapter1Screen.classList.add('hidden');
+  grade8Screen.classList.remove('hidden');
+});
+document.getElementById('grade8Chapter1Unit1Btn').addEventListener('click', () => {
+  grade8Chapter1Screen.classList.add('hidden');
+  grade8Chapter1Unit1Screen.classList.remove('hidden');
+});
+document.getElementById('grade8Chapter1Unit1BackBtn').addEventListener('click', () => {
+  grade8Chapter1Unit1Screen.classList.add('hidden');
+  grade8Chapter1Screen.classList.remove('hidden');
 });
 document.getElementById('challengeBtn').addEventListener('click', () => startGrade('challenge'));
 
