@@ -137,6 +137,61 @@
     -webkit-text-fill-color:transparent;
     animation:rainbowShift 4s linear infinite;
   }
+
+  /* ---- Chalkboard theme: Teaching Media only. Projector-friendly — dark, high-contrast,
+     larger text, deliberately distinct from the notebook look used everywhere else. ---- */
+  .chalkboard-card{
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(255,255,255,0.05), transparent 55%),
+      radial-gradient(ellipse at 85% 90%, rgba(255,255,255,0.04), transparent 50%),
+      #1c2b22;
+    border:1px solid #3a4a3f;
+    border-radius:10px;
+    color:#f2f0e6;
+    box-shadow:inset 0 0 50px rgba(0,0,0,0.35), 0 2px 12px rgba(0,0,0,0.3);
+    padding:22px 20px;
+  }
+  .chalkboard-card::before{ content:none; } /* no red margin stripe on the chalkboard */
+  .chalkboard-card .progress{
+    color:#e8c96b;
+    font-size:1.4rem;
+    letter-spacing:0.04em;
+    text-align:center;
+    margin-bottom:16px;
+  }
+  .chalkboard-card .status{ background:rgba(255,255,255,0.06); color:#e8e4d6; border-left-color:#7c8a7f; }
+  .chalkboard-card .status.ok{ background:rgba(80,180,120,0.15); color:#8fd9ac; border-left-color:#4fae74; }
+  .chalkboard-card .status.err{ background:rgba(200,90,70,0.15); color:#e8a898; border-left-color:#c85a46; }
+  .chalkboard-card #lessonSlideTitle{
+    font-family:'Bitter',Georgia,serif;
+    font-weight:700;
+    font-size:1.7rem;
+    color:#fff;
+    text-align:center;
+    padding-bottom:10px;
+    margin-bottom:14px;
+    border-bottom:2px dashed rgba(255,255,255,0.25);
+  }
+  .chalkboard-card #lessonSlideBody{ font-size:1.15rem; line-height:1.9; color:#f2f0e6; }
+  .chalkboard-card #lessonQuizQuestion{ font-size:1.2rem; color:#fff; text-align:center; }
+  .chalkboard-card input{
+    background:rgba(255,255,255,0.08);
+    border:1.5px solid #5a6a5f;
+    color:#f2f0e6;
+  }
+  .chalkboard-card input::placeholder{ color:#8a9a8f; }
+  .chalkboard-card button{
+    background:transparent;
+    border:1.5px solid #d9d4c4;
+    color:#f2f0e6;
+    font-family:'Bitter',Georgia,serif;
+    font-weight:700;
+  }
+  .chalkboard-card button:active{ background:rgba(255,255,255,0.1); }
+  .chalkboard-card button.secondary{ border-color:#5a6a5f; color:#a8b5ab; }
+  .chalkboard-card button.rec{ border-color:#c85a46; color:#e8a898; }
+  .chalkboard-card .score{ font-family:'Bitter',Georgia,serif; color:#e8c96b; }
+  .chalkDots{ text-align:center; font-size:1.2rem; letter-spacing:0.3em; color:#e8c96b; margin-bottom:14px; }
   .status{ margin-top:12px; padding:12px; border-radius:6px; font-size:0.88rem; line-height:1.45; border-left:3px solid transparent; }
   .matchGrid{ display:flex; gap:10px; margin-top:12px; }
   .matchCol{ flex:1; display:flex; flex-direction:column; gap:8px; }
@@ -241,9 +296,62 @@
     <div class="progress" data-i18n="chooseActivity">Choose an activity</div>
     <button id="goListeningBtn" data-i18n="listeningBtn">🎧 Listening - Speaking</button>
     <button id="goSpeakingBtn" data-i18n="speakingBtn">🗣 English for Nusantara</button>
+    <button id="goTeachingMediaBtn" class="secondary" style="margin-top:16px;">🎓 Teaching Media</button>
     <div class="hint" id="currentStudentLabel" style="margin-top:14px;"></div>
     <button id="downloadReportBtn" class="secondary" style="margin-top:8px;" data-i18n="downloadReport">⬇ Download Results (Excel)</button>
     <button id="changeStudentBtn" class="secondary" style="margin-top:8px;" data-i18n="changeStudent">🔄 Change Student</button>
+  </div>
+</div>
+
+<div id="teachingMediaPasswordScreen" class="hidden">
+  <div class="card chalkboard-card">
+    <div class="progress">🎓 Teaching Media</div>
+    <div class="status idle">This section is for teacher-led lessons. Enter the password to continue.</div>
+    <input id="teachingMediaPasswordInput" type="password" placeholder="Password" style="width:100%;padding:14px;font-size:1rem;border-radius:10px;margin-top:10px;margin-bottom:8px;box-sizing:border-box;">
+    <div class="status err hidden" id="teachingMediaPasswordError">Incorrect password — try again.</div>
+    <button id="teachingMediaSubmitBtn" style="margin-top:8px;">Enter</button>
+    <button id="teachingMediaPasswordBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="teachingMediaMenuScreen" class="hidden">
+  <div class="card chalkboard-card">
+    <div class="progress">🎓 Teaching Media</div>
+    <button id="simplePastPerfectBtn">Simple Past vs Present Perfect</button>
+    <button id="teachingMediaMenuBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="lessonSlideScreen" class="hidden">
+  <div class="card chalkboard-card">
+    <div class="chalkDots" id="lessonSlideProgress">● ○ ○ ○ ○</div>
+    <div id="lessonSlideTitle"></div>
+    <div id="lessonSlideBody"></div>
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button id="lessonSlidePrevBtn" class="secondary" style="margin-top:0;">← Previous</button>
+      <button id="lessonSlideNextBtn" style="margin-top:0;">Next →</button>
+    </div>
+    <button id="lessonSlideBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="lessonQuizScreen" class="hidden">
+  <div class="card chalkboard-card">
+    <div class="chalkDots" id="lessonQuizProgress">● ○ ○ ○</div>
+    <div class="dialogue" id="lessonQuizQuestion"></div>
+    <div id="lessonQuizOptions" style="margin-top:12px;"></div>
+    <div class="status idle hidden" id="lessonQuizFeedback" style="margin-top:12px;"></div>
+    <button id="lessonQuizNextBtn" class="secondary hidden" style="margin-top:14px;">Next →</button>
+    <button id="lessonQuizBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="lessonQuizResultScreen" class="hidden">
+  <div class="card chalkboard-card">
+    <div class="progress" data-i18n="results">Results</div>
+    <div class="score" id="lessonQuizScore"></div>
+    <button id="lessonQuizTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="lessonQuizContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
   </div>
 </div>
 
@@ -1003,6 +1111,11 @@ let sessionLog = [];
 
 const welcomeScreen = document.getElementById('welcomeScreen');
 const mainMenuScreen = document.getElementById('mainMenuScreen');
+const teachingMediaPasswordScreen = document.getElementById('teachingMediaPasswordScreen');
+const teachingMediaMenuScreen = document.getElementById('teachingMediaMenuScreen');
+const lessonSlideScreen = document.getElementById('lessonSlideScreen');
+const lessonQuizScreen = document.getElementById('lessonQuizScreen');
+const lessonQuizResultScreen = document.getElementById('lessonQuizResultScreen');
 const listeningMenuScreen = document.getElementById('listeningMenuScreen');
 const listeningWordListScreen = document.getElementById('listeningWordListScreen');
 const listeningTestScreen = document.getElementById('listeningTestScreen');
@@ -1042,6 +1155,191 @@ document.getElementById('changeStudentBtn').addEventListener('click', () => {
   document.getElementById('studentNameInput').value = '';
   mainMenuScreen.classList.add('hidden');
   welcomeScreen.classList.remove('hidden');
+});
+
+// ---- Teaching Media: password-gated, teacher-led lesson content ----
+const TEACHING_MEDIA_PASSWORD = 'guru2026';
+
+document.getElementById('goTeachingMediaBtn').addEventListener('click', () => {
+  mainMenuScreen.classList.add('hidden');
+  teachingMediaPasswordScreen.classList.remove('hidden');
+  document.getElementById('teachingMediaPasswordInput').value = '';
+  document.getElementById('teachingMediaPasswordError').classList.add('hidden');
+});
+document.getElementById('teachingMediaPasswordBackBtn').addEventListener('click', () => {
+  teachingMediaPasswordScreen.classList.add('hidden');
+  mainMenuScreen.classList.remove('hidden');
+});
+document.getElementById('teachingMediaSubmitBtn').addEventListener('click', () => {
+  const val = document.getElementById('teachingMediaPasswordInput').value;
+  if (val === TEACHING_MEDIA_PASSWORD) {
+    teachingMediaPasswordScreen.classList.add('hidden');
+    teachingMediaMenuScreen.classList.remove('hidden');
+  } else {
+    document.getElementById('teachingMediaPasswordError').classList.remove('hidden');
+  }
+});
+document.getElementById('teachingMediaMenuBackBtn').addEventListener('click', () => {
+  teachingMediaMenuScreen.classList.add('hidden');
+  mainMenuScreen.classList.remove('hidden');
+});
+
+// ---- Lesson: Simple Past vs Present Perfect ----
+const simplePastPerfectSlides = [
+  {
+    title: "Simple Past vs Present Perfect",
+    body: "Two tenses students often confuse. This lesson shows the key difference, then gives you practice to check understanding."
+  },
+  {
+    title: "Simple Past",
+    body: "Used for an action completed at a <strong>specific, known time</strong> in the past.<br><br><strong>Form:</strong> Subject + V2 (past form)<br><br><strong>Examples:</strong><br>\u2022 I visited Bali <u>last year</u>.<br>\u2022 She finished her homework <u>yesterday</u>.<br>\u2022 They watched the parade <u>on Independence Day</u>."
+  },
+  {
+    title: "Present Perfect",
+    body: "Used when the <strong>exact time isn't stated</strong> \u2014 for experiences, or actions that connect to now.<br><br><strong>Form:</strong> Subject + have/has + V3 (past participle)<br><br><strong>Examples:</strong><br>\u2022 I <u>have visited</u> Bali. (an experience \u2014 no specific time given)<br>\u2022 She <u>has finished</u> her homework. (it's done \u2014 relevant right now)"
+  },
+  {
+    title: "Signal Words",
+    body: "<strong>Simple Past</strong> often appears with:<br>yesterday, last week, in 2020, ago, when I was young<br><br><strong>Present Perfect</strong> often appears with:<br>already, just, yet, ever, never, since, for, so far<br><br>These words are strong clues for which tense to choose."
+  },
+  {
+    title: "Quick Check",
+    body: "If the sentence names a specific time (yesterday, last year, in 2020) \u2192 <strong>Simple Past</strong>.<br><br>If there's no specific time, or it's about experience/relevance to now (already, ever, since) \u2192 <strong>Present Perfect</strong>.<br><br>Ready for practice questions? Tap Next to begin."
+  }
+];
+
+let lessonSlideIndex = 0;
+
+document.getElementById('simplePastPerfectBtn').addEventListener('click', () => {
+  teachingMediaMenuScreen.classList.add('hidden');
+  lessonSlideScreen.classList.remove('hidden');
+  lessonSlideIndex = 0;
+  renderLessonSlide();
+});
+document.getElementById('lessonSlideBackBtn').addEventListener('click', () => {
+  lessonSlideScreen.classList.add('hidden');
+  teachingMediaMenuScreen.classList.remove('hidden');
+});
+
+function renderDots(current, total){
+  let out = '';
+  for (let i = 0; i < total; i++) out += (i === current ? '●' : '○') + (i < total - 1 ? ' ' : '');
+  return out;
+}
+
+function renderLessonSlide(){
+  const slide = simplePastPerfectSlides[lessonSlideIndex];
+  document.getElementById('lessonSlideProgress').textContent = renderDots(lessonSlideIndex, simplePastPerfectSlides.length);
+  document.getElementById('lessonSlideTitle').textContent = slide.title;
+  document.getElementById('lessonSlideBody').innerHTML = slide.body;
+  document.getElementById('lessonSlidePrevBtn').disabled = (lessonSlideIndex === 0);
+  const nextBtn = document.getElementById('lessonSlideNextBtn');
+  nextBtn.textContent = (lessonSlideIndex === simplePastPerfectSlides.length - 1) ? 'Start Practice →' : 'Next →';
+}
+
+document.getElementById('lessonSlidePrevBtn').addEventListener('click', () => {
+  if (lessonSlideIndex > 0) { lessonSlideIndex--; renderLessonSlide(); }
+});
+document.getElementById('lessonSlideNextBtn').addEventListener('click', () => {
+  if (lessonSlideIndex < simplePastPerfectSlides.length - 1) {
+    lessonSlideIndex++;
+    renderLessonSlide();
+  } else {
+    lessonSlideScreen.classList.add('hidden');
+    lessonQuizScreen.classList.remove('hidden');
+    lessonQuizIndex = 0;
+    lessonQuizScoreCount = 0;
+    currentLessonQuiz = shuffleArray(simplePastPerfectQuiz);
+    renderLessonQuizQuestion();
+  }
+});
+
+// ---- Practice quiz for the lesson ----
+const simplePastPerfectQuiz = [
+  {
+    q: "I ___ Bali three times. (visit)",
+    options: ["visited", "have visited", "visit", "was visiting"],
+    correct: 1
+  },
+  {
+    q: "She ___ her homework yesterday. (finish)",
+    options: ["has finished", "finishes", "finished", "finish"],
+    correct: 2
+  },
+  {
+    q: "They ___ the parade last Independence Day. (watch)",
+    options: ["have watched", "watched", "watch", "watches"],
+    correct: 1
+  },
+  {
+    q: "We ___ never ___ that movie before. (see)",
+    options: ["did / see", "have / seen", "was / seeing", "do / see"],
+    correct: 1
+  }
+];
+
+let currentLessonQuiz = [];
+let lessonQuizIndex = 0;
+let lessonQuizScoreCount = 0;
+
+function renderLessonQuizQuestion(){
+  const item = currentLessonQuiz[lessonQuizIndex];
+  document.getElementById('lessonQuizProgress').textContent = renderDots(lessonQuizIndex, currentLessonQuiz.length);
+  document.getElementById('lessonQuizQuestion').textContent = item.q;
+
+  const optionsEl = document.getElementById('lessonQuizOptions');
+  optionsEl.innerHTML = '';
+  item.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'secondary';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => answerLessonQuiz(i));
+    optionsEl.appendChild(btn);
+  });
+
+  document.getElementById('lessonQuizFeedback').classList.add('hidden');
+  document.getElementById('lessonQuizNextBtn').classList.add('hidden');
+}
+
+function answerLessonQuiz(selectedIndex){
+  const item = currentLessonQuiz[lessonQuizIndex];
+  const correct = selectedIndex === item.correct;
+  if (correct) { lessonQuizScoreCount++; playCorrectSound(); } else { playIncorrectSound(); }
+
+  document.querySelectorAll('#lessonQuizOptions button').forEach(b => b.disabled = true);
+  const feedback = document.getElementById('lessonQuizFeedback');
+  feedback.classList.remove('hidden');
+  feedback.className = 'status ' + (correct ? 'ok' : 'err');
+  feedback.textContent = correct ? 'Correct!' : `Not quite — the correct answer is "${item.options[item.correct]}".`;
+  document.getElementById('lessonQuizNextBtn').classList.remove('hidden');
+}
+
+document.getElementById('lessonQuizNextBtn').addEventListener('click', () => {
+  lessonQuizIndex++;
+  if (lessonQuizIndex >= currentLessonQuiz.length) {
+    lessonQuizScreen.classList.add('hidden');
+    lessonQuizResultScreen.classList.remove('hidden');
+    document.getElementById('lessonQuizScore').textContent = `${lessonQuizScoreCount} / ${currentLessonQuiz.length} correct`;
+    logAttempt('Teaching Media — Simple Past vs Present Perfect', 'Practice quiz', '', `${lessonQuizScoreCount}/${currentLessonQuiz.length}`, '');
+  } else {
+    renderLessonQuizQuestion();
+  }
+});
+document.getElementById('lessonQuizBackBtn').addEventListener('click', () => {
+  lessonQuizScreen.classList.add('hidden');
+  lessonSlideScreen.classList.remove('hidden');
+});
+document.getElementById('lessonQuizTryAgainBtn').addEventListener('click', () => {
+  lessonQuizResultScreen.classList.add('hidden');
+  lessonQuizScreen.classList.remove('hidden');
+  lessonQuizIndex = 0;
+  lessonQuizScoreCount = 0;
+  currentLessonQuiz = shuffleArray(simplePastPerfectQuiz);
+  renderLessonQuizQuestion();
+});
+document.getElementById('lessonQuizContinueBtn').addEventListener('click', () => {
+  lessonQuizResultScreen.classList.add('hidden');
+  teachingMediaMenuScreen.classList.remove('hidden');
 });
 
 document.getElementById('goSpeakingBtn').addEventListener('click', () => {
@@ -1657,6 +1955,11 @@ const modeLabels = {
 
 function hideAllMenus(){
   mainMenuScreen.classList.add('hidden');
+  teachingMediaPasswordScreen.classList.add('hidden');
+  teachingMediaMenuScreen.classList.add('hidden');
+  lessonSlideScreen.classList.add('hidden');
+  lessonQuizScreen.classList.add('hidden');
+  lessonQuizResultScreen.classList.add('hidden');
   listeningMenuScreen.classList.add('hidden');
   listeningWordListScreen.classList.add('hidden');
   verbMenuScreen.classList.add('hidden');
