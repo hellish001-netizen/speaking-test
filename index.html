@@ -439,16 +439,24 @@
 <div id="grammarPointMenuScreen" class="hidden">
   <div class="card whiteboard-card">
     <div class="progress">📖 Grammar Point</div>
+    <button id="foundationalBtn">📘 Foundational</button>
+    <button id="simplePastPerfectBtn" style="margin-top:16px;">Simple Past vs Present Perfect</button>
+    <button id="presentContinuousBtn" style="margin-top:8px;">Simple Present vs Present Continuous</button>
+    <button id="conditionalsBtn" style="margin-top:8px;">Conditional Sentences</button>
+    <button id="grammarPointBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="foundationalMenuScreen" class="hidden">
+  <div class="card whiteboard-card">
+    <div class="progress">📘 Foundational</div>
     <button id="usingBeBtn">Using Be</button>
     <button id="usingBeHaveBtn" style="margin-top:8px;">Using Be and Have</button>
     <button id="usingSimplePresentBtn" style="margin-top:8px;">Using a Simple Present</button>
     <button id="usingPresentProgressiveBtn" style="margin-top:8px;">Using a Present Progressive</button>
     <button id="talkingAboutPresentBtn" style="margin-top:8px;">Talking About the Present</button>
     <button id="nounsPronounsBtn" style="margin-top:8px;">Nouns and Pronouns</button>
-    <button id="simplePastPerfectBtn" style="margin-top:16px;">Simple Past vs Present Perfect</button>
-    <button id="presentContinuousBtn" style="margin-top:8px;">Simple Present vs Present Continuous</button>
-    <button id="conditionalsBtn" style="margin-top:8px;">Conditional Sentences</button>
-    <button id="grammarPointBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+    <button id="foundationalBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
 
@@ -504,13 +512,63 @@
 <div id="listeningMenuScreen" class="hidden">
   <div class="card">
     <div class="progress" data-i18n="listeningHeader">Listening</div>
+    <button id="verbNounBtn">🔤 Verb and Noun</button>
+    <button id="speakingSubmenuBtn" style="margin-top:8px;">🗣 Speaking</button>
+    <button id="naturalConversationBtn" style="margin-top:8px;" data-i18n="naturalConversationBtn">💬 Natural Conversation</button>
+    <button id="writingPracticeBtn" class="secondary" style="margin-top:16px;">✍️ Writing Practice</button>
+    <button id="listeningMenuBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="verbNounSubmenuScreen" class="hidden">
+  <div class="card">
+    <div class="progress">🔤 Verb and Noun</div>
     <button id="listeningVerbBtn" data-i18n="verbBtn">Verb</button>
     <button id="listeningNounBtn" data-i18n="nounBtn">Noun</button>
+    <button id="verbNounBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="speakingSubmenuScreen" class="hidden">
+  <div class="card">
+    <div class="progress">🗣 Speaking</div>
     <button id="grade7DialogueBtn" data-i18n="dialogueBtn">💬 Dialogue</button>
-    <button id="naturalConversationBtn" data-i18n="naturalConversationBtn">💬 Natural Conversation</button>
     <button id="challengeBtn" class="secondary" style="margin-top:16px;" data-i18n="challenge">🚀 Level Up Challenge</button>
     <button id="indoModeBtn" class="secondary" style="margin-top:8px;" data-i18n="indoModeBtn">🇮🇩→🇬🇧 Indonesian Prompts</button>
-    <button id="listeningMenuBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+    <button id="speakingSubmenuBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="writingPracticeMenuScreen" class="hidden">
+  <div class="card">
+    <div class="progress">✍️ Writing Practice</div>
+    <div class="status idle">Build the correct sentence: Positive, Negative, and Question forms.</div>
+    <button id="writingUsingBeBtn" style="margin-top:10px;">Using Be</button>
+    <button id="writingPracticeBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="writingExerciseScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="writingExerciseProgress">Sentence 1 of 12</div>
+    <div class="tag" id="writingExerciseTypeTag" style="margin-bottom:8px;">POSITIVE</div>
+    <div class="dialogue" id="writingExerciseCue"></div>
+    <div class="tileRow" id="writingExerciseAnswer" style="margin-top:12px;"></div>
+    <div class="tileRow" id="writingExercisePool"></div>
+    <div class="status idle hidden" id="writingExerciseFeedback" style="margin-top:12px;"></div>
+    <button id="writingExerciseClearBtn" class="secondary" style="margin-top:14px;">↺ Clear</button>
+    <button id="writingExerciseCheckBtn" class="hidden" style="margin-top:8px;">Check</button>
+    <button id="writingExerciseNextBtn" class="secondary hidden" style="margin-top:8px;">Next →</button>
+    <button id="writingExerciseBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="writingExerciseResultScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="results">Results</div>
+    <div class="score" id="writingExerciseScore"></div>
+    <button id="writingExerciseTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="writingExerciseContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
   </div>
 </div>
 
@@ -1260,12 +1318,18 @@ const mainMenuScreen = document.getElementById('mainMenuScreen');
 const teachingMediaPasswordScreen = document.getElementById('teachingMediaPasswordScreen');
 const teachingMediaMenuScreen = document.getElementById('teachingMediaMenuScreen');
 const grammarPointMenuScreen = document.getElementById('grammarPointMenuScreen');
+const foundationalMenuScreen = document.getElementById('foundationalMenuScreen');
 const genreTextTypeMenuScreen = document.getElementById('genreTextTypeMenuScreen');
 const examSkillScreen = document.getElementById('examSkillScreen');
 const lessonSlideScreen = document.getElementById('lessonSlideScreen');
 const lessonQuizScreen = document.getElementById('lessonQuizScreen');
 const lessonQuizResultScreen = document.getElementById('lessonQuizResultScreen');
 const listeningMenuScreen = document.getElementById('listeningMenuScreen');
+const verbNounSubmenuScreen = document.getElementById('verbNounSubmenuScreen');
+const speakingSubmenuScreen = document.getElementById('speakingSubmenuScreen');
+const writingPracticeMenuScreen = document.getElementById('writingPracticeMenuScreen');
+const writingExerciseScreen = document.getElementById('writingExerciseScreen');
+const writingExerciseResultScreen = document.getElementById('writingExerciseResultScreen');
 const listeningWordListScreen = document.getElementById('listeningWordListScreen');
 const listeningTestScreen = document.getElementById('listeningTestScreen');
 const verbMenuScreen = document.getElementById('verbMenuScreen');
@@ -1340,6 +1404,14 @@ document.getElementById('grammarPointBackBtn').addEventListener('click', () => {
   grammarPointMenuScreen.classList.add('hidden');
   teachingMediaMenuScreen.classList.remove('hidden');
 });
+document.getElementById('foundationalBtn').addEventListener('click', () => {
+  grammarPointMenuScreen.classList.add('hidden');
+  foundationalMenuScreen.classList.remove('hidden');
+});
+document.getElementById('foundationalBackBtn').addEventListener('click', () => {
+  foundationalMenuScreen.classList.add('hidden');
+  grammarPointMenuScreen.classList.remove('hidden');
+});
 document.getElementById('genreTextTypeBtn').addEventListener('click', () => {
   teachingMediaMenuScreen.classList.add('hidden');
   genreTextTypeMenuScreen.classList.remove('hidden');
@@ -1358,7 +1430,7 @@ document.getElementById('examSkillBackBtn').addEventListener('click', () => {
 });
 
 // ---- Teaching Media theme picker: Default / Whiteboard / Chalkboard / Mix, applied live across the whole section ----
-const teachingMediaCardScreens = ['teachingMediaPasswordScreen', 'teachingMediaMenuScreen', 'grammarPointMenuScreen', 'genreTextTypeMenuScreen', 'examSkillScreen', 'lessonSlideScreen', 'lessonQuizScreen', 'lessonQuizResultScreen'];
+const teachingMediaCardScreens = ['teachingMediaPasswordScreen', 'teachingMediaMenuScreen', 'grammarPointMenuScreen', 'foundationalMenuScreen', 'genreTextTypeMenuScreen', 'examSkillScreen', 'lessonSlideScreen', 'lessonQuizScreen', 'lessonQuizResultScreen'];
 let teachingMediaTheme = 'whiteboard';
 
 function applyTeachingMediaTheme(theme){
@@ -1401,6 +1473,10 @@ const teachingLessons = {
       {
         title: "Questions",
         body: "Move <strong>be</strong> to the front of the sentence.<br><br><strong>Examples:</strong><br>\u2022 Are you ready?<br>\u2022 Is she your sister?<br>\u2022 Am I late?"
+      },
+      {
+        title: "Do's and Don'ts",
+        body: "<strong>Do:</strong><br>\u2713 Always include be when the sentence needs it: I am, she is, they are<br>\u2713 Match be correctly to the subject<br>\u2713 Use be alone with an adjective or noun: She is kind. He is a teacher.<br><br><strong>Don't:</strong><br>\u2717 Don't drop be \u2014 in Indonesian, a sentence like <em>\u201cDia guru\u201d</em> doesn't need a linking verb, but English always does:<br>\u274c She teacher \u2192 \u2705 She is a teacher<br>\u2717 Don't mismatch subject and verb: \u274c I is, She are<br>\u2717 Don't put be before a plain action verb without -ing: \u274c She is study \u2192 \u2705 She is studying / She studies"
       },
       {
         title: "Quick Check",
@@ -1709,12 +1785,12 @@ function startLesson(key, returnScreen){
   renderLessonSlide();
 }
 
-document.getElementById('usingBeBtn').addEventListener('click', () => startLesson('usingBe', grammarPointMenuScreen));
-document.getElementById('usingBeHaveBtn').addEventListener('click', () => startLesson('usingBeHave', grammarPointMenuScreen));
-document.getElementById('usingSimplePresentBtn').addEventListener('click', () => startLesson('usingSimplePresent', grammarPointMenuScreen));
-document.getElementById('usingPresentProgressiveBtn').addEventListener('click', () => startLesson('usingPresentProgressive', grammarPointMenuScreen));
-document.getElementById('talkingAboutPresentBtn').addEventListener('click', () => startLesson('talkingAboutPresent', grammarPointMenuScreen));
-document.getElementById('nounsPronounsBtn').addEventListener('click', () => startLesson('nounsPronouns', grammarPointMenuScreen));
+document.getElementById('usingBeBtn').addEventListener('click', () => startLesson('usingBe', foundationalMenuScreen));
+document.getElementById('usingBeHaveBtn').addEventListener('click', () => startLesson('usingBeHave', foundationalMenuScreen));
+document.getElementById('usingSimplePresentBtn').addEventListener('click', () => startLesson('usingSimplePresent', foundationalMenuScreen));
+document.getElementById('usingPresentProgressiveBtn').addEventListener('click', () => startLesson('usingPresentProgressive', foundationalMenuScreen));
+document.getElementById('talkingAboutPresentBtn').addEventListener('click', () => startLesson('talkingAboutPresent', foundationalMenuScreen));
+document.getElementById('nounsPronounsBtn').addEventListener('click', () => startLesson('nounsPronouns', foundationalMenuScreen));
 document.getElementById('simplePastPerfectBtn').addEventListener('click', () => startLesson('simplePastPerfect', grammarPointMenuScreen));
 document.getElementById('presentContinuousBtn').addEventListener('click', () => startLesson('presentContinuous', grammarPointMenuScreen));
 document.getElementById('conditionalsBtn').addEventListener('click', () => startLesson('conditionals', grammarPointMenuScreen));
@@ -1841,6 +1917,201 @@ document.getElementById('goListeningBtn').addEventListener('click', () => {
 document.getElementById('listeningMenuBackBtn').addEventListener('click', () => {
   listeningMenuScreen.classList.add('hidden');
   mainMenuScreen.classList.remove('hidden');
+});
+
+// ---- Writing Practice: build Positive / Negative / Question sentences (tile-tap, with distractor tiles) ----
+const writingExercises = {
+  usingBe: [
+    { type: 'Positive', cue: 'I — happy', target: ['I', 'am', 'happy'], distractors: ['is'] },
+    { type: 'Positive', cue: 'Monita — a student', target: ['Monita', 'is', 'a', 'student'], distractors: ['are'] },
+    { type: 'Positive', cue: 'We — ready', target: ['We', 'are', 'ready'], distractors: ['is'] },
+    { type: 'Positive', cue: 'They — at home', target: ['They', 'are', 'at', 'home'], distractors: ['is'] },
+    { type: 'Negative', cue: 'Galang — tired', target: ['Galang', 'is', 'not', 'tired'], distractors: ['are'] },
+    { type: 'Negative', cue: 'I — hungry', target: ['I', 'am', 'not', 'hungry'], distractors: ['is'] },
+    { type: 'Negative', cue: 'We — late', target: ['We', 'are', 'not', 'late'], distractors: ['is'] },
+    { type: 'Negative', cue: 'She — a teacher', target: ['She', 'is', 'not', 'a', 'teacher'], distractors: ['are'] },
+    { type: 'Question', cue: 'you — ready', target: ['Are', 'you', 'ready'], distractors: ['Is'] },
+    { type: 'Question', cue: 'she — your sister', target: ['Is', 'she', 'your', 'sister'], distractors: ['Are'] },
+    { type: 'Question', cue: 'they — at school', target: ['Are', 'they', 'at', 'school'], distractors: ['Is'] },
+    { type: 'Question', cue: 'I — late', target: ['Am', 'I', 'late'], distractors: ['Is'] }
+  ]
+};
+
+let writingExerciseTopic = null;
+let writingExerciseRounds = [];
+let writingExerciseIndex = 0;
+let writingExerciseScoreCount = 0;
+let writingExercisePoolPieces = [];
+let writingExerciseAnswerPieces = [];
+
+document.getElementById('writingPracticeBtn').addEventListener('click', () => {
+  listeningMenuScreen.classList.add('hidden');
+  writingPracticeMenuScreen.classList.remove('hidden');
+});
+document.getElementById('writingPracticeBackBtn').addEventListener('click', () => {
+  writingPracticeMenuScreen.classList.add('hidden');
+  listeningMenuScreen.classList.remove('hidden');
+});
+
+document.getElementById('writingUsingBeBtn').addEventListener('click', () => {
+  writingExerciseTopic = 'usingBe';
+  writingPracticeMenuScreen.classList.add('hidden');
+  writingExerciseScreen.classList.remove('hidden');
+  writingExerciseRounds = shuffleArray(writingExercises[writingExerciseTopic]);
+  writingExerciseIndex = 0;
+  writingExerciseScoreCount = 0;
+  renderWritingExerciseRound();
+});
+document.getElementById('writingExerciseBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  writingExerciseScreen.classList.add('hidden');
+  writingPracticeMenuScreen.classList.remove('hidden');
+});
+
+function renderWritingExerciseRound(){
+  const item = writingExerciseRounds[writingExerciseIndex];
+  document.getElementById('writingExerciseProgress').textContent = `Sentence ${writingExerciseIndex + 1} of ${writingExerciseRounds.length}`;
+
+  const tag = document.getElementById('writingExerciseTypeTag');
+  tag.textContent = item.type.toUpperCase();
+  tag.className = 'tag ' + (item.type === 'Negative' ? 'warn' : 'ok');
+
+  document.getElementById('writingExerciseCue').textContent = item.cue;
+
+  const feedback = document.getElementById('writingExerciseFeedback');
+  feedback.classList.add('hidden');
+  document.getElementById('writingExerciseNextBtn').classList.add('hidden');
+  document.getElementById('writingExerciseCheckBtn').classList.add('hidden');
+  document.getElementById('writingExerciseClearBtn').classList.remove('hidden');
+
+  writingExerciseAnswerPieces = [];
+  const allPieces = shuffleArray(item.target.concat(item.distractors));
+  writingExercisePoolPieces = allPieces.map(text => ({ text, used: false }));
+
+  renderWritingExercisePieces();
+}
+
+function renderWritingExercisePieces(){
+  const answerEl = document.getElementById('writingExerciseAnswer');
+  const poolEl = document.getElementById('writingExercisePool');
+  answerEl.innerHTML = '';
+  poolEl.innerHTML = '';
+
+  writingExerciseAnswerPieces.forEach((text, idx) => {
+    const slot = document.createElement('div');
+    slot.className = 'letterSlot';
+    slot.style.width = 'auto';
+    slot.style.padding = '8px 12px';
+    slot.textContent = text;
+    slot.addEventListener('click', () => removeWritingExercisePiece(idx));
+    answerEl.appendChild(slot);
+  });
+
+  writingExercisePoolPieces.forEach((piece, idx) => {
+    const div = document.createElement('div');
+    div.className = 'letterTile';
+    div.style.width = 'auto';
+    div.style.padding = '8px 12px';
+    div.style.textTransform = 'none';
+    if (piece.used) {
+      div.style.visibility = 'hidden';
+    } else {
+      div.textContent = piece.text;
+      div.addEventListener('click', () => pickWritingExercisePiece(idx));
+    }
+    poolEl.appendChild(div);
+  });
+
+  const target = writingExerciseRounds[writingExerciseIndex].target;
+  const checkBtn = document.getElementById('writingExerciseCheckBtn');
+  if (writingExerciseAnswerPieces.length === target.length) {
+    checkBtn.classList.remove('hidden');
+  } else {
+    checkBtn.classList.add('hidden');
+  }
+}
+
+function pickWritingExercisePiece(idx){
+  const piece = writingExercisePoolPieces[idx];
+  if (piece.used) return;
+  piece.used = true;
+  writingExerciseAnswerPieces.push(piece.text);
+  renderWritingExercisePieces();
+}
+
+function removeWritingExercisePiece(answerIdx){
+  const text = writingExerciseAnswerPieces[answerIdx];
+  writingExerciseAnswerPieces.splice(answerIdx, 1);
+  const poolPiece = writingExercisePoolPieces.find(p => p.used && p.text === text);
+  if (poolPiece) poolPiece.used = false;
+  renderWritingExercisePieces();
+}
+
+document.getElementById('writingExerciseClearBtn').addEventListener('click', () => {
+  writingExerciseAnswerPieces = [];
+  writingExercisePoolPieces.forEach(p => p.used = false);
+  renderWritingExercisePieces();
+});
+
+document.getElementById('writingExerciseCheckBtn').addEventListener('click', () => {
+  const item = writingExerciseRounds[writingExerciseIndex];
+  const correct = writingExerciseAnswerPieces.join('|') === item.target.join('|');
+  if (correct) writingExerciseScoreCount++;
+
+  const punctuation = item.type === 'Question' ? '?' : '.';
+  const fullSentence = item.target.join(' ') + punctuation;
+
+  const feedback = document.getElementById('writingExerciseFeedback');
+  feedback.classList.remove('hidden');
+  feedback.className = 'status ' + (correct ? 'ok' : 'err');
+  feedback.textContent = correct
+    ? `Correct! "${fullSentence}"`
+    : `Not quite — the correct sentence is "${fullSentence}"`;
+
+  if (correct) {
+    playCorrectSound();
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(fullSentence);
+      utter.lang = 'en-US';
+      speechSynthesis.speak(utter);
+    }
+  } else {
+    playIncorrectSound();
+  }
+
+  document.getElementById('writingExerciseCheckBtn').classList.add('hidden');
+  document.getElementById('writingExerciseClearBtn').classList.add('hidden');
+  document.getElementById('writingExerciseNextBtn').classList.remove('hidden');
+});
+
+document.getElementById('writingExerciseNextBtn').addEventListener('click', () => {
+  writingExerciseIndex++;
+  if (writingExerciseIndex >= writingExerciseRounds.length) {
+    showWritingExerciseResults();
+  } else {
+    renderWritingExerciseRound();
+  }
+});
+
+function showWritingExerciseResults(){
+  writingExerciseScreen.classList.add('hidden');
+  writingExerciseResultScreen.classList.remove('hidden');
+  document.getElementById('writingExerciseScore').textContent = `${writingExerciseScoreCount} / ${writingExerciseRounds.length} correct`;
+  logAttempt('Writing Practice — Using Be', 'Positive/Negative/Question construction', '', `${writingExerciseScoreCount}/${writingExerciseRounds.length}`, '');
+}
+
+document.getElementById('writingExerciseTryAgainBtn').addEventListener('click', () => {
+  writingExerciseResultScreen.classList.add('hidden');
+  writingExerciseScreen.classList.remove('hidden');
+  writingExerciseRounds = shuffleArray(writingExercises[writingExerciseTopic]);
+  writingExerciseIndex = 0;
+  writingExerciseScoreCount = 0;
+  renderWritingExerciseRound();
+});
+document.getElementById('writingExerciseContinueBtn').addEventListener('click', () => {
+  writingExerciseResultScreen.classList.add('hidden');
+  writingPracticeMenuScreen.classList.remove('hidden');
 });
 
 // ---- Listening section: hear a word or phrase, repeat it, judged by how closely it matches ----
@@ -1973,7 +2244,7 @@ function openListeningCategory(cat){
 document.getElementById('listeningNounBtn').addEventListener('click', () => openListeningCategory('noun'));
 document.getElementById('listeningWordListBackBtn').addEventListener('click', () => {
   listeningWordListScreen.classList.add('hidden');
-  listeningMenuScreen.classList.remove('hidden');
+  verbNounSubmenuScreen.classList.remove('hidden');
 });
 
 // ---- Verb: general menu with definition, then 5 categories, each with its own definition ----
@@ -1984,6 +2255,23 @@ document.getElementById('listeningVerbBtn').addEventListener('click', () => {
 });
 document.getElementById('verbMenuBackBtn').addEventListener('click', () => {
   verbMenuScreen.classList.add('hidden');
+  verbNounSubmenuScreen.classList.remove('hidden');
+});
+
+document.getElementById('verbNounBtn').addEventListener('click', () => {
+  listeningMenuScreen.classList.add('hidden');
+  verbNounSubmenuScreen.classList.remove('hidden');
+});
+document.getElementById('verbNounBackBtn').addEventListener('click', () => {
+  verbNounSubmenuScreen.classList.add('hidden');
+  listeningMenuScreen.classList.remove('hidden');
+});
+document.getElementById('speakingSubmenuBtn').addEventListener('click', () => {
+  listeningMenuScreen.classList.add('hidden');
+  speakingSubmenuScreen.classList.remove('hidden');
+});
+document.getElementById('speakingSubmenuBackBtn').addEventListener('click', () => {
+  speakingSubmenuScreen.classList.add('hidden');
   listeningMenuScreen.classList.remove('hidden');
 });
 
@@ -2441,12 +2729,18 @@ function hideAllMenus(){
   teachingMediaPasswordScreen.classList.add('hidden');
   teachingMediaMenuScreen.classList.add('hidden');
   grammarPointMenuScreen.classList.add('hidden');
+  foundationalMenuScreen.classList.add('hidden');
   genreTextTypeMenuScreen.classList.add('hidden');
   examSkillScreen.classList.add('hidden');
   lessonSlideScreen.classList.add('hidden');
   lessonQuizScreen.classList.add('hidden');
   lessonQuizResultScreen.classList.add('hidden');
   listeningMenuScreen.classList.add('hidden');
+  verbNounSubmenuScreen.classList.add('hidden');
+  speakingSubmenuScreen.classList.add('hidden');
+  writingPracticeMenuScreen.classList.add('hidden');
+  writingExerciseScreen.classList.add('hidden');
+  writingExerciseResultScreen.classList.add('hidden');
   listeningWordListScreen.classList.add('hidden');
   verbMenuScreen.classList.add('hidden');
   verbCategoryScreen.classList.add('hidden');
@@ -3434,12 +3728,12 @@ document.getElementById('section6QuizBackBtn').addEventListener('click', () => {
 });
 
 document.getElementById('grade7DialogueBtn').addEventListener('click', () => {
-  listeningMenuScreen.classList.add('hidden');
+  speakingSubmenuScreen.classList.add('hidden');
   grade7DialogueMenuScreen.classList.remove('hidden');
 });
 document.getElementById('grade7DialogueBackBtn').addEventListener('click', () => {
   grade7DialogueMenuScreen.classList.add('hidden');
-  listeningMenuScreen.classList.remove('hidden');
+  speakingSubmenuScreen.classList.remove('hidden');
 });
 document.getElementById('g7GreetingsBtn').addEventListener('click', () => startGrade('g7greetings'));
 document.getElementById('g7IntroductionBtn').addEventListener('click', () => startGrade('g7introduction'));
@@ -4198,7 +4492,7 @@ document.getElementById('indoModeBtn').addEventListener('click', () => {
 document.getElementById('indoBackBtn').addEventListener('click', () => {
   if (indoCountdownTimer) { clearInterval(indoCountdownTimer); indoCountdownTimer = null; }
   indoScreen.classList.add('hidden');
-  listeningMenuScreen.classList.remove('hidden');
+  speakingSubmenuScreen.classList.remove('hidden');
 });
 
 function renderIndoLine(){
@@ -5269,7 +5563,12 @@ function showResults(){
 restartBtn.addEventListener('click', () => {
   resultsScreen.classList.add('hidden');
   testScreen.classList.add('hidden');
-  listeningMenuScreen.classList.remove('hidden');
+  const isSpeakingMode = selectedGrade === 'challenge' || (typeof selectedGrade === 'string' && selectedGrade.startsWith('g7'));
+  if (isSpeakingMode) {
+    speakingSubmenuScreen.classList.remove('hidden');
+  } else {
+    listeningMenuScreen.classList.remove('hidden');
+  }
 });
 </script>
 
