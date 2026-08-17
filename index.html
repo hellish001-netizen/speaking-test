@@ -464,6 +464,7 @@
   <div class="card whiteboard-card">
     <div class="progress">📝 Genre/Text Type</div>
     <button id="recountBtn">Recount</button>
+    <button id="reportTextBtn" style="margin-top:8px;">Report</button>
     <button id="genreTextTypeBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
@@ -652,7 +653,106 @@
   <div class="card">
     <div class="progress patriotic-title">Unit 2: Going to a Parade</div>
     <button id="aParadeInMyHometownBtn">A Parade in My Hometown</button>
+    <button id="smpMerdekaBtn" style="margin-top:8px;">SMP Merdeka's School Parade</button>
+    <button id="aSchoolParadeBtn" style="margin-top:8px;">A School Parade</button>
     <button id="grade8Chapter1Unit2BackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="aSchoolParadeScreen" class="hidden">
+  <div class="card">
+    <div class="progress patriotic-title">A School Parade</div>
+    <button id="aSchoolParadePlayBtn" data-i18n="playDialogue">▶ Play Dialogue</button>
+    <div id="aSchoolParadeScript" style="margin-top:14px;font-size:0.98rem;line-height:1.8;"></div>
+    <button id="aSchoolParadeQuizBtn" class="secondary" style="margin-top:14px;">📝 Comprehension Quiz</button>
+    <button id="aSchoolParadeBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="aSchoolParadeQuizScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="aSchoolParadeQuizProgress">Question 1 of 8</div>
+    <div class="hint" id="aSchoolParadeQuizLevel" style="margin-bottom:6px;"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+      <div class="dialogue" id="aSchoolParadeQuizQuestion" style="flex:1;margin-bottom:0;"></div>
+      <div style="display:flex;gap:6px;flex-shrink:0;">
+        <button id="aSchoolParadeQuizReplayBtn" class="icon-btn" title="Replay question">🔊</button>
+        <button id="aSchoolParadeQuizHintBtn" class="icon-btn" title="Show hint">🇮🇩</button>
+      </div>
+    </div>
+    <div id="aSchoolParadeQuizHintText" class="hidden" style="padding-left:2px;color:#5a6472;font-size:0.9rem;font-style:italic;margin-top:4px;"></div>
+    <div id="aSchoolParadeQuizOptions" style="margin-top:12px;"></div>
+    <div class="status idle hidden" id="aSchoolParadeQuizFeedback" style="margin-top:12px;"></div>
+    <button id="aSchoolParadeQuizNextBtn" class="secondary hidden" style="margin-top:14px;">Next →</button>
+    <button id="aSchoolParadeQuizBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="aSchoolParadeQuizResultScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="results">Results</div>
+    <div class="score" id="aSchoolParadeQuizScore"></div>
+    <button id="aSchoolParadeQuizTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="aSchoolParadeQuizContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
+  </div>
+</div>
+
+<div id="smpMerdekaScreen" class="hidden">
+  <div class="card">
+    <div class="progress patriotic-title">SMP Merdeka's School Parade</div>
+    <button id="smpMerdekaPlayBtn" data-i18n="playDialogue">▶ Play Dialogue</button>
+    <div id="smpMerdekaScript" style="margin-top:14px;font-size:0.98rem;line-height:1.8;"></div>
+    <button id="smpMerdekaQuizBtn" class="secondary" style="margin-top:14px;">📝 Comprehension Quiz</button>
+    <button id="smpMerdekaStructuralQuizBtn" class="secondary" style="margin-top:8px;">🧩 Structural Quiz</button>
+    <button id="smpMerdekaBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="smpMerdekaQuizScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="smpMerdekaQuizProgress">Question 1 of 8</div>
+    <div class="hint" id="smpMerdekaQuizLevel" style="margin-bottom:6px;"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+      <div class="dialogue" id="smpMerdekaQuizQuestion" style="flex:1;margin-bottom:0;"></div>
+      <div style="display:flex;gap:6px;flex-shrink:0;">
+        <button id="smpMerdekaQuizReplayBtn" class="icon-btn" title="Replay question">🔊</button>
+        <button id="smpMerdekaQuizHintBtn" class="icon-btn" title="Show hint">🇮🇩</button>
+      </div>
+    </div>
+    <div id="smpMerdekaQuizHintText" class="hidden" style="padding-left:2px;color:#5a6472;font-size:0.9rem;font-style:italic;margin-top:4px;"></div>
+    <div id="smpMerdekaQuizOptions" style="margin-top:12px;"></div>
+    <div class="status idle hidden" id="smpMerdekaQuizFeedback" style="margin-top:12px;"></div>
+    <button id="smpMerdekaQuizNextBtn" class="secondary hidden" style="margin-top:14px;">Next →</button>
+    <button id="smpMerdekaQuizBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="smpMerdekaQuizResultScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="results">Results</div>
+    <div class="score" id="smpMerdekaQuizScore"></div>
+    <button id="smpMerdekaQuizTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="smpMerdekaQuizContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
+  </div>
+</div>
+
+<div id="smpMerdekaStructuralQuizScreen" class="hidden">
+  <div class="card">
+    <div class="progress" id="smpMerdekaStructuralQuizProgress">Question 1 of 5</div>
+    <div class="dialogue" id="smpMerdekaStructuralQuizQuestion"></div>
+    <div id="smpMerdekaStructuralQuizOptions" style="margin-top:12px;"></div>
+    <div class="status idle hidden" id="smpMerdekaStructuralQuizFeedback" style="margin-top:12px;"></div>
+    <button id="smpMerdekaStructuralQuizNextBtn" class="secondary hidden" style="margin-top:14px;">Next →</button>
+    <button id="smpMerdekaStructuralQuizBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
+  </div>
+</div>
+
+<div id="smpMerdekaStructuralQuizResultScreen" class="hidden">
+  <div class="card">
+    <div class="progress" data-i18n="results">Results</div>
+    <div class="score" id="smpMerdekaStructuralQuizScore"></div>
+    <button id="smpMerdekaStructuralQuizTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
+    <button id="smpMerdekaStructuralQuizContinueBtn" style="margin-top:8px;" data-i18n="continueBtn">Continue</button>
   </div>
 </div>
 
@@ -1772,6 +1872,41 @@ const teachingLessons = {
       { q: "Which of these is a time connector commonly used in recount text?", options: ["However", "Therefore", "First, then, after that", "Although"], correct: 2 },
       { q: "What is the purpose of the Reorientation stage?", options: ["To introduce who, when, and where", "To list events in time order", "To give a closing statement or feeling about the experience", "To give an opinion in a debate"], correct: 2 }
     ]
+  },
+  report: {
+    title: "Report Text",
+    slides: [
+      {
+        title: "Report Text",
+        body: "A report describes things <strong>as they generally are</strong> \u2014 animals, plants, places, or phenomena \u2014 using facts. It's not about one specific event or experience, but about a whole category or subject in general."
+      },
+      {
+        title: "Structure",
+        body: "A report has two main parts:<br><br>1. <strong>General Classification</strong> \u2014 introduces the subject: what it is, and what category it belongs to<br>2. <strong>Description</strong> \u2014 facts about the subject, often organized by aspect: appearance, habitat, behavior, diet, and so on"
+      },
+      {
+        title: "Language Features",
+        body: "Reports are usually written in the <strong>Simple Present tense</strong>, since they describe things that are generally, timelessly true.<br><br>They use <strong>general nouns</strong> (\u201corangutans\u201d, not \u201cmy pet orangutan\u201d), and factual, descriptive vocabulary \u2014 not personal opinions or feelings."
+      },
+      {
+        title: "Report vs Recount",
+        body: "Easy to confuse \u2014 here's the difference:<br><br><strong>Report:</strong> general facts, no specific time, Simple Present (\u201cOrangutans live in Borneo's forests.\u201d)<br><br><strong>Recount:</strong> one specific personal experience, told in time order, Simple Past (\u201cI saw an orangutan at the zoo last year.\u201d)"
+      },
+      {
+        title: "Real Example",
+        body: "<em>\u201cToday's topic for the animal is orangutans. The name orangutan means \u2018man of the forest.\u2019 It's the largest arboreal mammal. Pongo pygmaeus is their scientific name.\u201d</em> \u2014 this is the <strong>General Classification</strong>.<br><br><em>\u201cOrangutans live in Borneo's swamps and forests... They eat lychees, mangosteens, and figs...\u201d</em> \u2014 this is the <strong>Description</strong>, organized by habitat and diet."
+      },
+      {
+        title: "Quick Check",
+        body: "Introduces what the subject is and its category? \u2192 <strong>General Classification</strong><br>Gives facts about appearance, habitat, or behavior? \u2192 <strong>Description</strong><br>Written in Simple Present, about general facts? \u2192 <strong>Report</strong> (not Recount)<br><br>Ready for practice questions? Tap Next to begin."
+      }
+    ],
+    quiz: [
+      { q: "Which tense is mainly used in report texts?", options: ["Simple Past", "Simple Present", "Present Continuous", "Future Tense"], correct: 1 },
+      { q: "What is the purpose of the General Classification stage?", options: ["To tell a personal story", "To introduce what the subject is and its category", "To give a closing opinion", "To list steps in order"], correct: 1 },
+      { q: "Which of these topics would a report text most likely be about?", options: ["What I did on my holiday", "Orangutans in general", "How to make a sandwich", "My favorite bicycle"], correct: 1 },
+      { q: "What is the main difference between Report and Recount text?", options: ["Report uses Simple Past, Recount uses Simple Present", "Report describes general facts, Recount tells a specific personal past experience", "Report has no structure, Recount does", "They are exactly the same"], correct: 1 }
+    ]
   }
 };
 
@@ -1799,6 +1934,7 @@ document.getElementById('simplePastPerfectBtn').addEventListener('click', () => 
 document.getElementById('presentContinuousBtn').addEventListener('click', () => startLesson('presentContinuous', grammarPointMenuScreen));
 document.getElementById('conditionalsBtn').addEventListener('click', () => startLesson('conditionals', grammarPointMenuScreen));
 document.getElementById('recountBtn').addEventListener('click', () => startLesson('recount', genreTextTypeMenuScreen));
+document.getElementById('reportTextBtn').addEventListener('click', () => startLesson('report', genreTextTypeMenuScreen));
 
 document.getElementById('lessonSlideBackBtn').addEventListener('click', () => {
   lessonSlideScreen.classList.add('hidden');
@@ -2660,6 +2796,14 @@ const grade8Chapter1Screen = document.getElementById('grade8Chapter1Screen');
 const grade8Chapter1Unit1Screen = document.getElementById('grade8Chapter1Unit1Screen');
 const grade8Chapter1Unit2Screen = document.getElementById('grade8Chapter1Unit2Screen');
 const aParadeInMyHometownScreen = document.getElementById('aParadeInMyHometownScreen');
+const smpMerdekaScreen = document.getElementById('smpMerdekaScreen');
+const aSchoolParadeScreen = document.getElementById('aSchoolParadeScreen');
+const aSchoolParadeQuizScreen = document.getElementById('aSchoolParadeQuizScreen');
+const aSchoolParadeQuizResultScreen = document.getElementById('aSchoolParadeQuizResultScreen');
+const smpMerdekaQuizScreen = document.getElementById('smpMerdekaQuizScreen');
+const smpMerdekaQuizResultScreen = document.getElementById('smpMerdekaQuizResultScreen');
+const smpMerdekaStructuralQuizScreen = document.getElementById('smpMerdekaStructuralQuizScreen');
+const smpMerdekaStructuralQuizResultScreen = document.getElementById('smpMerdekaStructuralQuizResultScreen');
 const paradeReferenceQuizScreen = document.getElementById('paradeReferenceQuizScreen');
 const paradeReferenceQuizResultScreen = document.getElementById('paradeReferenceQuizResultScreen');
 const irregularVsRegularScreen = document.getElementById('irregularVsRegularScreen');
@@ -2757,6 +2901,14 @@ function hideAllMenus(){
   aParadeInMyHometownScreen.classList.add('hidden');
   paradeReferenceQuizScreen.classList.add('hidden');
   paradeReferenceQuizResultScreen.classList.add('hidden');
+  smpMerdekaScreen.classList.add('hidden');
+  smpMerdekaQuizScreen.classList.add('hidden');
+  smpMerdekaQuizResultScreen.classList.add('hidden');
+  smpMerdekaStructuralQuizScreen.classList.add('hidden');
+  smpMerdekaStructuralQuizResultScreen.classList.add('hidden');
+  aSchoolParadeScreen.classList.add('hidden');
+  aSchoolParadeQuizScreen.classList.add('hidden');
+  aSchoolParadeQuizResultScreen.classList.add('hidden');
   irregularVsRegularScreen.classList.add('hidden');
   irregularVerbsScreen.classList.add('hidden');
   regularVerbsScreen.classList.add('hidden');
@@ -3786,6 +3938,489 @@ document.getElementById('aParadeInMyHometownBackBtn').addEventListener('click', 
   clearAParadeInMyHometownHighlight();
   aParadeInMyHometownScreen.classList.add('hidden');
   grade8Chapter1Unit2Screen.classList.remove('hidden');
+});
+
+// ---- SMP Merdeka's School Parade: single-narrator recount, third person ----
+const smpMerdekaLines = [
+  { line: "On August 17th, SMP Merdeka held a school parade to celebrate Independence Day.", id: "Pada tanggal 17 Agustus, SMP Merdeka mengadakan pawai sekolah untuk merayakan Hari Kemerdekaan." },
+  { line: "All students joined the event and so did Galang and his friends.", id: "Semua siswa mengikuti acara tersebut, begitu juga Galang dan teman-temannya." },
+  { line: "They dressed up like the Indonesian freedom fighters during the Independence war.", id: "Mereka berpakaian seperti pejuang kemerdekaan Indonesia pada masa perang kemerdekaan." },
+  { line: "Some of them brought guns, spiked bamboos, swords, and many more.", id: "Beberapa dari mereka membawa senjata, bambu runcing, pedang, dan banyak lagi." },
+  { line: "They also wore many red and white attributes making the event more patriotic.", id: "Mereka juga mengenakan banyak atribut merah putih yang membuat acara semakin patriotik." },
+  { line: "In the beginning, as instructed, all participants lined up and started to march.", id: "Pada awalnya, sesuai instruksi, semua peserta berbaris dan mulai berjalan." },
+  { line: "Then, they marched along the decided route passing some villages near SMP Merdeka.", id: "Kemudian, mereka berjalan mengikuti rute yang telah ditentukan melewati beberapa desa dekat SMP Merdeka." },
+  { line: "The villagers were very excited to watch the parade pass their houses.", id: "Para warga desa sangat antusias menyaksikan pawai melewati rumah mereka." },
+  { line: "Many of them stood along the street welcoming and cheering the parade.", id: "Banyak dari mereka berdiri di sepanjang jalan menyambut dan menyoraki pawai." },
+  { line: "Not so long after, the parade reached the rest post.", id: "Tidak lama kemudian, pawai tiba di pos istirahat." },
+  { line: "It was the place for participants to draw a door prize coupon and have some drinks.", id: "Itu adalah tempat bagi peserta untuk mengambil kupon undian hadiah dan minum sesuatu." },
+  { line: "After drawing a coupon, they continued to parade to their school as the final destination.", id: "Setelah mengambil kupon, mereka melanjutkan pawai menuju sekolah sebagai tujuan akhir." },
+  { line: "After returning to school, all participants took some rest while waiting for the door prize announcement.", id: "Setelah kembali ke sekolah, semua peserta beristirahat sambil menunggu pengumuman hadiah undian." },
+  { line: "Finally, the headmaster announced the winner.", id: "Akhirnya, kepala sekolah mengumumkan pemenangnya." },
+  { line: "There were ten students who got the door prize and Galang was one of them.", id: "Ada sepuluh siswa yang mendapatkan hadiah undian dan Galang adalah salah satunya." },
+  { line: "Everyone felt happy with the events.", id: "Semua orang merasa senang dengan acara tersebut." }
+];
+
+function renderSmpMerdekaScript(){
+  document.getElementById('smpMerdekaScript').innerHTML = smpMerdekaLines.map((l, i) => `
+    <div id="smp-${i}" style="margin-bottom:8px;padding:4px 6px;border-radius:6px;transition:background-color 0.2s;">
+      <div>${l.line}</div>
+      <div style="padding-left:18px;color:#5a6472;font-size:0.88rem;font-style:italic;">(${l.id})</div>
+    </div>
+  `).join('');
+}
+
+let smpMerdekaActiveLineEl = null;
+function clearSmpMerdekaHighlight(){
+  if (smpMerdekaActiveLineEl) {
+    smpMerdekaActiveLineEl.style.backgroundColor = '';
+    smpMerdekaActiveLineEl = null;
+  }
+}
+function highlightSmpMerdekaLine(domId){
+  clearSmpMerdekaHighlight();
+  const el = document.getElementById(domId);
+  if (el) {
+    el.style.backgroundColor = 'var(--go-bg)';
+    smpMerdekaActiveLineEl = el;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+document.getElementById('smpMerdekaBtn').addEventListener('click', () => {
+  grade8Chapter1Unit2Screen.classList.add('hidden');
+  smpMerdekaScreen.classList.remove('hidden');
+  renderSmpMerdekaScript();
+});
+document.getElementById('smpMerdekaBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  clearSmpMerdekaHighlight();
+  smpMerdekaScreen.classList.add('hidden');
+  grade8Chapter1Unit2Screen.classList.remove('hidden');
+});
+
+document.getElementById('smpMerdekaPlayBtn').addEventListener('click', () => {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+
+  let idx = 0;
+  function playNext(){
+    if (idx >= smpMerdekaLines.length) { clearSmpMerdekaHighlight(); return; }
+    const item = smpMerdekaLines[idx];
+    const utter = new SpeechSynthesisUtterance(item.line);
+    utter.lang = 'en-US';
+    utter.onstart = () => highlightSmpMerdekaLine(`smp-${idx}`);
+    utter.onend = () => { idx++; playNext(); };
+    speechSynthesis.speak(utter);
+  }
+  playNext();
+});
+
+// ---- Comprehension Quiz: Remember / Understand / Apply ----
+const smpMerdekaQuiz = [
+  { level: "Remember", q: "On what date did SMP Merdeka hold the school parade?", id: "Pada tanggal berapa SMP Merdeka mengadakan pawai sekolah?", options: ["August 17th", "August 20th", "September 17th", "July 17th"], correct: 0 },
+  { level: "Remember", q: "What did some students bring during the parade?", id: "Apa yang dibawa beberapa siswa selama pawai?", options: ["Books and pencils", "Guns, spiked bamboos, and swords", "Flowers and balloons", "Musical instruments only"], correct: 1 },
+  { level: "Remember", q: "Where did the parade stop for a rest?", id: "Di mana pawai berhenti untuk beristirahat?", options: ["The school gate", "The rest post", "The village hall", "The market"], correct: 1 },
+  { level: "Understand", q: "Why did the students wear costumes like freedom fighters?", id: "Mengapa para siswa mengenakan kostum seperti pejuang kemerdekaan?", options: ["Because it was a fashion show", "To celebrate Independence Day in a patriotic way", "Because their teacher forced them", "To scare the villagers"], correct: 1 },
+  { level: "Understand", q: "Why were the villagers standing along the street?", id: "Mengapa para warga desa berdiri di sepanjang jalan?", options: ["They were waiting for a bus", "They wanted to watch and cheer the parade", "They were protesting", "They were selling food"], correct: 1 },
+  { level: "Understand", q: "What happened at the rest post?", id: "Apa yang terjadi di pos istirahat?", options: ["They ate lunch", "They drew a door prize coupon and had drinks", "They went home", "They practiced marching"], correct: 1 },
+  { level: "Apply", q: "Based on the text, what can you infer about Galang's feelings at the end of the event?", id: "Berdasarkan teks, apa yang bisa kamu simpulkan tentang perasaan Galang di akhir acara?", options: ["He was disappointed", "He was happy because he won a door prize", "He was tired and angry", "He didn't care about the result"], correct: 1 },
+  { level: "Apply", q: "If you were a new student joining a similar parade, what would you most likely need to prepare, based on this text?", id: "Jika kamu siswa baru yang mengikuti pawai serupa, apa yang mungkin perlu kamu siapkan berdasarkan teks ini?", options: ["A swimming suit", "A costume like a freedom fighter with red and white attributes", "A laptop", "A cooking apron"], correct: 1 }
+];
+
+let currentSmpMerdekaQuiz = [];
+let smpMerdekaQuizIndex = 0;
+let smpMerdekaQuizScoreCount = 0;
+
+function buildShuffledSmpMerdekaQuiz(){
+  return shuffleArray(smpMerdekaQuiz).map(q => {
+    const optionObjs = q.options.map((opt, i) => ({ text: opt, isCorrect: i === q.correct }));
+    const shuffledOptions = shuffleArray(optionObjs);
+    return {
+      level: q.level,
+      q: q.q,
+      id: q.id,
+      options: shuffledOptions.map(o => o.text),
+      correct: shuffledOptions.findIndex(o => o.isCorrect)
+    };
+  });
+}
+
+document.getElementById('smpMerdekaQuizBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  smpMerdekaScreen.classList.add('hidden');
+  smpMerdekaQuizScreen.classList.remove('hidden');
+  currentSmpMerdekaQuiz = buildShuffledSmpMerdekaQuiz();
+  smpMerdekaQuizIndex = 0;
+  smpMerdekaQuizScoreCount = 0;
+  renderSmpMerdekaQuizQuestion();
+});
+document.getElementById('smpMerdekaQuizBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  smpMerdekaQuizScreen.classList.add('hidden');
+  smpMerdekaScreen.classList.remove('hidden');
+});
+
+function playSmpMerdekaQuizQuestionAudio(){
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const item = currentSmpMerdekaQuiz[smpMerdekaQuizIndex];
+  const utter = new SpeechSynthesisUtterance(item.q);
+  utter.lang = 'en-US';
+  speechSynthesis.speak(utter);
+}
+
+function renderSmpMerdekaQuizQuestion(){
+  const item = currentSmpMerdekaQuiz[smpMerdekaQuizIndex];
+  document.getElementById('smpMerdekaQuizProgress').textContent = `Question ${smpMerdekaQuizIndex + 1} of ${currentSmpMerdekaQuiz.length}`;
+  document.getElementById('smpMerdekaQuizLevel').textContent = item.level;
+  document.getElementById('smpMerdekaQuizQuestion').textContent = item.q;
+
+  const hintText = document.getElementById('smpMerdekaQuizHintText');
+  hintText.classList.add('hidden');
+  hintText.textContent = item.id;
+
+  const optionsEl = document.getElementById('smpMerdekaQuizOptions');
+  optionsEl.innerHTML = '';
+  item.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'secondary';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => answerSmpMerdekaQuiz(i));
+    optionsEl.appendChild(btn);
+  });
+
+  document.getElementById('smpMerdekaQuizFeedback').classList.add('hidden');
+  document.getElementById('smpMerdekaQuizNextBtn').classList.add('hidden');
+
+  playSmpMerdekaQuizQuestionAudio();
+}
+
+document.getElementById('smpMerdekaQuizReplayBtn').addEventListener('click', playSmpMerdekaQuizQuestionAudio);
+document.getElementById('smpMerdekaQuizHintBtn').addEventListener('click', () => {
+  document.getElementById('smpMerdekaQuizHintText').classList.toggle('hidden');
+});
+
+function answerSmpMerdekaQuiz(selectedIndex){
+  const item = currentSmpMerdekaQuiz[smpMerdekaQuizIndex];
+  const correct = selectedIndex === item.correct;
+  if (correct) { smpMerdekaQuizScoreCount++; playCorrectSound(); } else { playIncorrectSound(); }
+
+  document.querySelectorAll('#smpMerdekaQuizOptions button').forEach(b => b.disabled = true);
+  const feedback = document.getElementById('smpMerdekaQuizFeedback');
+  feedback.classList.remove('hidden');
+  feedback.className = 'status ' + (correct ? 'ok' : 'err');
+  feedback.textContent = correct ? 'Correct!' : `Not quite — the correct answer is "${item.options[item.correct]}".`;
+  document.getElementById('smpMerdekaQuizNextBtn').classList.remove('hidden');
+}
+
+document.getElementById('smpMerdekaQuizNextBtn').addEventListener('click', () => {
+  smpMerdekaQuizIndex++;
+  if (smpMerdekaQuizIndex >= currentSmpMerdekaQuiz.length) {
+    smpMerdekaQuizScreen.classList.add('hidden');
+    smpMerdekaQuizResultScreen.classList.remove('hidden');
+    document.getElementById('smpMerdekaQuizScore').textContent = `${smpMerdekaQuizScoreCount} / ${currentSmpMerdekaQuiz.length} correct`;
+    logAttempt('SMP Merdeka\'s School Parade — Comprehension Quiz', 'Galang parade recount', '', `${smpMerdekaQuizScoreCount}/${currentSmpMerdekaQuiz.length}`, '');
+  } else {
+    renderSmpMerdekaQuizQuestion();
+  }
+});
+document.getElementById('smpMerdekaQuizTryAgainBtn').addEventListener('click', () => {
+  smpMerdekaQuizResultScreen.classList.add('hidden');
+  smpMerdekaQuizScreen.classList.remove('hidden');
+  currentSmpMerdekaQuiz = buildShuffledSmpMerdekaQuiz();
+  smpMerdekaQuizIndex = 0;
+  smpMerdekaQuizScoreCount = 0;
+  renderSmpMerdekaQuizQuestion();
+});
+document.getElementById('smpMerdekaQuizContinueBtn').addEventListener('click', () => {
+  smpMerdekaQuizResultScreen.classList.add('hidden');
+  smpMerdekaScreen.classList.remove('hidden');
+});
+
+// ---- Structural Quiz: recognizing Orientation / Events / Reorientation within this specific text ----
+const smpMerdekaStructuralQuiz = [
+  { q: "\u201cOn August 17th, SMP Merdeka held a school parade to celebrate Independence Day.\u201d — Which part of the recount structure is this?", options: ["Orientation", "Events", "Reorientation", "Language Feature"], correct: 0 },
+  { q: "\u201cThey marched along the decided route passing some villages near SMP Merdeka.\u201d — Which part of the recount structure is this?", options: ["Orientation", "Events", "Reorientation", "Language Feature"], correct: 1 },
+  { q: "\u201cEveryone felt happy with the events.\u201d — Which part of the recount structure is this?", options: ["Orientation", "Events", "Reorientation", "Language Feature"], correct: 2 },
+  { q: "Which tense is mainly used throughout this text?", options: ["Simple Present", "Simple Past", "Present Continuous", "Future Tense"], correct: 1 },
+  { q: "Which of these is a time connector used in this text to show the order of events?", options: ["However", "Then / After that / Finally", "Although", "Therefore"], correct: 1 }
+];
+
+let currentSmpMerdekaStructuralQuiz = [];
+let smpMerdekaStructuralQuizIndex = 0;
+let smpMerdekaStructuralQuizScoreCount = 0;
+
+document.getElementById('smpMerdekaStructuralQuizBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  smpMerdekaScreen.classList.add('hidden');
+  smpMerdekaStructuralQuizScreen.classList.remove('hidden');
+  currentSmpMerdekaStructuralQuiz = shuffleArray(smpMerdekaStructuralQuiz);
+  smpMerdekaStructuralQuizIndex = 0;
+  smpMerdekaStructuralQuizScoreCount = 0;
+  renderSmpMerdekaStructuralQuizQuestion();
+});
+document.getElementById('smpMerdekaStructuralQuizBackBtn').addEventListener('click', () => {
+  smpMerdekaStructuralQuizScreen.classList.add('hidden');
+  smpMerdekaScreen.classList.remove('hidden');
+});
+
+function renderSmpMerdekaStructuralQuizQuestion(){
+  const item = currentSmpMerdekaStructuralQuiz[smpMerdekaStructuralQuizIndex];
+  document.getElementById('smpMerdekaStructuralQuizProgress').textContent = `Question ${smpMerdekaStructuralQuizIndex + 1} of ${currentSmpMerdekaStructuralQuiz.length}`;
+  document.getElementById('smpMerdekaStructuralQuizQuestion').textContent = item.q;
+
+  const optionsEl = document.getElementById('smpMerdekaStructuralQuizOptions');
+  optionsEl.innerHTML = '';
+  item.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'secondary';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => answerSmpMerdekaStructuralQuiz(i));
+    optionsEl.appendChild(btn);
+  });
+
+  document.getElementById('smpMerdekaStructuralQuizFeedback').classList.add('hidden');
+  document.getElementById('smpMerdekaStructuralQuizNextBtn').classList.add('hidden');
+}
+
+function answerSmpMerdekaStructuralQuiz(selectedIndex){
+  const item = currentSmpMerdekaStructuralQuiz[smpMerdekaStructuralQuizIndex];
+  const correct = selectedIndex === item.correct;
+  if (correct) { smpMerdekaStructuralQuizScoreCount++; playCorrectSound(); } else { playIncorrectSound(); }
+
+  document.querySelectorAll('#smpMerdekaStructuralQuizOptions button').forEach(b => b.disabled = true);
+  const feedback = document.getElementById('smpMerdekaStructuralQuizFeedback');
+  feedback.classList.remove('hidden');
+  feedback.className = 'status ' + (correct ? 'ok' : 'err');
+  feedback.textContent = correct ? 'Correct!' : `Not quite — the correct answer is "${item.options[item.correct]}".`;
+  document.getElementById('smpMerdekaStructuralQuizNextBtn').classList.remove('hidden');
+}
+
+document.getElementById('smpMerdekaStructuralQuizNextBtn').addEventListener('click', () => {
+  smpMerdekaStructuralQuizIndex++;
+  if (smpMerdekaStructuralQuizIndex >= currentSmpMerdekaStructuralQuiz.length) {
+    smpMerdekaStructuralQuizScreen.classList.add('hidden');
+    smpMerdekaStructuralQuizResultScreen.classList.remove('hidden');
+    document.getElementById('smpMerdekaStructuralQuizScore').textContent = `${smpMerdekaStructuralQuizScoreCount} / ${currentSmpMerdekaStructuralQuiz.length} correct`;
+    logAttempt('SMP Merdeka\'s School Parade — Structural Quiz', 'Recount structure recognition', '', `${smpMerdekaStructuralQuizScoreCount}/${currentSmpMerdekaStructuralQuiz.length}`, '');
+  } else {
+    renderSmpMerdekaStructuralQuizQuestion();
+  }
+});
+document.getElementById('smpMerdekaStructuralQuizTryAgainBtn').addEventListener('click', () => {
+  smpMerdekaStructuralQuizResultScreen.classList.add('hidden');
+  smpMerdekaStructuralQuizScreen.classList.remove('hidden');
+  currentSmpMerdekaStructuralQuiz = shuffleArray(smpMerdekaStructuralQuiz);
+  smpMerdekaStructuralQuizIndex = 0;
+  smpMerdekaStructuralQuizScoreCount = 0;
+  renderSmpMerdekaStructuralQuizQuestion();
+});
+document.getElementById('smpMerdekaStructuralQuizContinueBtn').addEventListener('click', () => {
+  smpMerdekaStructuralQuizResultScreen.classList.add('hidden');
+  smpMerdekaScreen.classList.remove('hidden');
+});
+
+// ---- A School Parade: single-narrator recount, first person ----
+const aSchoolParadeLines = [
+  { line: "Hi, readers.", id: "Hai, para pembaca." },
+  { line: "How did you celebrate your Independence Day?", id: "Bagaimana kamu merayakan Hari Kemerdekaanmu?" },
+  { line: "I celebrated it by joining a school parade.", id: "Aku merayakannya dengan mengikuti pawai sekolah." },
+  { line: "We had so much fun before and during the parade.", id: "Kami sangat senang sebelum dan selama pawai." },
+  { line: "Let me tell you how it went.", id: "Biar aku ceritakan bagaimana jalannya acara itu." },
+  { line: "In the beginning, we prepared our costumes.", id: "Pada awalnya, kami menyiapkan kostum kami." },
+  { line: "Every class had to choose one student to dress as an Indonesian hero.", id: "Setiap kelas harus memilih satu siswa untuk berpakaian sebagai pahlawan Indonesia." },
+  { line: "I was chosen as the class representative.", id: "Aku dipilih sebagai perwakilan kelas." },
+  { line: "I dressed as Cut Nyak Dien.", id: "Aku berpakaian sebagai Cut Nyak Dien." },
+  { line: "Other students wore red and white clothes.", id: "Siswa lainnya mengenakan pakaian merah putih." },
+  { line: "After I dressed up, I went around the school with all the students.", id: "Setelah aku berpakaian, aku berkeliling sekolah bersama semua siswa." },
+  { line: "During the parade, we sang the \u2018Hari Merdeka\u2019 song.", id: "Selama pawai, kami menyanyikan lagu \u2018Hari Merdeka\u2019." },
+  { line: "There was a marching band following us.", id: "Ada drum band yang mengikuti kami." },
+  { line: "Suddenly, it started to rain.", id: "Tiba-tiba, hujan mulai turun." },
+  { line: "We ran back to our classroom.", id: "Kami berlari kembali ke kelas kami." },
+  { line: "Finally, after the rain stopped, we gathered back at the schoolyard.", id: "Akhirnya, setelah hujan berhenti, kami berkumpul kembali di halaman sekolah." },
+  { line: "The headmaster announced the winner of the best costume.", id: "Kepala sekolah mengumumkan pemenang kostum terbaik." },
+  { line: "A student from the other class won.", id: "Seorang siswa dari kelas lain menang." },
+  { line: "He dressed up as Tuanku Imam Bonjol.", id: "Dia berpakaian sebagai Tuanku Imam Bonjol." },
+  { line: "The school parade was fun and made us remember our national heroes.", id: "Pawai sekolah itu menyenangkan dan membuat kami mengingat para pahlawan nasional kami." },
+  { line: "I was so proud.", id: "Aku sangat bangga." },
+  { line: "I could not wait to join this again next year.", id: "Aku tidak sabar untuk mengikuti ini lagi tahun depan." }
+];
+
+function renderASchoolParadeScript(){
+  document.getElementById('aSchoolParadeScript').innerHTML = aSchoolParadeLines.map((l, i) => `
+    <div id="asp-${i}" style="margin-bottom:8px;padding:4px 6px;border-radius:6px;transition:background-color 0.2s;">
+      <div>${l.line}</div>
+      <div style="padding-left:18px;color:#5a6472;font-size:0.88rem;font-style:italic;">(${l.id})</div>
+    </div>
+  `).join('');
+}
+
+let aSchoolParadeActiveLineEl = null;
+function clearASchoolParadeHighlight(){
+  if (aSchoolParadeActiveLineEl) {
+    aSchoolParadeActiveLineEl.style.backgroundColor = '';
+    aSchoolParadeActiveLineEl = null;
+  }
+}
+function highlightASchoolParadeLine(domId){
+  clearASchoolParadeHighlight();
+  const el = document.getElementById(domId);
+  if (el) {
+    el.style.backgroundColor = 'var(--go-bg)';
+    aSchoolParadeActiveLineEl = el;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+document.getElementById('aSchoolParadeBtn').addEventListener('click', () => {
+  grade8Chapter1Unit2Screen.classList.add('hidden');
+  aSchoolParadeScreen.classList.remove('hidden');
+  renderASchoolParadeScript();
+});
+document.getElementById('aSchoolParadeBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  clearASchoolParadeHighlight();
+  aSchoolParadeScreen.classList.add('hidden');
+  grade8Chapter1Unit2Screen.classList.remove('hidden');
+});
+
+document.getElementById('aSchoolParadePlayBtn').addEventListener('click', () => {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+
+  let idx = 0;
+  function playNext(){
+    if (idx >= aSchoolParadeLines.length) { clearASchoolParadeHighlight(); return; }
+    const item = aSchoolParadeLines[idx];
+    const utter = new SpeechSynthesisUtterance(item.line);
+    utter.lang = 'en-US';
+    utter.onstart = () => highlightASchoolParadeLine(`asp-${idx}`);
+    utter.onend = () => { idx++; playNext(); };
+    speechSynthesis.speak(utter);
+  }
+  playNext();
+});
+
+// ---- Comprehension Quiz: Remember / Understand / Apply ----
+const aSchoolParadeQuiz = [
+  { level: "Remember", q: "Who did the narrator dress up as?", id: "Siapa yang diperankan oleh si penulis?", options: ["Cut Nyak Dien", "Tuanku Imam Bonjol", "Kartini", "Diponegoro"], correct: 0 },
+  { level: "Remember", q: "What did other students wear?", id: "Apa yang dikenakan siswa lainnya?", options: ["Blue uniforms", "Red and white clothes", "Black costumes", "School uniforms"], correct: 1 },
+  { level: "Remember", q: "What song did they sing during the parade?", id: "Lagu apa yang mereka nyanyikan selama pawai?", options: ["Indonesia Raya", "Hari Merdeka", "Garuda Pancasila", "Halo-Halo Bandung"], correct: 1 },
+  { level: "Understand", q: "Why did the narrator get chosen to dress as a hero?", id: "Mengapa si penulis terpilih untuk berpakaian sebagai pahlawan?", options: ["Because they volunteered loudly", "Because they were chosen as the class representative", "Because they were the tallest", "Because they won a contest"], correct: 1 },
+  { level: "Understand", q: "What happened when it suddenly started to rain?", id: "Apa yang terjadi ketika tiba-tiba hujan turun?", options: ["They kept marching in the rain", "They ran back to their classroom", "They went home", "They canceled the parade"], correct: 1 },
+  { level: "Understand", q: "Why did the headmaster make an announcement at the end?", id: "Mengapa kepala sekolah membuat pengumuman di akhir acara?", options: ["To dismiss school early", "To announce the winner of the best costume", "To give a speech about rain", "To start another parade"], correct: 1 },
+  { level: "Apply", q: "Based on the text, how did the narrator likely feel about not winning the costume contest?", id: "Berdasarkan teks, bagaimana perasaan si penulis kemungkinan besar karena tidak memenangkan lomba kostum?", options: ["Very angry and jealous", "Still proud and happy about the day overall", "Completely indifferent", "Embarrassed and ashamed"], correct: 1 },
+  { level: "Apply", q: "What can you infer about the purpose of this kind of school parade, based on the text?", id: "Apa yang bisa kamu simpulkan tentang tujuan pawai sekolah seperti ini, berdasarkan teks?", options: ["To replace regular exams", "To help students remember and celebrate national heroes", "To punish students who misbehave", "To advertise the school"], correct: 1 }
+];
+
+let currentASchoolParadeQuiz = [];
+let aSchoolParadeQuizIndex = 0;
+let aSchoolParadeQuizScoreCount = 0;
+
+function buildShuffledASchoolParadeQuiz(){
+  return shuffleArray(aSchoolParadeQuiz).map(q => {
+    const optionObjs = q.options.map((opt, i) => ({ text: opt, isCorrect: i === q.correct }));
+    const shuffledOptions = shuffleArray(optionObjs);
+    return {
+      level: q.level,
+      q: q.q,
+      id: q.id,
+      options: shuffledOptions.map(o => o.text),
+      correct: shuffledOptions.findIndex(o => o.isCorrect)
+    };
+  });
+}
+
+document.getElementById('aSchoolParadeQuizBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  aSchoolParadeScreen.classList.add('hidden');
+  aSchoolParadeQuizScreen.classList.remove('hidden');
+  currentASchoolParadeQuiz = buildShuffledASchoolParadeQuiz();
+  aSchoolParadeQuizIndex = 0;
+  aSchoolParadeQuizScoreCount = 0;
+  renderASchoolParadeQuizQuestion();
+});
+document.getElementById('aSchoolParadeQuizBackBtn').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  aSchoolParadeQuizScreen.classList.add('hidden');
+  aSchoolParadeScreen.classList.remove('hidden');
+});
+
+function playASchoolParadeQuizQuestionAudio(){
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const item = currentASchoolParadeQuiz[aSchoolParadeQuizIndex];
+  const utter = new SpeechSynthesisUtterance(item.q);
+  utter.lang = 'en-US';
+  speechSynthesis.speak(utter);
+}
+
+function renderASchoolParadeQuizQuestion(){
+  const item = currentASchoolParadeQuiz[aSchoolParadeQuizIndex];
+  document.getElementById('aSchoolParadeQuizProgress').textContent = `Question ${aSchoolParadeQuizIndex + 1} of ${currentASchoolParadeQuiz.length}`;
+  document.getElementById('aSchoolParadeQuizLevel').textContent = item.level;
+  document.getElementById('aSchoolParadeQuizQuestion').textContent = item.q;
+
+  const hintText = document.getElementById('aSchoolParadeQuizHintText');
+  hintText.classList.add('hidden');
+  hintText.textContent = item.id;
+
+  const optionsEl = document.getElementById('aSchoolParadeQuizOptions');
+  optionsEl.innerHTML = '';
+  item.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'secondary';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => answerASchoolParadeQuiz(i));
+    optionsEl.appendChild(btn);
+  });
+
+  document.getElementById('aSchoolParadeQuizFeedback').classList.add('hidden');
+  document.getElementById('aSchoolParadeQuizNextBtn').classList.add('hidden');
+
+  playASchoolParadeQuizQuestionAudio();
+}
+
+document.getElementById('aSchoolParadeQuizReplayBtn').addEventListener('click', playASchoolParadeQuizQuestionAudio);
+document.getElementById('aSchoolParadeQuizHintBtn').addEventListener('click', () => {
+  document.getElementById('aSchoolParadeQuizHintText').classList.toggle('hidden');
+});
+
+function answerASchoolParadeQuiz(selectedIndex){
+  const item = currentASchoolParadeQuiz[aSchoolParadeQuizIndex];
+  const correct = selectedIndex === item.correct;
+  if (correct) { aSchoolParadeQuizScoreCount++; playCorrectSound(); } else { playIncorrectSound(); }
+
+  document.querySelectorAll('#aSchoolParadeQuizOptions button').forEach(b => b.disabled = true);
+  const feedback = document.getElementById('aSchoolParadeQuizFeedback');
+  feedback.classList.remove('hidden');
+  feedback.className = 'status ' + (correct ? 'ok' : 'err');
+  feedback.textContent = correct ? 'Correct!' : `Not quite — the correct answer is "${item.options[item.correct]}".`;
+  document.getElementById('aSchoolParadeQuizNextBtn').classList.remove('hidden');
+}
+
+document.getElementById('aSchoolParadeQuizNextBtn').addEventListener('click', () => {
+  aSchoolParadeQuizIndex++;
+  if (aSchoolParadeQuizIndex >= currentASchoolParadeQuiz.length) {
+    aSchoolParadeQuizScreen.classList.add('hidden');
+    aSchoolParadeQuizResultScreen.classList.remove('hidden');
+    document.getElementById('aSchoolParadeQuizScore').textContent = `${aSchoolParadeQuizScoreCount} / ${currentASchoolParadeQuiz.length} correct`;
+    logAttempt('A School Parade — Comprehension Quiz', 'First-person parade recount', '', `${aSchoolParadeQuizScoreCount}/${currentASchoolParadeQuiz.length}`, '');
+  } else {
+    renderASchoolParadeQuizQuestion();
+  }
+});
+document.getElementById('aSchoolParadeQuizTryAgainBtn').addEventListener('click', () => {
+  aSchoolParadeQuizResultScreen.classList.add('hidden');
+  aSchoolParadeQuizScreen.classList.remove('hidden');
+  currentASchoolParadeQuiz = buildShuffledASchoolParadeQuiz();
+  aSchoolParadeQuizIndex = 0;
+  aSchoolParadeQuizScoreCount = 0;
+  renderASchoolParadeQuizQuestion();
+});
+document.getElementById('aSchoolParadeQuizContinueBtn').addEventListener('click', () => {
+  aSchoolParadeQuizResultScreen.classList.add('hidden');
+  aSchoolParadeScreen.classList.remove('hidden');
 });
 
 // ---- A Parade in My Hometown: single-narrator monologue ----
