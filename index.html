@@ -456,6 +456,13 @@
     <button id="usingPresentProgressiveBtn" style="margin-top:8px;">Using a Present Progressive</button>
     <button id="talkingAboutPresentBtn" style="margin-top:8px;">Talking About the Present</button>
     <button id="nounsPronounsBtn" style="margin-top:8px;">Nouns and Pronouns</button>
+    <button id="modalAuxiliariesBtn" style="margin-top:8px;">Modal Auxiliaries</button>
+    <button id="gerundsInfinitivesBtn" style="margin-top:8px;">Gerunds and Infinitives</button>
+    <button id="phrasalVerbsBtn" style="margin-top:8px;">Phrasal Verbs</button>
+    <button id="adjectiveClausesBtn" style="margin-top:8px;">Adjective Clauses</button>
+    <button id="passiveVoiceBtn" style="margin-top:8px;">Passive Voice</button>
+    <button id="comparisonsBtn" style="margin-top:8px;">Comparisons</button>
+    <button id="nounClausesBtn" style="margin-top:8px;">Noun Clauses</button>
     <button id="foundationalBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
@@ -480,7 +487,10 @@
 <div id="lessonSlideScreen" class="hidden">
   <div class="card whiteboard-card">
     <div class="chalkDots" id="lessonSlideProgress">● ○ ○ ○ ○</div>
-    <div id="lessonSlideTitle"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+      <div id="lessonSlideTitle" style="flex:1;"></div>
+      <button id="lessonSlideLangBtn" class="icon-btn" title="Switch language">🇮🇩</button>
+    </div>
     <div id="lessonSlideBody"></div>
     <div style="display:flex;gap:8px;margin-top:16px;">
       <button id="lessonSlidePrevBtn" class="secondary" style="margin-top:0;">← Previous</button>
@@ -546,6 +556,7 @@
     <div class="status idle">Build the correct sentence: Positive, Negative, and Question forms.</div>
     <button id="writingUsingBeBtn" style="margin-top:10px;">Using Be</button>
     <button id="writingCountabilityBtn" style="margin-top:8px;">Countability and Structure</button>
+    <button id="writingVerbCategoriesBtn" style="margin-top:8px;">Verb Categories</button>
     <button id="writingPracticeBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
   </div>
 </div>
@@ -1609,27 +1620,33 @@ const teachingLessons = {
     slides: [
       {
         title: "Using Be",
-        body: "The verb <strong>be</strong> (am / is / are) is one of the first, most important verbs in English. It doesn't show an action \u2014 it links a subject to information about it."
+        body: "The verb <strong>be</strong> (am / is / are) is one of the first, most important verbs in English. It doesn't show an action \u2014 it links a subject to information about it.",
+        bodyId: "Kata kerja <strong>be</strong> (am/is/are) adalah salah satu kata kerja pertama dan terpenting dalam Bahasa Inggris. Kata ini tidak menunjukkan tindakan \u2014 melainkan menghubungkan subjek dengan informasi tentangnya."
       },
       {
         title: "Positive Statements",
-        body: "<strong>I</strong> + am<br><strong>He / She / It</strong> + is<br><strong>You / We / They</strong> + are<br><br><strong>Examples:</strong><br>\u2022 I am a student.<br>\u2022 She is happy.<br>\u2022 We are ready."
+        body: "<strong>I</strong> + am<br><strong>He / She / It</strong> + is<br><strong>You / We / They</strong> + are<br><br><strong>Examples:</strong><br>\u2022 I am a student.<br>\u2022 She is happy.<br>\u2022 We are ready.",
+        bodyId: "<strong>I (Saya)</strong> + am<br><strong>He/She/It (Dia/Itu)</strong> + is<br><strong>You/We/They (Kamu/Kami/Mereka)</strong> + are<br><br><strong>Contoh:</strong><br>\u2022 I am a student. (Saya seorang siswa.)<br>\u2022 She is happy. (Dia senang.)<br>\u2022 We are ready. (Kami siap.)"
       },
       {
         title: "Negative Statements",
-        body: "Add <strong>not</strong> after be.<br><br>am not<br>is not (isn't)<br>are not (aren't)<br><br><strong>Examples:</strong><br>\u2022 I am not tired.<br>\u2022 They aren't at home."
+        body: "Add <strong>not</strong> after be.<br><br>am not<br>is not (isn't)<br>are not (aren't)<br><br><strong>Examples:</strong><br>\u2022 I am not tired.<br>\u2022 They aren't at home.",
+        bodyId: "Tambahkan <strong>not</strong> setelah be.<br><br>am not<br>is not (isn't)<br>are not (aren't)<br><br><strong>Contoh:</strong><br>\u2022 I am not tired. (Saya tidak lelah.)<br>\u2022 They aren't at home. (Mereka tidak di rumah.)"
       },
       {
         title: "Questions",
-        body: "Move <strong>be</strong> to the front of the sentence.<br><br><strong>Examples:</strong><br>\u2022 Are you ready?<br>\u2022 Is she your sister?<br>\u2022 Am I late?"
+        body: "Move <strong>be</strong> to the front of the sentence.<br><br><strong>Examples:</strong><br>\u2022 Are you ready?<br>\u2022 Is she your sister?<br>\u2022 Am I late?",
+        bodyId: "Pindahkan <strong>be</strong> ke awal kalimat.<br><br><strong>Contoh:</strong><br>\u2022 Are you ready? (Apakah kamu siap?)<br>\u2022 Is she your sister? (Apakah dia kakak/adikmu?)<br>\u2022 Am I late? (Apakah saya terlambat?)"
       },
       {
         title: "Do's and Don'ts",
-        body: "<strong>Do:</strong><br>\u2713 Always include be when the sentence needs it: I am, she is, they are<br>\u2713 Match be correctly to the subject<br>\u2713 Use be alone with an adjective or noun: She is kind. He is a teacher.<br><br><strong>Don't:</strong><br>\u2717 Don't drop be \u2014 in Indonesian, a sentence like <em>\u201cDia guru\u201d</em> doesn't need a linking verb, but English always does:<br>\u274c She teacher \u2192 \u2705 She is a teacher<br>\u2717 Don't mismatch subject and verb: \u274c I is, She are<br>\u2717 Don't put be before a plain action verb without -ing: \u274c She is study \u2192 \u2705 She is studying / She studies"
+        body: "<strong>Do:</strong><br>\u2713 Always include be when the sentence needs it: I am, she is, they are<br>\u2713 Match be correctly to the subject<br>\u2713 Use be alone with an adjective or noun: She is kind. He is a teacher.<br><br><strong>Don't:</strong><br>\u2717 Don't drop be \u2014 in Indonesian, a sentence like <em>\u201cDia guru\u201d</em> doesn't need a linking verb, but English always does:<br>\u274c She teacher \u2192 \u2705 She is a teacher<br>\u2717 Don't mismatch subject and verb: \u274c I is, She are<br>\u2717 Don't put be before a plain action verb without -ing: \u274c She is study \u2192 \u2705 She is studying / She studies",
+        bodyId: "<strong>Lakukan:</strong><br>\u2713 Selalu sertakan be jika kalimat membutuhkannya: I am, she is, they are<br>\u2713 Cocokkan be dengan subjek dengan benar<br>\u2713 Gunakan be sendiri dengan kata sifat atau kata benda: She is kind. He is a teacher.<br><br><strong>Jangan:</strong><br>\u2717 Jangan menghilangkan be \u2014 dalam Bahasa Indonesia, kalimat seperti <em>\u201cDia guru\u201d</em> tidak membutuhkan kata kerja penghubung, tetapi Bahasa Inggris selalu membutuhkannya:<br>\u274c She teacher \u2192 \u2705 She is a teacher<br>\u2717 Jangan salah mencocokkan subjek dan kata kerja: \u274c I is, She are<br>\u2717 Jangan meletakkan be sebelum kata kerja biasa tanpa -ing: \u274c She is study \u2192 \u2705 She is studying / She studies"
       },
       {
         title: "Quick Check",
-        body: "Match the subject to the correct form: I \u2192 am, He/She/It \u2192 is, You/We/They \u2192 are.<br><br>Ready for practice questions? Tap Next to begin."
+        body: "Match the subject to the correct form: I \u2192 am, He/She/It \u2192 is, You/We/They \u2192 are.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Cocokkan subjek dengan bentuk yang benar: I \u2192 am, He/She/It \u2192 is, You/We/They \u2192 are.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
       }
     ],
     quiz: [
@@ -1644,23 +1661,28 @@ const teachingLessons = {
     slides: [
       {
         title: "Using Be and Have",
-        body: "Two verbs students often mix up \u2014 especially since some languages use \u201chave\u201d where English uses \u201cbe\u201d. This lesson shows the difference."
+        body: "Two verbs students often mix up \u2014 especially since some languages use \u201chave\u201d where English uses \u201cbe\u201d. This lesson shows the difference.",
+        bodyId: "Dua kata kerja yang sering tertukar oleh siswa \u2014 terutama karena beberapa bahasa menggunakan \u201chave\u201d di tempat Bahasa Inggris menggunakan \u201cbe\u201d. Pelajaran ini menunjukkan perbedaannya."
       },
       {
         title: "Be \u2014 Identity, Description, States",
-        body: "Use <strong>be</strong> to describe what someone/something <em>is</em>, or their state.<br><br><strong>Examples:</strong><br>\u2022 I am tall.<br>\u2022 He is a doctor.<br>\u2022 She is hungry."
+        body: "Use <strong>be</strong> to describe what someone/something <em>is</em>, or their state.<br><br><strong>Examples:</strong><br>\u2022 I am tall.<br>\u2022 He is a doctor.<br>\u2022 She is hungry.",
+        bodyId: "Gunakan <strong>be</strong> untuk menjelaskan apa/siapa seseorang/sesuatu <em>itu</em>, atau keadaannya.<br><br><strong>Contoh:</strong><br>\u2022 I am tall. (Saya tinggi.)<br>\u2022 He is a doctor. (Dia seorang dokter.)<br>\u2022 She is hungry. (Dia lapar.)"
       },
       {
         title: "Have \u2014 Possession",
-        body: "Use <strong>have</strong> for things someone owns, or relationships.<br><br><strong>Form:</strong> have (I/you/we/they), has (he/she/it)<br><br><strong>Examples:</strong><br>\u2022 I have a bike.<br>\u2022 She has two brothers."
+        body: "Use <strong>have</strong> for things someone owns, or relationships.<br><br><strong>Form:</strong> have (I/you/we/they), has (he/she/it)<br><br><strong>Examples:</strong><br>\u2022 I have a bike.<br>\u2022 She has two brothers.",
+        bodyId: "Gunakan <strong>have</strong> untuk sesuatu yang dimiliki seseorang, atau hubungan kekerabatan.<br><br><strong>Bentuk:</strong> have (I/you/we/they), has (he/she/it)<br><br><strong>Contoh:</strong><br>\u2022 I have a bike. (Saya punya sepeda.)<br>\u2022 She has two brothers. (Dia punya dua saudara laki-laki.)"
       },
       {
         title: "A Common Mistake",
-        body: "In English, <strong>age uses \u201cbe\u201d</strong>, not \u201chave\u201d!<br><br>\u2705 I am 13 years old.<br>\u274c I have 13 years old.<br><br>This is a very common mistake \u2014 worth remembering carefully."
+        body: "In English, <strong>age uses \u201cbe\u201d</strong>, not \u201chave\u201d!<br><br>\u2705 I am 13 years old.<br>\u274c I have 13 years old.<br><br>This is a very common mistake \u2014 worth remembering carefully.",
+        bodyId: "Dalam Bahasa Inggris, <strong>umur menggunakan \u201cbe\u201d</strong>, bukan \u201chave\u201d!<br><br>\u2705 I am 13 years old.<br>\u274c I have 13 years old.<br><br>Ini adalah kesalahan yang sangat umum \u2014 penting untuk diingat baik-baik."
       },
       {
         title: "Quick Check",
-        body: "Describing what something <em>is</em>? \u2192 <strong>Be</strong>.<br>Talking about what someone <em>owns</em>? \u2192 <strong>Have</strong>.<br>Talking about age? \u2192 always <strong>Be</strong>.<br><br>Ready for practice questions? Tap Next to begin."
+        body: "Describing what something <em>is</em>? \u2192 <strong>Be</strong>.<br>Talking about what someone <em>owns</em>? \u2192 <strong>Have</strong>.<br>Talking about age? \u2192 always <strong>Be</strong>.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Menjelaskan apa <em>itu</em>? \u2192 <strong>Be</strong>.<br>Membicarakan kepemilikan? \u2192 <strong>Have</strong>.<br>Membicarakan umur? \u2192 selalu <strong>Be</strong>.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
       }
     ],
     quiz: [
@@ -1675,23 +1697,28 @@ const teachingLessons = {
     slides: [
       {
         title: "Using a Simple Present",
-        body: "The Simple Present is used for habits, routines, and facts. This lesson focuses on how to <strong>form</strong> it correctly."
+        body: "The Simple Present is used for habits, routines, and facts. This lesson focuses on how to <strong>form</strong> it correctly.",
+        bodyId: "Simple Present digunakan untuk kebiasaan, rutinitas, dan fakta. Pelajaran ini berfokus pada cara membentuknya dengan benar."
       },
       {
         title: "Form",
-        body: "<strong>Subject + V1</strong> (add -s / -es for he/she/it)<br><br>Most verbs: add -s (play \u2192 plays)<br>After ch, sh, s, x, o: add -es (watch \u2192 watches, go \u2192 goes)<br>Consonant + y: change to -ies (study \u2192 studies)"
+        body: "<strong>Subject + V1</strong> (add -s / -es for he/she/it)<br><br>Most verbs: add -s (play \u2192 plays)<br>After ch, sh, s, x, o: add -es (watch \u2192 watches, go \u2192 goes)<br>Consonant + y: change to -ies (study \u2192 studies)",
+        bodyId: "<strong>Subjek + V1</strong> (tambahkan -s / -es untuk he/she/it)<br><br>Kebanyakan kata kerja: tambahkan -s (play \u2192 plays)<br>Setelah ch, sh, s, x, o: tambahkan -es (watch \u2192 watches, go \u2192 goes)<br>Konsonan + y: ubah menjadi -ies (study \u2192 studies)"
       },
       {
         title: "Usage",
-        body: "Use Simple Present for:<br>\u2022 Habits: I brush my teeth every morning.<br>\u2022 Facts: Water boils at 100\u00b0C.<br>\u2022 Schedules: The bus leaves at 7 AM."
+        body: "Use Simple Present for:<br>\u2022 Habits: I brush my teeth every morning.<br>\u2022 Facts: Water boils at 100\u00b0C.<br>\u2022 Schedules: The bus leaves at 7 AM.",
+        bodyId: "Gunakan Simple Present untuk:<br>\u2022 Kebiasaan: I brush my teeth every morning. (Saya menggosok gigi setiap pagi.)<br>\u2022 Fakta: Water boils at 100\u00b0C. (Air mendidih pada suhu 100\u00b0C.)<br>\u2022 Jadwal: The bus leaves at 7 AM. (Bus berangkat pukul 7 pagi.)"
       },
       {
         title: "Negatives and Questions",
-        body: "Use <strong>do/does</strong> + not, or Do/Does at the start of a question.<br><br><strong>Examples:</strong><br>\u2022 I don't like coffee.<br>\u2022 She doesn't play piano.<br>\u2022 Does she play piano?"
+        body: "Use <strong>do/does</strong> + not, or Do/Does at the start of a question.<br><br><strong>Examples:</strong><br>\u2022 I don't like coffee.<br>\u2022 She doesn't play piano.<br>\u2022 Does she play piano?",
+        bodyId: "Gunakan <strong>do/does</strong> + not, atau Do/Does di awal pertanyaan.<br><br><strong>Contoh:</strong><br>\u2022 I don't like coffee. (Saya tidak suka kopi.)<br>\u2022 She doesn't play piano. (Dia tidak bermain piano.)<br>\u2022 Does she play piano? (Apakah dia bermain piano?)"
       },
       {
         title: "Quick Check",
-        body: "Remember: -s/-es only appears with he/she/it in <strong>positive</strong> statements. In questions and negatives, do/does carries that job instead.<br><br>Ready for practice questions? Tap Next to begin."
+        body: "Remember: -s/-es only appears with he/she/it in <strong>positive</strong> statements. In questions and negatives, do/does carries that job instead.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Ingat: -s/-es hanya muncul dengan he/she/it dalam kalimat <strong>positif</strong>. Dalam pertanyaan dan kalimat negatif, do/does yang mengambil alih peran itu.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
       }
     ],
     quiz: [
@@ -1706,23 +1733,28 @@ const teachingLessons = {
     slides: [
       {
         title: "Using a Present Progressive",
-        body: "The Present Progressive (also called Present Continuous) describes actions in progress. This lesson focuses on how to <strong>form</strong> it correctly."
+        body: "The Present Progressive (also called Present Continuous) describes actions in progress. This lesson focuses on how to <strong>form</strong> it correctly.",
+        bodyId: "Present Progressive (juga disebut Present Continuous) menggambarkan tindakan yang sedang berlangsung. Pelajaran ini berfokus pada cara membentuknya dengan benar."
       },
       {
         title: "Form",
-        body: "<strong>am/is/are + V-ing</strong><br><br>Most verbs: just add -ing (read \u2192 reading)<br>Silent e: drop the e (make \u2192 making)<br>Short vowel + consonant: double the consonant (run \u2192 running, swim \u2192 swimming)"
+        body: "<strong>am/is/are + V-ing</strong><br><br>Most verbs: just add -ing (read \u2192 reading)<br>Silent e: drop the e (make \u2192 making)<br>Short vowel + consonant: double the consonant (run \u2192 running, swim \u2192 swimming)",
+        bodyId: "<strong>am/is/are + V-ing</strong><br><br>Kebanyakan kata kerja: cukup tambahkan -ing (read \u2192 reading)<br>Huruf e diam: hilangkan e-nya (make \u2192 making)<br>Vokal pendek + konsonan: gandakan konsonannya (run \u2192 running, swim \u2192 swimming)"
       },
       {
         title: "Usage",
-        body: "Use Present Progressive for:<br>\u2022 Actions happening right now: I am writing a letter.<br>\u2022 Temporary situations: She is staying with her aunt this week."
+        body: "Use Present Progressive for:<br>\u2022 Actions happening right now: I am writing a letter.<br>\u2022 Temporary situations: She is staying with her aunt this week.",
+        bodyId: "Gunakan Present Progressive untuk:<br>\u2022 Tindakan yang sedang terjadi sekarang: I am writing a letter. (Saya sedang menulis surat.)<br>\u2022 Situasi sementara: She is staying with her aunt this week. (Dia sedang tinggal bersama bibinya minggu ini.)"
       },
       {
         title: "Negatives and Questions",
-        body: "<strong>am/is/are + not + V-ing</strong><br>Am/Is/Are + subject + V-ing?<br><br><strong>Examples:</strong><br>\u2022 I am not sleeping.<br>\u2022 Are they playing football?"
+        body: "<strong>am/is/are + not + V-ing</strong><br>Am/Is/Are + subject + V-ing?<br><br><strong>Examples:</strong><br>\u2022 I am not sleeping.<br>\u2022 Are they playing football?",
+        bodyId: "<strong>am/is/are + not + V-ing</strong><br>Am/Is/Are + subjek + V-ing?<br><br><strong>Contoh:</strong><br>\u2022 I am not sleeping. (Saya tidak sedang tidur.)<br>\u2022 Are they playing football? (Apakah mereka sedang bermain sepak bola?)"
       },
       {
         title: "Quick Check",
-        body: "Watch the spelling rules carefully \u2014 double consonant (running, swimming), drop silent e (making, writing). These are common mistakes.<br><br>Ready for practice questions? Tap Next to begin."
+        body: "Watch the spelling rules carefully \u2014 double consonant (running, swimming), drop silent e (making, writing). These are common mistakes.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Perhatikan aturan ejaan dengan cermat \u2014 gandakan konsonan (running, swimming), hilangkan huruf e diam (making, writing). Ini adalah kesalahan umum.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
       }
     ],
     quiz: [
@@ -1737,23 +1769,28 @@ const teachingLessons = {
     slides: [
       {
         title: "Talking About the Present",
-        body: "English has two main tools for the present: Simple Present and Present Progressive. This lesson puts them together \u2014 and adds one important exception."
+        body: "English has two main tools for the present: Simple Present and Present Progressive. This lesson puts them together \u2014 and adds one important exception.",
+        bodyId: "Bahasa Inggris memiliki dua alat utama untuk membicarakan masa kini: Simple Present dan Present Progressive. Pelajaran ini menggabungkan keduanya \u2014 dan menambahkan satu pengecualian penting."
       },
       {
         title: "Recap",
-        body: "<strong>Simple Present</strong> \u2192 habits, routines, facts<br><strong>Present Progressive</strong> \u2192 happening right now, temporary situations"
+        body: "<strong>Simple Present</strong> \u2192 habits, routines, facts<br><strong>Present Progressive</strong> \u2192 happening right now, temporary situations",
+        bodyId: "<strong>Simple Present</strong> \u2192 kebiasaan, rutinitas, fakta<br><strong>Present Progressive</strong> \u2192 sedang terjadi sekarang, situasi sementara"
       },
       {
         title: "Stative Verbs \u2014 An Exception",
-        body: "Some verbs describe states, not actions \u2014 they are usually <strong>not</strong> used in the -ing form, even for right-now meaning.<br><br>know, want, like, love, need, believe, understand, have (possession)<br><br>\u2705 I know the answer.<br>\u274c I am knowing the answer."
+        body: "Some verbs describe states, not actions \u2014 they are usually <strong>not</strong> used in the -ing form, even for right-now meaning.<br><br>know, want, like, love, need, believe, understand, have (possession)<br><br>\u2705 I know the answer.<br>\u274c I am knowing the answer.",
+        bodyId: "Beberapa kata kerja menggambarkan keadaan, bukan tindakan \u2014 biasanya <strong>tidak</strong> digunakan dalam bentuk -ing, bahkan untuk makna \u201csekarang\u201d.<br><br>know, want, like, love, need, believe, understand, have (kepemilikan)<br><br>\u2705 I know the answer. (Saya tahu jawabannya.)<br>\u274c I am knowing the answer."
       },
       {
         title: "Putting It Together",
-        body: "\u2022 I usually eat breakfast at 6. (habit \u2192 Simple Present)<br>\u2022 Look! It is raining. (happening now \u2192 Present Progressive)<br>\u2022 I know the answer. (stative verb \u2192 always Simple Present, even right now)"
+        body: "\u2022 I usually eat breakfast at 6. (habit \u2192 Simple Present)<br>\u2022 Look! It is raining. (happening now \u2192 Present Progressive)<br>\u2022 I know the answer. (stative verb \u2192 always Simple Present, even right now)",
+        bodyId: "\u2022 I usually eat breakfast at 6. (kebiasaan \u2192 Simple Present)<br>\u2022 Look! It is raining. (sedang terjadi \u2192 Present Progressive)<br>\u2022 I know the answer. (kata kerja stative \u2192 selalu Simple Present, bahkan untuk sekarang)"
       },
       {
         title: "Quick Check",
-        body: "Habit or fact? \u2192 <strong>Simple Present</strong>.<br>Happening right now, and it's an action verb? \u2192 <strong>Present Progressive</strong>.<br>Is it a stative verb (know, want, like)? \u2192 always <strong>Simple Present</strong>.<br><br>Ready for practice questions? Tap Next to begin."
+        body: "Habit or fact? \u2192 <strong>Simple Present</strong>.<br>Happening right now, and it's an action verb? \u2192 <strong>Present Progressive</strong>.<br>Is it a stative verb (know, want, like)? \u2192 always <strong>Simple Present</strong>.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Kebiasaan atau fakta? \u2192 <strong>Simple Present</strong>. Sedang terjadi sekarang, dan merupakan kata kerja tindakan? \u2192 <strong>Present Progressive</strong>. Apakah kata kerja stative (know, want, like)? \u2192 selalu <strong>Simple Present</strong>.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
       }
     ],
     quiz: [
@@ -1768,23 +1805,28 @@ const teachingLessons = {
     slides: [
       {
         title: "Nouns and Pronouns",
-        body: "Nouns name people, places, and things. Pronouns replace nouns so we don't repeat them. This lesson covers both."
+        body: "Nouns name people, places, and things. Pronouns replace nouns so we don't repeat them. This lesson covers both.",
+        bodyId: "Kata benda (noun) menyebutkan orang, tempat, dan benda. Kata ganti (pronoun) menggantikan kata benda agar kita tidak mengulanginya. Pelajaran ini membahas keduanya."
       },
       {
         title: "Nouns",
-        body: "<strong>Common nouns</strong> \u2014 general names (book, city, student)<br><strong>Proper nouns</strong> \u2014 specific names, always capitalized (Jakarta, Andre)<br><br><strong>Plurals:</strong><br>Regular: add -s (book \u2192 books)<br>Irregular: child \u2192 children, man \u2192 men"
+        body: "<strong>Common nouns</strong> \u2014 general names (book, city, student)<br><strong>Proper nouns</strong> \u2014 specific names, always capitalized (Jakarta, Andre)<br><br><strong>Plurals:</strong><br>Regular: add -s (book \u2192 books)<br>Irregular: child \u2192 children, man \u2192 men",
+        bodyId: "<strong>Kata benda umum (common nouns)</strong> \u2014 nama umum (book, city, student)<br><strong>Kata benda khusus (proper nouns)</strong> \u2014 nama spesifik, selalu diawali huruf kapital (Jakarta, Andre)<br><br><strong>Bentuk jamak:</strong><br>Beraturan: tambahkan -s (book \u2192 books)<br>Tidak beraturan: child \u2192 children, man \u2192 men"
       },
       {
         title: "Subject Pronouns",
-        body: "Replace the subject of a sentence: <strong>I, you, he, she, it, we, they</strong><br><br><strong>Example:</strong><br>Andre is my friend. <u>He</u> is 13 years old."
+        body: "Replace the subject of a sentence: <strong>I, you, he, she, it, we, they</strong><br><br><strong>Example:</strong><br>Andre is my friend. <u>He</u> is 13 years old.",
+        bodyId: "Menggantikan subjek kalimat: <strong>I, you, he, she, it, we, they</strong><br><br><strong>Contoh:</strong><br>Andre is my friend. <u>He</u> is 13 years old. (Andre temanku. Dia berumur 13 tahun.)"
       },
       {
         title: "Object and Possessive Pronouns",
-        body: "<strong>Object</strong> (receives the action): me, him, her, it, us, them<br><strong>Possessive adjective</strong> (before a noun): my, his, her, its, our, their<br><strong>Possessive pronoun</strong> (stands alone): mine, his, hers, ours, theirs<br><br>\u2022 Give it to <u>her</u>.<br>\u2022 This is <u>her</u> book.<br>\u2022 This book is <u>hers</u>."
+        body: "<strong>Object</strong> (receives the action): me, him, her, it, us, them<br><strong>Possessive adjective</strong> (before a noun): my, his, her, its, our, their<br><strong>Possessive pronoun</strong> (stands alone): mine, his, hers, ours, theirs<br><br>\u2022 Give it to <u>her</u>.<br>\u2022 This is <u>her</u> book.<br>\u2022 This book is <u>hers</u>.",
+        bodyId: "<strong>Objek</strong> (menerima tindakan): me, him, her, it, us, them<br><strong>Kata sifat kepemilikan</strong> (sebelum kata benda): my, his, her, its, our, their<br><strong>Kata ganti kepemilikan</strong> (berdiri sendiri): mine, his, hers, ours, theirs<br><br>\u2022 Give it to <u>her</u>. (Berikan itu padanya.)<br>\u2022 This is <u>her</u> book. (Ini bukunya.)<br>\u2022 This book is <u>hers</u>. (Buku ini miliknya.)"
       },
       {
         title: "Quick Check",
-        body: "Replacing a subject? \u2192 Subject pronoun.<br>Receiving the action? \u2192 Object pronoun.<br>Showing ownership before a noun? \u2192 Possessive adjective.<br>Standing alone to show ownership? \u2192 Possessive pronoun.<br><br>Ready for practice questions? Tap Next to begin."
+        body: "Replacing a subject? \u2192 Subject pronoun.<br>Receiving the action? \u2192 Object pronoun.<br>Showing ownership before a noun? \u2192 Possessive adjective.<br>Standing alone to show ownership? \u2192 Possessive pronoun.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Menggantikan subjek? \u2192 Kata ganti subjek. Menerima tindakan? \u2192 Kata ganti objek. Menunjukkan kepemilikan sebelum kata benda? \u2192 Kata sifat kepemilikan. Berdiri sendiri menunjukkan kepemilikan? \u2192 Kata ganti kepemilikan.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
       }
     ],
     quiz: [
@@ -1794,28 +1836,315 @@ const teachingLessons = {
       { q: "What is the plural of \u201cchild\u201d?", options: ["childs", "children", "childes", "child's"], correct: 1 }
     ]
   },
+  modalAuxiliaries: {
+    title: "Modal Auxiliaries",
+    slides: [
+      {
+        title: "Modal Auxiliaries",
+        body: "Modals (can, could, may, might, must, should, will, would) express ability, permission, possibility, or obligation \u2014 not actions themselves.",
+        bodyId: "Modal (can, could, may, might, must, should, will, would) menyatakan kemampuan, izin, kemungkinan, atau kewajiban \u2014 bukan tindakan itu sendiri."
+      },
+      {
+        title: "Ability and Permission",
+        body: "<strong>Can/Could</strong> \u2014 ability: I can swim.<br><strong>Can/May</strong> \u2014 permission: Can I go? / May I come in? (May is more formal/polite)",
+        bodyId: "<strong>Can/Could</strong> \u2014 kemampuan: I can swim. (Saya bisa berenang.)<br><strong>Can/May</strong> \u2014 izin: Can I go? / May I come in? (Bolehkah saya pergi? / Bolehkah saya masuk?) (May lebih formal/sopan)"
+      },
+      {
+        title: "Possibility",
+        body: "<strong>May / Might / Could</strong> \u2014 something is possible, not certain.<br><br>\u2022 It might rain today.<br>\u2022 She could be at home.",
+        bodyId: "<strong>May / Might / Could</strong> \u2014 sesuatu mungkin terjadi, tapi tidak pasti.<br><br>\u2022 It might rain today. (Mungkin hari ini akan hujan.)<br>\u2022 She could be at home. (Mungkin dia sedang di rumah.)"
+      },
+      {
+        title: "Obligation and Advice",
+        body: "<strong>Must</strong> \u2014 strong obligation: You must wear a seatbelt.<br><strong>Should</strong> \u2014 advice: You should study harder.",
+        bodyId: "<strong>Must</strong> \u2014 kewajiban kuat: You must wear a seatbelt. (Kamu harus memakai sabuk pengaman.)<br><strong>Should</strong> \u2014 saran: You should study harder. (Kamu sebaiknya belajar lebih giat.)"
+      },
+      {
+        title: "Key Rule",
+        body: "Modals are always followed by the <strong>base verb</strong> \u2014 no \u201cto\u201d, no -s, no -ing.<br><br>\u274c She can sings.<br>\u2705 She can sing.",
+        bodyId: "Modal selalu diikuti oleh <strong>kata kerja dasar</strong> \u2014 tanpa \u201cto\u201d, tanpa -s, tanpa -ing.<br><br>\u274c She can sings.<br>\u2705 She can sing."
+      },
+      {
+        title: "Quick Check",
+        body: "Ability? \u2192 can/could. Polite permission? \u2192 may. Not certain? \u2192 might/could. Strong obligation? \u2192 must. Advice? \u2192 should.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Kemampuan? \u2192 can/could. Izin yang sopan? \u2192 may. Tidak pasti? \u2192 might/could. Kewajiban kuat? \u2192 must. Saran? \u2192 should.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
+      }
+    ],
+    quiz: [
+      { q: "You ___ wear a helmet when riding a motorbike.", options: ["must", "can", "might", "would"], correct: 0 },
+      { q: "___ I borrow your pen?", options: ["May", "Must", "Should", "Will"], correct: 0 },
+      { q: "She ___ speak three languages.", options: ["can", "must", "should", "might"], correct: 0 },
+      { q: "It ___ rain later, I'm not sure.", options: ["might", "must", "should", "can"], correct: 0 }
+    ]
+  },
+  gerundsInfinitives: {
+    title: "Gerunds and Infinitives",
+    slides: [
+      {
+        title: "Gerunds and Infinitives",
+        body: "Both gerunds (V-ing) and infinitives (to + V1) can act like nouns \u2014 but certain verbs only accept one or the other.",
+        bodyId: "Baik gerund (V-ing) maupun infinitive (to + V1) bisa berfungsi seperti kata benda \u2014 tetapi kata kerja tertentu hanya menerima salah satunya."
+      },
+      {
+        title: "Gerund (V-ing)",
+        body: "A verb + -ing used as a noun.<br><br>\u2022 Swimming is fun.<br>\u2022 I enjoy reading.",
+        bodyId: "Kata kerja + -ing yang digunakan sebagai kata benda.<br><br>\u2022 Swimming is fun. (Berenang itu menyenangkan.)<br>\u2022 I enjoy reading. (Saya suka membaca.)"
+      },
+      {
+        title: "Infinitive (to + V1)",
+        body: "\u201cTo\u201d + base verb, used as a noun or to show purpose.<br><br>\u2022 I want to read.<br>\u2022 I study to pass the exam. (purpose)",
+        bodyId: "\u201cTo\u201d + kata kerja dasar, digunakan sebagai kata benda atau untuk menunjukkan tujuan.<br><br>\u2022 I want to read. (Saya ingin membaca.)<br>\u2022 I study to pass the exam. (Saya belajar untuk lulus ujian.) (tujuan)"
+      },
+      {
+        title: "Which Verbs Take Which",
+        body: "<strong>Gerund only:</strong> enjoy, avoid, finish, mind, suggest<br><strong>Infinitive only:</strong> want, need, decide, plan, hope, promise",
+        bodyId: "<strong>Hanya gerund:</strong> enjoy, avoid, finish, mind, suggest<br><strong>Hanya infinitive:</strong> want, need, decide, plan, hope, promise"
+      },
+      {
+        title: "A Common Mistake",
+        body: "\u274c I enjoy to swim.<br>\u2705 I enjoy swimming.<br><br>\u201cEnjoy\u201d always takes a gerund, never an infinitive.",
+        bodyId: "\u274c I enjoy to swim.<br>\u2705 I enjoy swimming.<br><br>\u201cEnjoy\u201d selalu diikuti gerund, tidak pernah infinitive."
+      },
+      {
+        title: "Quick Check",
+        body: "Check the verb before the blank \u2014 does it take a gerund, or an infinitive? There's no universal rule; it depends on the specific verb.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Perhatikan kata kerja sebelum bagian kosong \u2014 apakah kata kerja itu diikuti gerund atau infinitive? Tidak ada aturan umum; tergantung pada kata kerjanya masing-masing.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
+      }
+    ],
+    quiz: [
+      { q: "She enjoys ___ (read) books.", options: ["read", "reads", "to read", "reading"], correct: 3 },
+      { q: "They want ___ (visit) Bali.", options: ["visit", "visiting", "to visit", "visits"], correct: 2 },
+      { q: "He finished ___ (do) his homework.", options: ["do", "does", "to do", "doing"], correct: 3 },
+      { q: "We hope ___ (see) you soon.", options: ["see", "seeing", "to see", "saw"], correct: 2 }
+    ]
+  },
+  phrasalVerbs: {
+    title: "Phrasal Verbs",
+    slides: [
+      {
+        title: "Phrasal Verbs",
+        body: "A phrasal verb is a verb + a particle (like \u201cup\u201d, \u201con\u201d, \u201cfor\u201d) that together create a new meaning \u2014 often very different from the individual words.",
+        bodyId: "Phrasal verb adalah kata kerja + partikel (seperti \u201cup\u201d, \u201con\u201d, \u201cfor\u201d) yang bersama-sama membentuk makna baru \u2014 sering kali sangat berbeda dari arti kata-kata aslinya."
+      },
+      {
+        title: "Common Examples",
+        body: "\u2022 look for \u2014 to search<br>\u2022 give up \u2014 to quit<br>\u2022 turn on / off \u2014 to start / stop a device<br>\u2022 find out \u2014 to discover<br>\u2022 get up \u2014 to rise from bed<br>\u2022 put on \u2014 to wear",
+        bodyId: "\u2022 look for \u2014 mencari<br>\u2022 give up \u2014 menyerah/berhenti<br>\u2022 turn on / off \u2014 menyalakan / mematikan alat<br>\u2022 find out \u2014 mengetahui/menemukan<br>\u2022 get up \u2014 bangun dari tidur<br>\u2022 put on \u2014 memakai (pakaian)"
+      },
+      {
+        title: "Separable vs Inseparable",
+        body: "Some allow the object between verb and particle: <em>turn the light on</em> / <em>turn on the light</em> \u2014 both correct.<br><br>Others don't: <em>look after the baby</em> \u2014 not \u201clook the baby after\u201d.",
+        bodyId: "Beberapa mengizinkan objek berada di antara kata kerja dan partikel: <em>turn the light on</em> / <em>turn on the light</em> \u2014 keduanya benar.<br><br>Yang lain tidak: <em>look after the baby</em> \u2014 bukan \u201clook the baby after\u201d."
+      },
+      {
+        title: "Real Examples",
+        body: "\u2022 Please turn off the light before you leave.<br>\u2022 I need to look for my keys.<br>\u2022 She gave up smoking last year.",
+        bodyId: "\u2022 Please turn off the light before you leave. (Tolong matikan lampu sebelum kamu pergi.)<br>\u2022 I need to look for my keys. (Saya perlu mencari kunci saya.)<br>\u2022 She gave up smoking last year. (Dia berhenti merokok tahun lalu.)"
+      },
+      {
+        title: "Quick Check",
+        body: "Phrasal verb meanings usually can't be guessed from the individual words \u2014 they need to be learned as whole expressions.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Makna phrasal verb biasanya tidak bisa ditebak dari kata-kata penyusunnya \u2014 harus dipelajari sebagai satu kesatuan ungkapan.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
+      }
+    ],
+    quiz: [
+      { q: "Please ___ the light before you leave.", options: ["turn off", "turn on", "look for", "give up"], correct: 0 },
+      { q: "I need to ___ my keys.", options: ["look for", "give up", "turn on", "find out"], correct: 0 },
+      { q: "She ___ smoking last year.", options: ["gave up", "turned on", "looked for", "found out"], correct: 0 },
+      { q: "What time do you usually ___?", options: ["get up", "turn off", "give up", "look for"], correct: 0 }
+    ]
+  },
+  adjectiveClauses: {
+    title: "Adjective Clauses",
+    slides: [
+      {
+        title: "Adjective Clauses",
+        body: "An adjective clause is a group of words that describes a noun \u2014 like an adjective, but longer, with its own subject and verb.",
+        bodyId: "Adjective clause adalah sekelompok kata yang menjelaskan kata benda \u2014 seperti kata sifat, tetapi lebih panjang, dengan subjek dan kata kerjanya sendiri."
+      },
+      {
+        title: "Example",
+        body: "\u201cThe man who lives next door is a doctor.\u201d<br><br>\u201cwho lives next door\u201d describes <em>the man</em> \u2014 that's the adjective clause.",
+        bodyId: "\u201cThe man who lives next door is a doctor.\u201d (Pria yang tinggal di sebelah adalah seorang dokter.)<br><br>\u201cwho lives next door\u201d menjelaskan <em>the man</em> \u2014 itulah adjective clause-nya."
+      },
+      {
+        title: "Relative Pronouns",
+        body: "<strong>who</strong> \u2014 people (subject)<br><strong>whom</strong> \u2014 people (object, formal)<br><strong>whose</strong> \u2014 possession<br><strong>which</strong> \u2014 things<br><strong>that</strong> \u2014 people or things (informal)",
+        bodyId: "<strong>who</strong> \u2014 orang (subjek)<br><strong>whom</strong> \u2014 orang (objek, formal)<br><strong>whose</strong> \u2014 kepemilikan<br><strong>which</strong> \u2014 benda<br><strong>that</strong> \u2014 orang atau benda (informal)"
+      },
+      {
+        title: "More Examples",
+        body: "\u2022 The book that I bought is interesting.<br>\u2022 The girl whose bag is red is my sister.<br>\u2022 The movie which we watched was amazing.",
+        bodyId: "\u2022 The book that I bought is interesting. (Buku yang saya beli menarik.)<br>\u2022 The girl whose bag is red is my sister. (Gadis yang tasnya merah adalah kakak/adik saya.)<br>\u2022 The movie which we watched was amazing. (Film yang kami tonton luar biasa.)"
+      },
+      {
+        title: "A Common Mistake",
+        body: "Don't use \u201cwho\u201d for things or \u201cwhich\u201d for people.<br><br>\u274c The book who I bought...<br>\u2705 The book that/which I bought...",
+        bodyId: "Jangan gunakan \u201cwho\u201d untuk benda atau \u201cwhich\u201d untuk orang.<br><br>\u274c The book who I bought...<br>\u2705 The book that/which I bought..."
+      },
+      {
+        title: "Quick Check",
+        body: "People (subject)? \u2192 who. Things? \u2192 which. Ownership? \u2192 whose.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Orang (subjek)? \u2192 who. Benda? \u2192 which. Kepemilikan? \u2192 whose.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
+      }
+    ],
+    quiz: [
+      { q: "The teacher ___ teaches us English is very kind.", options: ["which", "who", "whose", "whom"], correct: 1 },
+      { q: "This is the book ___ I borrowed from the library.", options: ["who", "whose", "that", "whom"], correct: 2 },
+      { q: "The girl ___ bag was stolen is crying.", options: ["who", "which", "whose", "that"], correct: 2 },
+      { q: "The movie ___ we watched last night was amazing.", options: ["who", "which", "whose", "whom"], correct: 1 }
+    ]
+  },
+  passiveVoice: {
+    title: "Passive Voice",
+    slides: [
+      {
+        title: "Passive Voice",
+        body: "In an <strong>active</strong> sentence, the subject does the action. In a <strong>passive</strong> sentence, the subject receives the action.",
+        bodyId: "Dalam kalimat <strong>aktif</strong>, subjek melakukan tindakan. Dalam kalimat <strong>pasif</strong>, subjek menerima tindakan."
+      },
+      {
+        title: "Active vs Passive",
+        body: "Active: The chef cooked the meal.<br>Passive: The meal was cooked by the chef.<br><br>The focus shifts from who did it, to what happened.",
+        bodyId: "Aktif: The chef cooked the meal. (Koki itu memasak makanan.)<br>Pasif: The meal was cooked by the chef. (Makanan itu dimasak oleh koki.)<br><br>Fokus bergeser dari siapa yang melakukan, ke apa yang terjadi."
+      },
+      {
+        title: "Form",
+        body: "<strong>be + past participle (V3)</strong><br><br>The tense of \u201cbe\u201d matches the tense of the original sentence \u2014 is/are (present), was/were (past), has/have been (perfect).",
+        bodyId: "<strong>be + past participle (V3)</strong><br><br>Bentuk waktu \u201cbe\u201d mengikuti bentuk waktu kalimat aslinya \u2014 is/are (present), was/were (past), has/have been (perfect)."
+      },
+      {
+        title: "When to Use It",
+        body: "Use passive voice when the doer is unknown, unimportant, or obvious \u2014 and the focus is on the action or the receiver.<br><br>\u2022 The window was broken. (we don't know/care who broke it)",
+        bodyId: "Gunakan passive voice ketika pelaku tindakan tidak diketahui, tidak penting, atau sudah jelas \u2014 dan fokusnya adalah pada tindakan atau penerimanya.<br><br>\u2022 The window was broken. (Jendela itu pecah.) (kita tidak tahu/tidak peduli siapa yang memecahkannya)"
+      },
+      {
+        title: "Examples Across Tenses",
+        body: "\u2022 Rice is grown in many Asian countries. (present)<br>\u2022 The letter was written yesterday. (past)<br>\u2022 The homework has been done. (present perfect)",
+        bodyId: "\u2022 Rice is grown in many Asian countries. (Padi ditanam di banyak negara Asia.) (present)<br>\u2022 The letter was written yesterday. (Surat itu ditulis kemarin.) (past)<br>\u2022 The homework has been done. (Pekerjaan rumah itu sudah dikerjakan.) (present perfect)"
+      },
+      {
+        title: "Quick Check",
+        body: "Subject does the action \u2192 Active. Subject receives the action \u2192 Passive (be + V3).<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Subjek melakukan tindakan \u2192 Aktif. Subjek menerima tindakan \u2192 Pasif (be + V3).<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
+      }
+    ],
+    quiz: [
+      { q: "The letter ___ by Andre yesterday. (write)", options: ["wrote", "was written", "is written", "writes"], correct: 1 },
+      { q: "Rice ___ in many Asian countries. (grow)", options: ["grows", "grew", "is grown", "was grown"], correct: 2 },
+      { q: "Choose the passive form of \u201cSomeone stole my bike.\u201d", options: ["My bike stole someone", "My bike was stolen", "My bike is stealing", "My bike stole"], correct: 1 },
+      { q: "The homework ___ by the students. (do)", options: ["does", "did", "is done", "was doing"], correct: 2 }
+    ]
+  },
+  comparisons: {
+    title: "Comparisons",
+    slides: [
+      {
+        title: "Comparisons",
+        body: "English uses comparative and superlative forms of adjectives to compare two or more things.",
+        bodyId: "Bahasa Inggris menggunakan bentuk comparative dan superlative dari kata sifat untuk membandingkan dua hal atau lebih."
+      },
+      {
+        title: "Short Adjectives",
+        body: "One-syllable adjectives: add <strong>-er</strong> (comparative) or <strong>-est</strong> (superlative).<br><br>tall \u2192 taller \u2192 tallest<br>hot \u2192 hotter \u2192 hottest (double the consonant)",
+        bodyId: "Kata sifat satu suku kata: tambahkan <strong>-er</strong> (comparative) atau <strong>-est</strong> (superlative).<br><br>tall \u2192 taller \u2192 tallest<br>hot \u2192 hotter \u2192 hottest (gandakan konsonannya)"
+      },
+      {
+        title: "Long Adjectives",
+        body: "Two or more syllables: use <strong>more</strong> / <strong>most</strong> instead.<br><br>beautiful \u2192 more beautiful \u2192 most beautiful<br>interesting \u2192 more interesting \u2192 most interesting",
+        bodyId: "Dua suku kata atau lebih: gunakan <strong>more</strong> / <strong>most</strong> sebagai gantinya.<br><br>beautiful \u2192 more beautiful \u2192 most beautiful<br>interesting \u2192 more interesting \u2192 most interesting"
+      },
+      {
+        title: "Irregular Forms",
+        body: "Some adjectives don't follow the rules at all:<br><br>good \u2192 better \u2192 best<br>bad \u2192 worse \u2192 worst",
+        bodyId: "Beberapa kata sifat sama sekali tidak mengikuti aturan:<br><br>good \u2192 better \u2192 best<br>bad \u2192 worse \u2192 worst"
+      },
+      {
+        title: "Equal Comparison",
+        body: "Use <strong>as...as</strong> to show two things are equal.<br><br>\u2022 She is as tall as her brother.",
+        bodyId: "Gunakan <strong>as...as</strong> untuk menunjukkan dua hal yang setara.<br><br>\u2022 She is as tall as her brother. (Dia setinggi kakak/adik laki-lakinya.)"
+      },
+      {
+        title: "Quick Check",
+        body: "Short adjective \u2192 -er/-est. Long adjective \u2192 more/most. Equal \u2192 as...as. Watch for irregular forms like good/better/best.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Kata sifat pendek \u2192 -er/-est. Kata sifat panjang \u2192 more/most. Setara \u2192 as...as. Perhatikan bentuk tidak beraturan seperti good/better/best.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
+      }
+    ],
+    quiz: [
+      { q: "This book is ___ than that one. (interesting)", options: ["interestinger", "more interesting", "most interesting", "interestingest"], correct: 1 },
+      { q: "He is the ___ student in the class. (smart)", options: ["smarter", "smartest", "more smart", "most smart"], correct: 1 },
+      { q: "Today is ___ than yesterday. (hot)", options: ["hoter", "hottest", "hotter", "more hot"], correct: 2 },
+      { q: "My English is ___ than before. (good)", options: ["gooder", "more good", "best", "better"], correct: 3 }
+    ]
+  },
+  nounClauses: {
+    title: "Noun Clauses",
+    slides: [
+      {
+        title: "Noun Clauses",
+        body: "A noun clause is a group of words that acts as a noun in a sentence \u2014 it can be the subject, object, or complement.",
+        bodyId: "Noun clause adalah sekelompok kata yang berfungsi seperti kata benda dalam kalimat \u2014 bisa menjadi subjek, objek, atau pelengkap."
+      },
+      {
+        title: "As Subject",
+        body: "\u2022 What she said surprised me.<br><br>\u201cWhat she said\u201d is the whole subject of the sentence.",
+        bodyId: "\u2022 What she said surprised me. (Apa yang dia katakan mengejutkan saya.)<br><br>\u201cWhat she said\u201d adalah keseluruhan subjek kalimat ini."
+      },
+      {
+        title: "As Object",
+        body: "\u2022 I don't know where he lives.<br>\u2022 She said that she was tired.<br><br>The noun clause is the object of \u201cknow\u201d / \u201csaid\u201d.",
+        bodyId: "\u2022 I don't know where he lives. (Saya tidak tahu di mana dia tinggal.)<br>\u2022 She said that she was tired. (Dia bilang bahwa dia lelah.)<br><br>Noun clause-nya adalah objek dari \u201cknow\u201d / \u201csaid\u201d."
+      },
+      {
+        title: "As Complement",
+        body: "\u2022 The problem is that we have no time.<br><br>The noun clause completes the meaning of \u201cis\u201d.",
+        bodyId: "\u2022 The problem is that we have no time. (Masalahnya adalah kita tidak punya waktu.)<br><br>Noun clause-nya melengkapi makna dari \u201cis\u201d."
+      },
+      {
+        title: "Common Starters",
+        body: "that, what, who, whom, whether, if, where, when, why, how",
+        bodyId: "that, what, who, whom, whether, if, where, when, why, how \u2014 kata-kata ini biasanya mengawali sebuah noun clause."
+      },
+      {
+        title: "Quick Check",
+        body: "A noun clause replaces where a single noun could go \u2014 as subject, object, or complement.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Noun clause menggantikan tempat di mana sebuah kata benda tunggal bisa berada \u2014 sebagai subjek, objek, atau pelengkap.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
+      }
+    ],
+    quiz: [
+      { q: "I don't know ___ he is coming.", options: ["that", "whether", "which", "who"], correct: 1 },
+      { q: "___ you said made everyone laugh.", options: ["That", "What", "Who", "Whom"], correct: 1 },
+      { q: "She told me ___ she was moving to Bandung.", options: ["what", "whether", "that", "who"], correct: 2 },
+      { q: "Do you know ___ the museum opens?", options: ["that", "what", "when", "who"], correct: 2 }
+    ]
+  },
   simplePastPerfect: {
     title: "Simple Past vs Present Perfect",
     slides: [
       {
         title: "Simple Past vs Present Perfect",
-        body: "Two tenses students often confuse. This lesson shows the key difference, then gives you practice to check understanding."
+        body: "Two tenses students often confuse. This lesson shows the key difference, then gives you practice to check understanding.",
+        bodyId: "Dua tenses yang sering membingungkan siswa. Pelajaran ini menunjukkan perbedaan utamanya, lalu memberikan latihan untuk mengecek pemahaman."
       },
       {
         title: "Simple Past",
-        body: "Used for an action completed at a <strong>specific, known time</strong> in the past.<br><br><strong>Form:</strong> Subject + V2 (past form)<br><br><strong>Examples:</strong><br>\u2022 I visited Bali <u>last year</u>.<br>\u2022 She finished her homework <u>yesterday</u>.<br>\u2022 They watched the parade <u>on Independence Day</u>."
+        body: "Used for an action completed at a <strong>specific, known time</strong> in the past.<br><br><strong>Form:</strong> Subject + V2 (past form)<br><br><strong>Examples:</strong><br>\u2022 I visited Bali <u>last year</u>.<br>\u2022 She finished her homework <u>yesterday</u>.<br>\u2022 They watched the parade <u>on Independence Day</u>.",
+        bodyId: "Digunakan untuk tindakan yang selesai pada <strong>waktu tertentu yang diketahui</strong> di masa lalu.<br><br><strong>Bentuk:</strong> Subjek + V2 (bentuk lampau)<br><br><strong>Contoh:</strong><br>\u2022 I visited Bali <u>last year</u>. (Saya mengunjungi Bali tahun lalu.)<br>\u2022 She finished her homework <u>yesterday</u>. (Dia menyelesaikan PR-nya kemarin.)<br>\u2022 They watched the parade <u>on Independence Day</u>. (Mereka menonton pawai pada Hari Kemerdekaan.)"
       },
       {
         title: "Present Perfect",
-        body: "Used when the <strong>exact time isn't stated</strong> \u2014 for experiences, or actions that connect to now.<br><br><strong>Form:</strong> Subject + have/has + V3 (past participle)<br><br><strong>Examples:</strong><br>\u2022 I <u>have visited</u> Bali. (an experience \u2014 no specific time given)<br>\u2022 She <u>has finished</u> her homework. (it's done \u2014 relevant right now)"
+        body: "Used when the <strong>exact time isn't stated</strong> \u2014 for experiences, or actions that connect to now.<br><br><strong>Form:</strong> Subject + have/has + V3 (past participle)<br><br><strong>Examples:</strong><br>\u2022 I <u>have visited</u> Bali. (an experience \u2014 no specific time given)<br>\u2022 She <u>has finished</u> her homework. (it's done \u2014 relevant right now)",
+        bodyId: "Digunakan ketika <strong>waktu pastinya tidak disebutkan</strong> \u2014 untuk pengalaman, atau tindakan yang berhubungan dengan sekarang.<br><br><strong>Bentuk:</strong> Subjek + have/has + V3 (past participle)<br><br><strong>Contoh:</strong><br>\u2022 I <u>have visited</u> Bali. (Saya pernah mengunjungi Bali.) (pengalaman \u2014 tanpa waktu spesifik)<br>\u2022 She <u>has finished</u> her homework. (Dia sudah menyelesaikan PR-nya.) (sudah selesai \u2014 relevan sekarang)"
       },
       {
         title: "Signal Words",
-        body: "<strong>Simple Past</strong> often appears with:<br>yesterday, last week, in 2020, ago, when I was young<br><br><strong>Present Perfect</strong> often appears with:<br>already, just, yet, ever, never, since, for, so far<br><br>These words are strong clues for which tense to choose."
+        body: "<strong>Simple Past</strong> often appears with:<br>yesterday, last week, in 2020, ago, when I was young<br><br><strong>Present Perfect</strong> often appears with:<br>already, just, yet, ever, never, since, for, so far<br><br>These words are strong clues for which tense to choose.",
+        bodyId: "<strong>Simple Past</strong> sering muncul bersama:<br>yesterday, last week, in 2020, ago, when I was young<br><br><strong>Present Perfect</strong> sering muncul bersama:<br>already, just, yet, ever, never, since, for, so far<br><br>Kata-kata ini adalah petunjuk kuat untuk menentukan tenses mana yang harus dipilih."
       },
       {
         title: "Quick Check",
-        body: "If the sentence names a specific time (yesterday, last year, in 2020) \u2192 <strong>Simple Past</strong>.<br><br>If there's no specific time, or it's about experience/relevance to now (already, ever, since) \u2192 <strong>Present Perfect</strong>.<br><br>Ready for practice questions? Tap Next to begin."
+        body: "If the sentence names a specific time (yesterday, last year, in 2020) \u2192 <strong>Simple Past</strong>.<br><br>If there's no specific time, or it's about experience/relevance to now (already, ever, since) \u2192 <strong>Present Perfect</strong>.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Jika kalimat menyebutkan waktu tertentu (yesterday, last year, in 2020) \u2192 <strong>Simple Past</strong>.<br><br>Jika tidak ada waktu tertentu, atau berkaitan dengan pengalaman/relevansi terhadap sekarang (already, ever, since) \u2192 <strong>Present Perfect</strong>.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
       }
     ],
     quiz: [
@@ -1830,23 +2159,28 @@ const teachingLessons = {
     slides: [
       {
         title: "Simple Present vs Present Continuous",
-        body: "Another common mix-up: talking about habits versus talking about right now. Let's break down the difference."
+        body: "Another common mix-up: talking about habits versus talking about right now. Let's break down the difference.",
+        bodyId: "Kebingungan umum lainnya: membicarakan kebiasaan versus membicarakan sekarang. Mari kita pelajari perbedaannya."
       },
       {
         title: "Simple Present",
-        body: "Used for <strong>habits, routines, facts, and general truths</strong> \u2014 things that are generally or always true.<br><br><strong>Form:</strong> Subject + V1 (+s/es for he/she/it)<br><br><strong>Examples:</strong><br>\u2022 I go to school <u>every day</u>.<br>\u2022 The sun rises in the east.<br>\u2022 She plays badminton <u>on weekends</u>."
+        body: "Used for <strong>habits, routines, facts, and general truths</strong> \u2014 things that are generally or always true.<br><br><strong>Form:</strong> Subject + V1 (+s/es for he/she/it)<br><br><strong>Examples:</strong><br>\u2022 I go to school <u>every day</u>.<br>\u2022 The sun rises in the east.<br>\u2022 She plays badminton <u>on weekends</u>.",
+        bodyId: "Digunakan untuk <strong>kebiasaan, rutinitas, fakta, dan kebenaran umum</strong> \u2014 hal-hal yang secara umum atau selalu benar.<br><br><strong>Bentuk:</strong> Subjek + V1 (+s/es untuk he/she/it)<br><br><strong>Contoh:</strong><br>\u2022 I go to school <u>every day</u>. (Saya pergi ke sekolah setiap hari.)<br>\u2022 The sun rises in the east. (Matahari terbit di timur.)<br>\u2022 She plays badminton <u>on weekends</u>. (Dia bermain bulu tangkis setiap akhir pekan.)"
       },
       {
         title: "Present Continuous",
-        body: "Used for actions happening <strong>right now</strong>, or temporary situations around the present.<br><br><strong>Form:</strong> Subject + am/is/are + V-ing<br><br><strong>Examples:</strong><br>\u2022 I am studying English <u>now</u>.<br>\u2022 She is playing badminton <u>right now</u>.<br>\u2022 They are preparing for the parade <u>this week</u>."
+        body: "Used for actions happening <strong>right now</strong>, or temporary situations around the present.<br><br><strong>Form:</strong> Subject + am/is/are + V-ing<br><br><strong>Examples:</strong><br>\u2022 I am studying English <u>now</u>.<br>\u2022 She is playing badminton <u>right now</u>.<br>\u2022 They are preparing for the parade <u>this week</u>.",
+        bodyId: "Digunakan untuk tindakan yang sedang terjadi <strong>saat ini</strong>, atau situasi sementara di sekitar masa kini.<br><br><strong>Bentuk:</strong> Subjek + am/is/are + V-ing<br><br><strong>Contoh:</strong><br>\u2022 I am studying English <u>now</u>. (Saya sedang belajar Bahasa Inggris sekarang.)<br>\u2022 She is playing badminton <u>right now</u>. (Dia sedang bermain bulu tangkis sekarang.)<br>\u2022 They are preparing for the parade <u>this week</u>. (Mereka sedang mempersiapkan pawai minggu ini.)"
       },
       {
         title: "Signal Words",
-        body: "<strong>Simple Present</strong> often appears with:<br>every day, usually, always, often, never, on Sundays<br><br><strong>Present Continuous</strong> often appears with:<br>now, right now, at the moment, currently, Look!, Listen!"
+        body: "<strong>Simple Present</strong> often appears with:<br>every day, usually, always, often, never, on Sundays<br><br><strong>Present Continuous</strong> often appears with:<br>now, right now, at the moment, currently, Look!, Listen!",
+        bodyId: "<strong>Simple Present</strong> sering muncul bersama:<br>every day, usually, always, often, never, on Sundays<br><br><strong>Present Continuous</strong> sering muncul bersama:<br>now, right now, at the moment, currently, Look!, Listen!"
       },
       {
         title: "Quick Check",
-        body: "Is it a habit or general fact (every day, usually)? \u2192 <strong>Simple Present</strong>.<br><br>Is it happening at this exact moment (now, right now, Look!)? \u2192 <strong>Present Continuous</strong>.<br><br>Ready for practice questions? Tap Next to begin."
+        body: "Is it a habit or general fact (every day, usually)? \u2192 <strong>Simple Present</strong>.<br><br>Is it happening at this exact moment (now, right now, Look!)? \u2192 <strong>Present Continuous</strong>.<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Apakah ini kebiasaan atau fakta umum (every day, usually)? \u2192 <strong>Simple Present</strong>.<br><br>Apakah sedang terjadi tepat saat ini (now, right now, Look!)? \u2192 <strong>Present Continuous</strong>.<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
       }
     ],
     quiz: [
@@ -1861,23 +2195,28 @@ const teachingLessons = {
     slides: [
       {
         title: "Conditional Sentences",
-        body: "\u201cIf\u201d sentences \u2014 talking about facts, real possibilities, and unreal situations. This lesson covers three common types."
+        body: "\u201cIf\u201d sentences \u2014 talking about facts, real possibilities, and unreal situations. This lesson covers three common types.",
+        bodyId: "Kalimat \u201cif\u201d \u2014 membicarakan fakta, kemungkinan nyata, dan situasi yang tidak nyata. Pelajaran ini membahas tiga jenis yang umum."
       },
       {
         title: "Zero Conditional",
-        body: "Used for <strong>general truths and facts</strong> that are always true.<br><br><strong>Form:</strong> If + Simple Present, Simple Present<br><br><strong>Examples:</strong><br>\u2022 If you heat water to 100\u00b0C, it boils.<br>\u2022 If it rains, the ground gets wet."
+        body: "Used for <strong>general truths and facts</strong> that are always true.<br><br><strong>Form:</strong> If + Simple Present, Simple Present<br><br><strong>Examples:</strong><br>\u2022 If you heat water to 100\u00b0C, it boils.<br>\u2022 If it rains, the ground gets wet.",
+        bodyId: "Digunakan untuk <strong>kebenaran umum dan fakta</strong> yang selalu benar.<br><br><strong>Bentuk:</strong> If + Simple Present, Simple Present<br><br><strong>Contoh:</strong><br>\u2022 If you heat water to 100\u00b0C, it boils. (Jika kamu memanaskan air sampai 100\u00b0C, air itu mendidih.)<br>\u2022 If it rains, the ground gets wet. (Jika hujan, tanah menjadi basah.)"
       },
       {
         title: "First Conditional",
-        body: "Used for a <strong>real, possible situation</strong> in the future.<br><br><strong>Form:</strong> If + Simple Present, will + V1<br><br><strong>Examples:</strong><br>\u2022 If it rains tomorrow, we will stay home.<br>\u2022 If you study hard, you will pass the exam."
+        body: "Used for a <strong>real, possible situation</strong> in the future.<br><br><strong>Form:</strong> If + Simple Present, will + V1<br><br><strong>Examples:</strong><br>\u2022 If it rains tomorrow, we will stay home.<br>\u2022 If you study hard, you will pass the exam.",
+        bodyId: "Digunakan untuk <strong>situasi nyata yang mungkin terjadi</strong> di masa depan.<br><br><strong>Bentuk:</strong> If + Simple Present, will + V1<br><br><strong>Contoh:</strong><br>\u2022 If it rains tomorrow, we will stay home. (Jika besok hujan, kita akan tinggal di rumah.)<br>\u2022 If you study hard, you will pass the exam. (Jika kamu belajar dengan giat, kamu akan lulus ujian.)"
       },
       {
         title: "Second Conditional",
-        body: "Used for an <strong>unreal or unlikely situation</strong> now or in the future \u2014 imagining something different from reality.<br><br><strong>Form:</strong> If + Simple Past, would + V1<br><br><strong>Examples:</strong><br>\u2022 If I had a million dollars, I would travel the world.<br>\u2022 If I were you, I would apologize."
+        body: "Used for an <strong>unreal or unlikely situation</strong> now or in the future \u2014 imagining something different from reality.<br><br><strong>Form:</strong> If + Simple Past, would + V1<br><br><strong>Examples:</strong><br>\u2022 If I had a million dollars, I would travel the world.<br>\u2022 If I were you, I would apologize.",
+        bodyId: "Digunakan untuk <strong>situasi yang tidak nyata atau tidak mungkin terjadi</strong> sekarang atau di masa depan \u2014 membayangkan sesuatu yang berbeda dari kenyataan.<br><br><strong>Bentuk:</strong> If + Simple Past, would + V1<br><br><strong>Contoh:</strong><br>\u2022 If I had a million dollars, I would travel the world. (Jika saya punya satu juta dolar, saya akan berkeliling dunia.)<br>\u2022 If I were you, I would apologize. (Jika saya jadi kamu, saya akan minta maaf.)"
       },
       {
         title: "Quick Check",
-        body: "Always true fact? \u2192 <strong>Zero</strong> (If + present, present)<br>Real future possibility? \u2192 <strong>First</strong> (If + present, will + V1)<br>Unreal / imagined situation? \u2192 <strong>Second</strong> (If + past, would + V1)<br><br>Ready for practice questions? Tap Next to begin."
+        body: "Always true fact? \u2192 <strong>Zero</strong> (If + present, present)<br>Real future possibility? \u2192 <strong>First</strong> (If + present, will + V1)<br>Unreal / imagined situation? \u2192 <strong>Second</strong> (If + past, would + V1)<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Fakta yang selalu benar? \u2192 <strong>Zero</strong> (If + present, present)<br>Kemungkinan nyata di masa depan? \u2192 <strong>First</strong> (If + present, will + V1)<br>Situasi tidak nyata / khayalan? \u2192 <strong>Second</strong> (If + past, would + V1)<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
       }
     ],
     quiz: [
@@ -1892,27 +2231,33 @@ const teachingLessons = {
     slides: [
       {
         title: "Recount Text",
-        body: "A recount tells the reader about <strong>past events or experiences</strong>, in the order they happened. Personal stories, diary entries, and \u201cwhat I did\u201d essays are usually recounts."
+        body: "A recount tells the reader about <strong>past events or experiences</strong>, in the order they happened. Personal stories, diary entries, and \u201cwhat I did\u201d essays are usually recounts.",
+        bodyId: "Recount menceritakan pembaca tentang <strong>peristiwa atau pengalaman masa lalu</strong>, sesuai urutan kejadiannya. Cerita pribadi, catatan harian, dan esai \u201capa yang saya lakukan\u201d biasanya berupa recount."
       },
       {
         title: "Structure",
-        body: "A recount has three parts:<br><br>1. <strong>Orientation</strong> \u2014 who, when, and where the story took place<br>2. <strong>Events</strong> \u2014 what happened, told in the order it happened<br>3. <strong>Reorientation</strong> \u2014 a closing statement, often the writer's feeling about the experience"
+        body: "A recount has three parts:<br><br>1. <strong>Orientation</strong> \u2014 who, when, and where the story took place<br>2. <strong>Events</strong> \u2014 what happened, told in the order it happened<br>3. <strong>Reorientation</strong> \u2014 a closing statement, often the writer's feeling about the experience",
+        bodyId: "Recount memiliki tiga bagian:<br><br>1. <strong>Orientation</strong> \u2014 siapa, kapan, dan di mana cerita itu terjadi<br>2. <strong>Events</strong> \u2014 apa yang terjadi, diceritakan sesuai urutan kejadiannya<br>3. <strong>Reorientation</strong> \u2014 pernyataan penutup, biasanya berupa perasaan penulis tentang pengalaman tersebut"
       },
       {
         title: "Language Features",
-        body: "Recounts are usually written in the <strong>Simple Past tense</strong>, since they describe things that already happened.<br><br>They also use <strong>time connectors</strong> to show order:<br>first, then, after that, next, finally, at last<br><br>And they mention specific people, places, and times."
+        body: "Recounts are usually written in the <strong>Simple Past tense</strong>, since they describe things that already happened.<br><br>They also use <strong>time connectors</strong> to show order:<br>first, then, after that, next, finally, at last<br><br>And they mention specific people, places, and times.",
+        bodyId: "Recount biasanya ditulis dalam <strong>Simple Past tense</strong>, karena menggambarkan hal-hal yang sudah terjadi.<br><br>Recount juga menggunakan <strong>kata penghubung waktu</strong> untuk menunjukkan urutan:<br>first, then, after that, next, finally, at last<br><br>Dan menyebutkan orang, tempat, dan waktu yang spesifik."
       },
       {
         title: "Real Example",
-        body: "From \u201cA Parade in My Hometown\u201d:<br><br><em>\u201cWhen I was a child, I always waited for Independence Day...\u201d</em> \u2014 this is the <strong>Orientation</strong>.<br><br><em>\u201cIn the first line of the parade, I saw people dressed up uniquely... Next, a lot of people marched...\u201d</em> \u2014 these are the <strong>Events</strong>, told in order.<br><br><em>\u201cI am really looking forward to it.\u201d</em> \u2014 this closing thought is the <strong>Reorientation</strong>."
+        body: "From \u201cA Parade in My Hometown\u201d:<br><br><em>\u201cWhen I was a child, I always waited for Independence Day...\u201d</em> \u2014 this is the <strong>Orientation</strong>.<br><br><em>\u201cIn the first line of the parade, I saw people dressed up uniquely... Next, a lot of people marched...\u201d</em> \u2014 these are the <strong>Events</strong>, told in order.<br><br><em>\u201cI am really looking forward to it.\u201d</em> \u2014 this closing thought is the <strong>Reorientation</strong>.",
+        bodyId: "Dari \u201cA Parade in My Hometown\u201d:<br><br><em>\u201cWhen I was a child, I always waited for Independence Day...\u201d</em> \u2014 ini adalah <strong>Orientation</strong>.<br><br><em>\u201cIn the first line of the parade, I saw people dressed up uniquely... Next, a lot of people marched...\u201d</em> \u2014 ini adalah <strong>Events</strong>, diceritakan sesuai urutan.<br><br><em>\u201cI am really looking forward to it.\u201d</em> \u2014 kalimat penutup ini adalah <strong>Reorientation</strong>."
       },
       {
         title: "Now You Try: Create a Title",
-        body: "This recount has <strong>no title</strong>. Read it together as a class, then discuss: what title would fit this story? Why?<br><br><em>\u201cLast month, my class went on a field trip to the zoo. We arrived early in the morning, and our teacher divided us into small groups. First, we visited the elephant enclosure, where we watched them eat fruit from the keepers. Then, we walked to the reptile house and saw a huge python sleeping in its glass box. After that, we had lunch together under a big tree. Finally, before we went home, we bought some souvenirs from the gift shop. It was a tiring day, but I learned a lot about different animals.\u201d</em><br><br>This is a Create-level task \u2014 there's no single correct answer. Discuss as a class; don't grade it like the quiz ahead."
+        body: "This recount has <strong>no title</strong>. Read it together as a class, then discuss: what title would fit this story? Why?<br><br><em>\u201cLast month, my class went on a field trip to the zoo. We arrived early in the morning, and our teacher divided us into small groups. First, we visited the elephant enclosure, where we watched them eat fruit from the keepers. Then, we walked to the reptile house and saw a huge python sleeping in its glass box. After that, we had lunch together under a big tree. Finally, before we went home, we bought some souvenirs from the gift shop. It was a tiring day, but I learned a lot about different animals.\u201d</em><br><br>This is a Create-level task \u2014 there's no single correct answer. Discuss as a class; don't grade it like the quiz ahead.",
+        bodyId: "Recount ini <strong>belum memiliki judul</strong>. Baca bersama-sama sekelas, lalu diskusikan: judul apa yang cocok untuk cerita ini? Mengapa?<br><br><em>\u201cLast month, my class went on a field trip to the zoo. We arrived early in the morning, and our teacher divided us into small groups. First, we visited the elephant enclosure, where we watched them eat fruit from the keepers. Then, we walked to the reptile house and saw a huge python sleeping in its glass box. After that, we had lunch together under a big tree. Finally, before we went home, we bought some souvenirs from the gift shop. It was a tiring day, but I learned a lot about different animals.\u201d</em><br><br>Ini adalah tugas tingkat Create \u2014 tidak ada satu jawaban benar yang mutlak. Diskusikan bersama sekelas; jangan dinilai seperti kuis berikutnya."
       },
       {
         title: "Quick Check",
-        body: "Introduces who/when/where? \u2192 <strong>Orientation</strong><br>Tells what happened, in order? \u2192 <strong>Events</strong><br>Closes with a feeling or reflection? \u2192 <strong>Reorientation</strong><br><br>Ready for practice questions? Tap Next to begin."
+        body: "Introduces who/when/where? \u2192 <strong>Orientation</strong><br>Tells what happened, in order? \u2192 <strong>Events</strong><br>Closes with a feeling or reflection? \u2192 <strong>Reorientation</strong><br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Memperkenalkan siapa/kapan/di mana? \u2192 <strong>Orientation</strong><br>Menceritakan apa yang terjadi, sesuai urutan? \u2192 <strong>Events</strong><br>Ditutup dengan perasaan atau refleksi? \u2192 <strong>Reorientation</strong><br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
       }
     ],
     quiz: [
@@ -1927,27 +2272,33 @@ const teachingLessons = {
     slides: [
       {
         title: "Report Text",
-        body: "A report describes things <strong>as they generally are</strong> \u2014 animals, plants, places, or phenomena \u2014 using facts. It's not about one specific event or experience, but about a whole category or subject in general."
+        body: "A report describes things <strong>as they generally are</strong> \u2014 animals, plants, places, or phenomena \u2014 using facts. It's not about one specific event or experience, but about a whole category or subject in general.",
+        bodyId: "Report menggambarkan sesuatu <strong>seperti apa adanya secara umum</strong> \u2014 hewan, tumbuhan, tempat, atau fenomena \u2014 menggunakan fakta. Bukan tentang satu peristiwa atau pengalaman tertentu, melainkan tentang keseluruhan kategori atau subjek secara umum."
       },
       {
         title: "Structure",
-        body: "A report has two main parts:<br><br>1. <strong>General Classification</strong> \u2014 introduces the subject: what it is, and what category it belongs to<br>2. <strong>Description</strong> \u2014 facts about the subject, often organized by aspect: appearance, habitat, behavior, diet, and so on"
+        body: "A report has two main parts:<br><br>1. <strong>General Classification</strong> \u2014 introduces the subject: what it is, and what category it belongs to<br>2. <strong>Description</strong> \u2014 facts about the subject, often organized by aspect: appearance, habitat, behavior, diet, and so on",
+        bodyId: "Report memiliki dua bagian utama:<br><br>1. <strong>General Classification</strong> \u2014 memperkenalkan subjek: apa itu, dan termasuk kategori apa<br>2. <strong>Description</strong> \u2014 fakta-fakta tentang subjek, biasanya disusun berdasarkan aspek: penampilan, habitat, perilaku, makanan, dan sebagainya"
       },
       {
         title: "Language Features",
-        body: "Reports are usually written in the <strong>Simple Present tense</strong>, since they describe things that are generally, timelessly true.<br><br>They use <strong>general nouns</strong> (\u201corangutans\u201d, not \u201cmy pet orangutan\u201d), and factual, descriptive vocabulary \u2014 not personal opinions or feelings."
+        body: "Reports are usually written in the <strong>Simple Present tense</strong>, since they describe things that are generally, timelessly true.<br><br>They use <strong>general nouns</strong> (\u201corangutans\u201d, not \u201cmy pet orangutan\u201d), and factual, descriptive vocabulary \u2014 not personal opinions or feelings.",
+        bodyId: "Report biasanya ditulis dalam <strong>Simple Present tense</strong>, karena menggambarkan hal-hal yang secara umum dan selalu benar.<br><br>Report menggunakan <strong>kata benda umum</strong> (\u201corangutans\u201d, bukan \u201cmy pet orangutan\u201d), dan kosakata faktual serta deskriptif \u2014 bukan pendapat atau perasaan pribadi."
       },
       {
         title: "Report vs Recount",
-        body: "Easy to confuse \u2014 here's the difference:<br><br><strong>Report:</strong> general facts, no specific time, Simple Present (\u201cOrangutans live in Borneo's forests.\u201d)<br><br><strong>Recount:</strong> one specific personal experience, told in time order, Simple Past (\u201cI saw an orangutan at the zoo last year.\u201d)"
+        body: "Easy to confuse \u2014 here's the difference:<br><br><strong>Report:</strong> general facts, no specific time, Simple Present (\u201cOrangutans live in Borneo's forests.\u201d)<br><br><strong>Recount:</strong> one specific personal experience, told in time order, Simple Past (\u201cI saw an orangutan at the zoo last year.\u201d)",
+        bodyId: "Mudah tertukar \u2014 inilah perbedaannya:<br><br><strong>Report:</strong> fakta umum, tanpa waktu tertentu, Simple Present (\u201cOrangutans live in Borneo's forests.\u201d)<br><br><strong>Recount:</strong> satu pengalaman pribadi tertentu, diceritakan sesuai urutan waktu, Simple Past (\u201cI saw an orangutan at the zoo last year.\u201d)"
       },
       {
         title: "Real Example",
-        body: "<em>\u201cToday's topic for the animal is orangutans. The name orangutan means \u2018man of the forest.\u2019 It's the largest arboreal mammal. Pongo pygmaeus is their scientific name.\u201d</em> \u2014 this is the <strong>General Classification</strong>.<br><br><em>\u201cOrangutans live in Borneo's swamps and forests... They eat lychees, mangosteens, and figs...\u201d</em> \u2014 this is the <strong>Description</strong>, organized by habitat and diet."
+        body: "<em>\u201cToday's topic for the animal is orangutans. The name orangutan means \u2018man of the forest.\u2019 It's the largest arboreal mammal. Pongo pygmaeus is their scientific name.\u201d</em> \u2014 this is the <strong>General Classification</strong>.<br><br><em>\u201cOrangutans live in Borneo's swamps and forests... They eat lychees, mangosteens, and figs...\u201d</em> \u2014 this is the <strong>Description</strong>, organized by habitat and diet.",
+        bodyId: "<em>\u201cToday's topic for the animal is orangutans. The name orangutan means \u2018man of the forest.\u2019 It's the largest arboreal mammal. Pongo pygmaeus is their scientific name.\u201d</em> \u2014 ini adalah <strong>General Classification</strong>.<br><br><em>\u201cOrangutans live in Borneo's swamps and forests... They eat lychees, mangosteens, and figs...\u201d</em> \u2014 ini adalah <strong>Description</strong>, disusun berdasarkan habitat dan makanan."
       },
       {
         title: "Quick Check",
-        body: "Introduces what the subject is and its category? \u2192 <strong>General Classification</strong><br>Gives facts about appearance, habitat, or behavior? \u2192 <strong>Description</strong><br>Written in Simple Present, about general facts? \u2192 <strong>Report</strong> (not Recount)<br><br>Ready for practice questions? Tap Next to begin."
+        body: "Introduces what the subject is and its category? \u2192 <strong>General Classification</strong><br>Gives facts about appearance, habitat, or behavior? \u2192 <strong>Description</strong><br>Written in Simple Present, about general facts? \u2192 <strong>Report</strong> (not Recount)<br><br>Ready for practice questions? Tap Next to begin.",
+        bodyId: "Memperkenalkan subjek dan kategorinya? \u2192 <strong>General Classification</strong><br>Memberikan fakta tentang penampilan, habitat, atau perilaku? \u2192 <strong>Description</strong><br>Ditulis dalam Simple Present, tentang fakta umum? \u2192 <strong>Report</strong> (bukan Recount)<br><br>Siap untuk latihan soal? Ketuk Next untuk mulai."
       }
     ],
     quiz: [
@@ -1970,6 +2321,7 @@ function startLesson(key, returnScreen){
   lessonReturnScreen.classList.add('hidden');
   lessonSlideScreen.classList.remove('hidden');
   lessonSlideIndex = 0;
+  lessonSlideShowIndonesian = false;
   renderLessonSlide();
 }
 
@@ -1979,6 +2331,13 @@ document.getElementById('usingSimplePresentBtn').addEventListener('click', () =>
 document.getElementById('usingPresentProgressiveBtn').addEventListener('click', () => startLesson('usingPresentProgressive', foundationalMenuScreen));
 document.getElementById('talkingAboutPresentBtn').addEventListener('click', () => startLesson('talkingAboutPresent', foundationalMenuScreen));
 document.getElementById('nounsPronounsBtn').addEventListener('click', () => startLesson('nounsPronouns', foundationalMenuScreen));
+document.getElementById('modalAuxiliariesBtn').addEventListener('click', () => startLesson('modalAuxiliaries', foundationalMenuScreen));
+document.getElementById('gerundsInfinitivesBtn').addEventListener('click', () => startLesson('gerundsInfinitives', foundationalMenuScreen));
+document.getElementById('phrasalVerbsBtn').addEventListener('click', () => startLesson('phrasalVerbs', foundationalMenuScreen));
+document.getElementById('adjectiveClausesBtn').addEventListener('click', () => startLesson('adjectiveClauses', foundationalMenuScreen));
+document.getElementById('passiveVoiceBtn').addEventListener('click', () => startLesson('passiveVoice', foundationalMenuScreen));
+document.getElementById('comparisonsBtn').addEventListener('click', () => startLesson('comparisons', foundationalMenuScreen));
+document.getElementById('nounClausesBtn').addEventListener('click', () => startLesson('nounClauses', foundationalMenuScreen));
 document.getElementById('simplePastPerfectBtn').addEventListener('click', () => startLesson('simplePastPerfect', grammarPointMenuScreen));
 document.getElementById('presentContinuousBtn').addEventListener('click', () => startLesson('presentContinuous', grammarPointMenuScreen));
 document.getElementById('conditionalsBtn').addEventListener('click', () => startLesson('conditionals', grammarPointMenuScreen));
@@ -1996,16 +2355,32 @@ function renderDots(current, total){
   return out;
 }
 
+let lessonSlideShowIndonesian = false;
+
 function renderLessonSlide(){
   const slides = teachingLessons[currentLessonKey].slides;
   const slide = slides[lessonSlideIndex];
   document.getElementById('lessonSlideProgress').textContent = renderDots(lessonSlideIndex, slides.length);
   document.getElementById('lessonSlideTitle').textContent = slide.title;
-  document.getElementById('lessonSlideBody').innerHTML = slide.body;
+
+  const langBtn = document.getElementById('lessonSlideLangBtn');
+  if (slide.bodyId) {
+    langBtn.classList.remove('hidden');
+    document.getElementById('lessonSlideBody').innerHTML = lessonSlideShowIndonesian ? slide.bodyId : slide.body;
+  } else {
+    langBtn.classList.add('hidden');
+    document.getElementById('lessonSlideBody').innerHTML = slide.body;
+  }
+
   document.getElementById('lessonSlidePrevBtn').disabled = (lessonSlideIndex === 0);
   const nextBtn = document.getElementById('lessonSlideNextBtn');
   nextBtn.textContent = (lessonSlideIndex === slides.length - 1) ? 'Start Practice →' : 'Next →';
 }
+
+document.getElementById('lessonSlideLangBtn').addEventListener('click', () => {
+  lessonSlideShowIndonesian = !lessonSlideShowIndonesian;
+  renderLessonSlide();
+});
 
 document.getElementById('lessonSlidePrevBtn').addEventListener('click', () => {
   if (lessonSlideIndex > 0) { lessonSlideIndex--; renderLessonSlide(); }
@@ -2137,6 +2512,23 @@ const writingExercises = {
     { type: 'Possessive', cue: 'bag / Monita', target: ["Monita's", 'bag'], distractors: ['Monitas'] },
     { type: 'Possessive', cue: 'tail / dog', target: ['the', "dog's", 'tail'], distractors: ['dogs'] },
     { type: 'Possessive', cue: 'toys / children', target: ['the', "children's", 'toys'], distractors: ['childrens'] }
+  ],
+  verbCategories: [
+    { type: 'Action Verb', cue: 'Yesterday, Galang ___ football. (play)', target: ['Yesterday,', 'Galang', 'played', 'football'], distractors: ['play'] },
+    { type: 'Action Verb', cue: 'Andre ___ a picture yesterday. (draw)', target: ['Andre', 'drew', 'a', 'picture', 'yesterday'], distractors: ['draws'] },
+    { type: 'Action Verb', cue: 'She ___ dinner last night. (cook)', target: ['She', 'cooked', 'dinner', 'last', 'night'], distractors: ['cooks'] },
+    { type: 'Stative Verb', cue: 'I ___ this song right now. (like)', target: ['I', 'like', 'this', 'song', 'right', 'now'], distractors: ['liking'] },
+    { type: 'Stative Verb', cue: 'She ___ the answer. (know)', target: ['She', 'knows', 'the', 'answer'], distractors: ['knowing'] },
+    { type: 'Stative Verb', cue: 'We ___ a new phone. (want)', target: ['We', 'want', 'a', 'new', 'phone'], distractors: ['wanting'] },
+    { type: 'Transitive Verb', cue: 'They ___ the problem. (discuss)', target: ['They', 'discussed', 'the', 'problem'], distractors: ['about'] },
+    { type: 'Transitive Verb', cue: 'He ___ her. (marry)', target: ['He', 'married', 'her'], distractors: ['with'] },
+    { type: 'Transitive Verb', cue: 'We ___ the airport. (reach)', target: ['We', 'reached', 'the', 'airport'], distractors: ['to'] },
+    { type: 'Intransitive Verb', cue: 'We ___ the station. (arrive)', target: ['We', 'arrived', 'at', 'the', 'station'], distractors: ['to'] },
+    { type: 'Intransitive Verb', cue: 'I ___ music. (listen)', target: ['I', 'listen', 'to', 'music'], distractors: ['at'] },
+    { type: 'Intransitive Verb', cue: 'He ___ the bus. (wait)', target: ['He', 'waited', 'for', 'the', 'bus'], distractors: ['to'] },
+    { type: 'Auxiliary Verb', cue: 'She ___ like coffee. (not/like)', target: ['She', 'does', 'not', 'like', 'coffee'], distractors: ['do'] },
+    { type: 'Auxiliary Verb', cue: '___ you speak English? (can)', target: ['Can', 'you', 'speak', 'English'], distractors: ['Do'] },
+    { type: 'Auxiliary Verb', cue: 'They ___ finished their homework. (have)', target: ['They', 'have', 'finished', 'their', 'homework'], distractors: ['has'] }
   ]
 };
 
@@ -2167,6 +2559,15 @@ document.getElementById('writingUsingBeBtn').addEventListener('click', () => {
 });
 document.getElementById('writingCountabilityBtn').addEventListener('click', () => {
   writingExerciseTopic = 'countabilityStructure';
+  writingPracticeMenuScreen.classList.add('hidden');
+  writingExerciseScreen.classList.remove('hidden');
+  writingExerciseRounds = shuffleArray(writingExercises[writingExerciseTopic]);
+  writingExerciseIndex = 0;
+  writingExerciseScoreCount = 0;
+  renderWritingExerciseRound();
+});
+document.getElementById('writingVerbCategoriesBtn').addEventListener('click', () => {
+  writingExerciseTopic = 'verbCategories';
   writingPracticeMenuScreen.classList.add('hidden');
   writingExerciseScreen.classList.remove('hidden');
   writingExerciseRounds = shuffleArray(writingExercises[writingExerciseTopic]);
@@ -2312,7 +2713,8 @@ function showWritingExerciseResults(){
   document.getElementById('writingExerciseScore').textContent = `${writingExerciseScoreCount} / ${writingExerciseRounds.length} correct`;
   const topicLabels = {
     usingBe: 'Writing Practice — Using Be',
-    countabilityStructure: 'Writing Practice — Countability and Structure'
+    countabilityStructure: 'Writing Practice — Countability and Structure',
+    verbCategories: 'Writing Practice — Verb Categories'
   };
   logAttempt(topicLabels[writingExerciseTopic] || 'Writing Practice', 'Sentence construction', '', `${writingExerciseScoreCount}/${writingExerciseRounds.length}`, '');
 }
