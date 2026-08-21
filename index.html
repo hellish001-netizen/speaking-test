@@ -299,6 +299,49 @@
   .mix-card button.secondary{ border-color:#ff6f5e; color:#ff9d89; }
   .mix-card button.rec{ border-color:#ff6f5e; color:#ff9d89; }
   .mix-card .score{ font-family:'Kalam',cursive; color:#5b9bff; }
+
+  /* ---- Daytime Lo-fi theme: Listening - Speaking section. Muted, warm, dusty
+     palette on a light background — "chill study" mood without the legibility
+     risk of a dark lo-fi look on weaker outdoor screens. ---- */
+  .lofi-card{
+    background:
+      radial-gradient(ellipse at 10% 15%, rgba(201,132,116,0.07), transparent 50%),
+      radial-gradient(ellipse at 90% 85%, rgba(147,167,136,0.09), transparent 55%),
+      #F5EDE0;
+    border:1px solid #E0D2BE;
+    border-radius:14px;
+    color:#4A3C31;
+    box-shadow:0 3px 16px rgba(90,70,50,0.08);
+    animation:screenFadeIn 0.45s ease-out;
+  }
+  .lofi-card::before{ content:none; }
+  .lofi-card .progress{
+    color:#B5694F;
+    font-family:'Bitter',Georgia,serif;
+    letter-spacing:0.02em;
+  }
+  .lofi-card .hint{ color:#8A7A68; }
+  .lofi-card .status{ background:rgba(147,167,136,0.14); color:#4A3C31; border-left-color:#93A788; }
+  .lofi-card .status.ok{ background:rgba(147,167,136,0.2); color:#5C7355; border-left-color:#7A9470; }
+  .lofi-card .status.err{ background:rgba(201,132,116,0.16); color:#A85D45; border-left-color:#C98474; }
+  .lofi-card .dialogue{ color:#4A3C31; }
+  .lofi-card .score{ color:#B5694F; font-family:'Bitter',Georgia,serif; }
+  .lofi-card button{
+    background:#C98474;
+    color:#FFF8F0;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(150,100,80,0.2);
+    transition:transform 0.25s cubic-bezier(0.34, 1.2, 0.64, 1), box-shadow 0.15s ease, opacity 0.15s ease;
+  }
+  .lofi-card button:active{ transform:scale(0.96) translateY(1px); box-shadow:none; }
+  .lofi-card button.secondary{ background:transparent; border:1.5px solid #93A788; color:#5C7355; box-shadow:none; }
+  .lofi-card button.rec{ background:#B5694F; }
+  .lofi-card button:disabled{ background:#DDD2C4; color:#A89A8A; }
+  .lofiSpin{ display:inline-block; animation:lofiSpinAnim 8s linear infinite; }
+  @keyframes lofiSpinAnim{
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
+  }
   .status{ margin-top:12px; padding:12px; border-radius:6px; font-size:0.88rem; line-height:1.45; border-left:3px solid transparent; }
   .matchGrid{ display:flex; gap:10px; margin-top:12px; }
   .matchCol{ flex:1; display:flex; flex-direction:column; gap:8px; }
@@ -521,8 +564,8 @@
 </div>
 
 <div id="listeningMenuScreen" class="hidden">
-  <div class="card">
-    <div class="progress" data-i18n="listeningHeader">Listening</div>
+  <div class="card lofi-card">
+    <div class="progress"><span class="lofiSpin">💿</span> <span data-i18n="listeningHeader">Listening</span></div>
     <button id="verbNounBtn">🔤 Verb and Noun</button>
     <button id="speakingSubmenuBtn" style="margin-top:8px;">🗣 Speaking</button>
     <button id="naturalConversationBtn" style="margin-top:8px;" data-i18n="naturalConversationBtn">💬 Natural Conversation</button>
@@ -532,7 +575,7 @@
 </div>
 
 <div id="verbNounSubmenuScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress">🔤 Verb and Noun</div>
     <button id="listeningVerbBtn" data-i18n="verbBtn">Verb</button>
     <button id="listeningNounBtn" data-i18n="nounBtn">Noun</button>
@@ -541,7 +584,7 @@
 </div>
 
 <div id="speakingSubmenuScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress">🗣 Speaking</div>
     <button id="grade7DialogueBtn" data-i18n="dialogueBtn">💬 Dialogue</button>
     <button id="challengeBtn" class="secondary" style="margin-top:16px;" data-i18n="challenge">🚀 Level Up Challenge</button>
@@ -551,7 +594,7 @@
 </div>
 
 <div id="writingPracticeMenuScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress">✍️ Writing Practice</div>
     <div class="status idle">Build the correct sentence: Positive, Negative, and Question forms.</div>
     <button id="writingUsingBeBtn" style="margin-top:10px;">Using Be</button>
@@ -562,7 +605,7 @@
 </div>
 
 <div id="writingExerciseScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" id="writingExerciseProgress">Sentence 1 of 12</div>
     <div class="tag" id="writingExerciseTypeTag" style="margin-bottom:8px;">POSITIVE</div>
     <div class="dialogue" id="writingExerciseCue"></div>
@@ -577,7 +620,7 @@
 </div>
 
 <div id="writingExerciseResultScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" data-i18n="results">Results</div>
     <div class="score" id="writingExerciseScore"></div>
     <button id="writingExerciseTryAgainBtn" class="secondary" style="margin-top:14px;" data-i18n="tryAgainBtn">🔁 Try Again</button>
@@ -586,7 +629,7 @@
 </div>
 
 <div id="listeningWordListScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" id="listeningWordListHeader">Verb</div>
     <div id="listeningWordButtons"></div>
     <button id="listeningWordListBackBtn" class="secondary" style="margin-top:16px;" data-i18n="back">← Back</button>
@@ -594,7 +637,7 @@
 </div>
 
 <div id="verbMenuScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" data-i18n="verbBtn">Verb</div>
     <div class="status idle" id="verbGeneralDefinition" style="margin-bottom:12px;"></div>
     <button id="verbActionBtn">Action Verb</button>
@@ -607,7 +650,7 @@
 </div>
 
 <div id="verbCategoryScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" id="verbCategoryHeader">Action Verb</div>
     <div class="status idle" id="verbCategoryDefinition" style="margin-bottom:12px;"></div>
     <div id="verbCategoryButtons"></div>
@@ -616,7 +659,7 @@
 </div>
 
 <div id="nounMenuScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" data-i18n="nounBtn">Noun</div>
     <div class="status idle" id="nounGeneralDefinition" style="margin-bottom:12px;"></div>
     <button id="nounBasicTypesBtn">Basic Noun Types</button>
@@ -626,7 +669,7 @@
 </div>
 
 <div id="nounCategoryScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" id="nounCategoryHeader">Basic Noun Types</div>
     <div class="status idle" id="nounCategoryDefinition" style="margin-bottom:12px;"></div>
     <div id="nounCategoryButtons"></div>
@@ -635,7 +678,7 @@
 </div>
 
 <div id="basicNounTypesMenuScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress">Basic Noun Types</div>
     <div class="status idle" id="basicNounTypesDefinition" style="margin-bottom:12px;"></div>
     <button id="commonNounBtn">Common Noun</button>
@@ -648,7 +691,7 @@
 </div>
 
 <div id="countabilityMenuScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress">Countability and Structure</div>
     <div class="status idle" id="countabilityMenuDefinition" style="margin-bottom:12px;"></div>
     <button id="countableNounsBtn">Countable Nouns</button>
@@ -660,7 +703,7 @@
 </div>
 
 <div id="listeningTestScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" id="listeningTestHeader">Verb</div>
     <div class="status idle" id="listeningPrompt" data-i18n="listenPrompt">Listen carefully, then tap Play line.</div>
     <button id="listeningPlayBtn" data-i18n="playLine">▶ Play line</button>
@@ -1105,7 +1148,7 @@
 </div>
 
 <div id="grade7DialogueMenuScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" data-i18n="dialogueBtn">💬 Dialogue</div>
     <button id="g7GreetingsBtn" data-i18n="g7Greetings">Greetings and Parting</button>
     <button id="g7IntroductionBtn" data-i18n="g7Introduction">Introduction</button>
@@ -1117,7 +1160,7 @@
 </div>
 
 <div id="indoScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" id="indoProgress">Line 1 of 5</div>
     <div class="dialogue" id="indoPromptText" style="font-size:1.3rem;"></div>
     <button id="indoStartBtn" data-i18n="indoStart">Start</button>
@@ -1130,7 +1173,7 @@
 </div>
 
 <div id="naturalConversationMenuScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" data-i18n="naturalConversationBtn">💬 Natural Conversation</div>
     <button id="reportBtn" data-i18n="report">Report</button>
     <button id="narrativeBtn" data-i18n="narrative">Narrative</button>
@@ -1202,7 +1245,7 @@
 </div>
 
 <div id="reportMenuScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" data-i18n="reportHeader">Grade 9 · English Class · Report</div>
     <button id="reportNaturalBtn" data-i18n="naturalConversation">Natural Conversation</button>
     <button id="reportReadingBtn" data-i18n="reading">Reading</button>
@@ -1211,7 +1254,7 @@
 </div>
 
 <div id="readingScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" id="readingProgressHeader">Grade 9 · English Class · Report · Reading</div>
     <div class="dialogue" id="readingText"></div>
     <button id="readingPlayBtn" data-i18n="playLine">▶ Play line</button>
@@ -1235,7 +1278,7 @@
 </div>
 
 <div id="readingSummaryScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" data-i18n="readingSummaryHeader">Reading — Summary</div>
     <div class="score" id="readingSummaryScore"></div>
     <div id="readingSummaryWords" style="margin-top:10px;font-size:0.9rem;line-height:1.6;"></div>
@@ -1245,7 +1288,7 @@
 </div>
 
 <div id="testScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" id="progress">Line 1 of 4</div>
     <div class="dialogue" id="dialogueLine"></div>
     <button id="playBtn" data-i18n="playLine">▶ Play line</button>
@@ -1257,7 +1300,7 @@
 </div>
 
 <div id="resultsScreen" class="hidden">
-  <div class="card">
+  <div class="card lofi-card">
     <div class="progress" data-i18n="results">Results</div>
     <div class="score" id="scoreLine"></div>
     <div id="resultsList"></div>
